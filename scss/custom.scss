@@ -5,11 +5,22 @@
   font-weight: bold;
 }
 
+.page-title {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bolder;
+  font-size: 1000%;
+}
+
+.default-font {
+  font-family: "SF Pro Display", sans-serif;
+}
+
 .nav-link {
   transition: color 0.3s ease;
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
   color: #FFFFFF;
+  font-size: 130%;
 }
 
 .nav-link:hover {
@@ -20,7 +31,7 @@
   color: #C32026 !important;
 }
 
-section {
-  height: 100vh; /* For demonstration purposes */
-  padding: 50px;
+html {
+  scroll-behavior: smooth;
 }
+
