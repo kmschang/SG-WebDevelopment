@@ -1,0 +1,26 @@
+// Custom Font for Navbar
+
+.navbar-text {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.nav-link:hover {
+  color: #d55151;
+}
+
+.active {
+  color: #C32026 !important;
+}
+
+section {
+  height: 100vh; /* For demonstration purposes */
+  padding: 50px;
+}
