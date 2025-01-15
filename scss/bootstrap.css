@@ -12705,4 +12705,8 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
