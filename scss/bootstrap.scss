@@ -1,0 +1,25 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// Negative Margins
+$enable-negative-margins: true;
+
+// Custom Fonts
+$headings-font-family: 'DM Serif Display', san serif;
+$font-family-base: 'Inter', san serif;
+$display-font-family: 'Inter', san serif;
+
+// Custom Colors
+$custom-colors: (
+        "black":#000000,
+
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// Importing Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Importing Custom Styles
+@import "custom.scss";
+
