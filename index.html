@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="SonnazGroup_Header.css">
+</head>
+<body>
+
+<!-- Header -->
+
+<header class="header" id="header">
+    <div class="header-container">
+        <div class="header-logo-container">
+            <button onclick="toggleNavigation()" id="menu-button">
+                <img src="Assets/menu_Black.svg" class="regular" alt="">
+                <img src="Assets/menu_Gray.svg" class="hovered" alt="">
+            </button>
+        </div>
+        <div class="header-logo-container" id="main-logo">
+            <a href="#" target="_blank">
+                <img src="Assets/SonnazGroupLogo.svg" alt="">
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Side Navigation -->
+
+<div class="side-navigation">
+    <div class="side-navigation-container" id="side-navigation">
+        <div class="navigation-header-container">
+            <div class="navigation-header-logo-container" id="navigation-logo">
+                <a href="#">
+                    <img src="Assets/SonnazGroupLogo.svg" alt="">
+                </a>
+            </div>
+            <div class="navigation-header-logo-container" id="back-button">
+                <button onclick="toggleNavigation()">
+                    <img src="Assets/clear_Black.svg" class="regular" alt="">
+                    <img src="Assets/clear_White.svg" class="hovered" alt="">
+                </button>
+            </div>
+        </div>
+        <div class="divider" id="top-side-divider"></div>
+        <div class="navigation-container" id="scrollable-container">
+            <div class="main-link-container">
+                <button>
+                    <h1>Products</h1>
+                </button>
+                <button class="dropdown-toggle">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="sub-links-container">
+                <a href="#" class="sub-link">Day Calculator</a>
+                <a href="#" class="sub-link">Quicker Tipper</a>
+                <a href="#" class="sub-link">Quicker Discounter</a>
+            </div>
+            <div class="main-link-container">
+                <button>
+                    <h1>Releases</h1>
+                </button>
+                <button class="dropdown-toggle">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="sub-links-container">
+                <a href="#" class="sub-link">Day Calculator Releases</a>
+                <a href="#" class="sub-link">Quicker Tipper Releases</a>
+                <a href="#" class="sub-link">Quicker Discounter Releases</a>
+            </div>
+            <div class="main-link-container">
+                <button>
+                    <h1>Vision</h1>
+                </button>
+                <button class="dropdown-toggle">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="sub-links-container">
+                <a href="#" class="sub-link">Our Vision</a>
+                <a href="#" class="sub-link">Feature Roadmap</a>
+            </div>
+            <div class="main-link-container">
+                <button>
+                    <h1>About Us</h1>
+                </button>
+                <button class="dropdown-toggle">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="sub-links-container">
+                <a href="#" class="sub-link">Who We Are</a>
+                <a href="#" class="sub-link">Meet the Team</a>
+            </div>
+            <div class="divider" id="secondary-divider"></div>
+            <div class="main-sub-link-container">
+                <button>
+                    <h1>Contact Us</h1>
+                </button>
+                <button class="dropdown-toggle-link">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="main-sub-link-container">
+                <button>
+                    <h1>Careers</h1>
+                </button>
+                <button class="dropdown-toggle-link">
+                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
+                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
+                </button>
+            </div>
+            <div class="divider" id="secondary-divider"></div>
+            <div style="height: 12vh;"></div>
+        </div>
+        <div class="side-bar-footer-container">
+            <div class="footer-text-container">
+                <p>&copy; 2024 Sonnaz Group, LLC. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms and Conditions</a></p>
+                <p><a href="mailto:support@sonnazgroup.com">Contact Us</a> | <a href="#">Stay Informed</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="side-navigation-background" id="side-navigation-background"></div>
+</div>
+
+
+<script src="SonnazGroup_Header.js"></script>
+</body>
+</html>
