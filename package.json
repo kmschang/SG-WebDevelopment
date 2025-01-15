@@ -1,0 +1,22 @@
+{
+  "name": "sg-webdevelopment",
+  "version": "1.0.0",
+  "description": "Web Development for Sonnaz Group Website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmschang/SG-WebDevelopment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kmschang/SG-WebDevelopment/issues"
+  },
+  "homepage": "https://github.com/kmschang/SG-WebDevelopment#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
