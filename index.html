@@ -1,139 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonnaz Group | Home</title>
-    <link rel="icon" type="image/png" sizes="256x256" href="Assets/favicon.png">
-    <link rel="stylesheet" href="SonnazGroup_Header.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonnaz Group</title>
+  <link rel="icon" type="image/png" sizes="256x256" href="Assets/favicon.png">
+  <link rel="stylesheet" href="scss/bootstrap.min.css">
 </head>
-<body>
+<body data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="70" tabindex="0">
 
-<!-- Header -->
-
-<header class="header" id="header">
-    <div class="header-container">
-        <div class="header-logo-container">
-            <button onclick="toggleNavigation()" id="menu-button">
-                <img src="Assets/menu_Black.svg" class="regular" alt="">
-                <img src="Assets/menu_Gray.svg" class="hovered" alt="">
-            </button>
-        </div>
-        <div class="header-logo-container" id="main-logo">
-            <a href="#" target="_blank">
-                <img src="Assets/SonnazGroupLogo.svg" alt="">
-            </a>
-        </div>
+<!-- HEADER -->
+<nav class="navbar bg-dark-subtle navbar-expand-lg fixed-top" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="Assets/SonnazGroupLogo(Red).png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-lg-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#releases">Releases</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#team">Team</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">Contact</a>
+        </li>
+      </ul>
     </div>
-</header>
+  </div>
+</nav>
 
-<!-- Side Navigation -->
-
-<div class="side-navigation">
-    <div class="side-navigation-container" id="side-navigation">
-        <div class="navigation-header-container">
-            <div class="navigation-header-logo-container" id="navigation-logo">
-                <a href="#">
-                    <img src="Assets/SonnazGroupLogo.svg" alt="">
-                </a>
-            </div>
-            <div class="navigation-header-logo-container" id="back-button">
-                <button onclick="toggleNavigation()">
-                    <img src="Assets/clear_Black.svg" class="regular" alt="">
-                    <img src="Assets/clear_White.svg" class="hovered" alt="">
-                </button>
-            </div>
-        </div>
-        <div class="divider" id="top-side-divider"></div>
-        <div class="navigation-container" id="scrollable-container">
-            <div class="main-link-container">
-                <button>
-                    <h1>Products</h1>
-                </button>
-                <button class="dropdown-toggle">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="sub-links-container">
-                <a href="#" class="sub-link">Day Calculator</a>
-                <a href="#" class="sub-link">Quicker Tipper</a>
-                <a href="#" class="sub-link">Quicker Discounter</a>
-            </div>
-            <div class="main-link-container">
-                <button>
-                    <h1>Releases</h1>
-                </button>
-                <button class="dropdown-toggle">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="sub-links-container">
-                <a href="#" class="sub-link">Day Calculator Releases</a>
-                <a href="#" class="sub-link">Quicker Tipper Releases</a>
-                <a href="#" class="sub-link">Quicker Discounter Releases</a>
-            </div>
-            <div class="main-link-container">
-                <button>
-                    <h1>Vision</h1>
-                </button>
-                <button class="dropdown-toggle">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="sub-links-container">
-                <a href="#" class="sub-link">Our Vision</a>
-                <a href="#" class="sub-link">Feature Roadmap</a>
-            </div>
-            <div class="main-link-container">
-                <button>
-                    <h1>About Us</h1>
-                </button>
-                <button class="dropdown-toggle">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="sub-links-container">
-                <a href="#" class="sub-link">Who We Are</a>
-                <a href="#" class="sub-link">Meet the Team</a>
-            </div>
-            <div class="divider" id="secondary-divider"></div>
-            <div class="main-sub-link-container">
-                <button>
-                    <h1>Contact Us</h1>
-                </button>
-                <button class="dropdown-toggle-link">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="main-sub-link-container">
-                <button>
-                    <h1>Careers</h1>
-                </button>
-                <button class="dropdown-toggle-link">
-                    <img src="Assets/rightCarrot_Black.svg" class="carrot-icon regular" alt="">
-                    <img src="Assets/rightCarrot_White.svg" class="carrot-icon hovered" alt="">
-                </button>
-            </div>
-            <div class="divider" id="secondary-divider"></div>
-            <div style="height: 12vh;"></div>
-        </div>
-        <div class="side-bar-footer-container">
-            <div class="footer-text-container">
-                <p>&copy; 2024 Sonnaz Group, LLC. All rights reserved.</p>
-                <p><a href="#">Privacy Policy</a> | <a href="#">Terms and Conditions</a></p>
-                <p><a href="mailto:support@sonnazgroup.com">Contact Us</a> | <a href="#">Stay Informed</a></p>
-            </div>
-        </div>
+<!-- HOME -->
+<section id="home" class="bg-black" style="padding-top: 75px;">
+  <div class="row">
+    <div class="col-12 col-lg-6 p-0">
+      <img src="Assets/HomeImage.png" alt="Home Image" class="home-image w-100">
     </div>
-    <div class="side-navigation-background" id="side-navigation-background"></div>
-</div>
+    <!-- Text: On large screens, takes half the width; on smaller screens, full width -->
+    <div class="col-12 col-lg-6 text-container text-center align-self-start align-self-lg-center">
+      <div>
+        <h1 class="text-white page-title">SONNAZ</h1>
+        <h1 class="text-white page-title">GROUP</h1>
+        <p class="text-white default-font" style="padding: 20px 150px">Welcome to Sonnaz Group, a dynamic app development business proudly rooted in the vibrant state of Michigan, USA. As a small yet dedicated group, we are passionate about crafting simple and intuitive applications designed for seamless integration into your everyday life.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
 
 
-<script src="SonnazGroup_Header.js"></script>
+<!-- ABOUT -->
+<section id="about" class="bg-light">
+  <h1>About</h1>
+  <p>About</p>
+</section>
+
+
+<!-- PRODUCTS -->
+<section id="products" class="bg-light">
+  <h1>Products</h1>
+  <p>Products</p>
+</section>
+
+
+<!-- RELEASES -->
+<section id="releases" class="bg-light">
+  <h1>Releases</h1>
+  <p>Releases</p>
+</section>
+
+
+<!-- TEAM -->
+<section id="team" class="bg-light">
+  <h1>Team</h1>
+  <p>Team</p>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="bg-light">
+  <h1>Contact</h1>
+  <p>Contact</p>
+</section>
+
+
+<!-- FOOTER -->
+
+
+
+
+<script src="js/bootstrap.min.js"></script>
+<script>
+  // Auto-collapse the navbar when a link is clicked
+  const navbarNav = document.getElementById('navbarNav');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // Check if the navbar is expanded
+      if (navbarNav.classList.contains('show')) {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        navbarToggler.click(); // Programmatically trigger the toggle
+      }
+    });
+  });
+</script>
 </body>
 </html>
