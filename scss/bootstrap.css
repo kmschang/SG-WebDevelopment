@@ -12784,6 +12784,7 @@ textarea.form-control-lg {
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
   font-size: 130%;
+  color: #FFFFFF;
 }
 
 .nav-link:hover {
@@ -12832,6 +12833,13 @@ p {
 
 section {
   min-height: 100vh;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Standard syntax */
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
