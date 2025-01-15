@@ -10,7 +10,7 @@
 <body data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="70" tabindex="0">
 
 <!-- HEADER -->
-<nav class="navbar bg-dark-subtle navbar-expand-lg fixed-top" data-bs-theme="dark">
+<nav class="navbar bg-Sonnaz-Gray navbar-expand-lg fixed-top" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img src="Assets/SonnazGroupLogo(Red).png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
@@ -55,17 +55,58 @@
         <h1 class="text-white page-title">SONNAZ</h1>
         <h1 class="text-white page-title">GROUP</h1>
         <p class="text-white default-font" style="padding: 20px 150px">Welcome to Sonnaz Group, a dynamic app development business proudly rooted in the vibrant state of Michigan, USA. As a small yet dedicated group, we are passionate about crafting simple and intuitive applications designed for seamless integration into your everyday life.</p>
+        <a class="btn btn-Sonnaz-Red default-font bold" role="button" href="#products">Learn More</a>
       </div>
     </div>
   </div>
-
 </section>
 
 
 <!-- ABOUT -->
-<section id="about" class="bg-light">
-  <h1>About</h1>
-  <p>About</p>
+<section id="about" class="bg-black p-sm-5 px-lg-5">
+  <div class="row">
+    <div>
+        <h1 class="text-white text-center default-font fw-bolder py-5" style="font-size: 500%">About Us</h1>
+    </div>
+    <div class="col-12 col-lg-6 text-center align-self-center">
+      <h1 class="text-white default-font fw-bolder">Our Passion for Technology</h1>
+      <p class="default-font text-white" style="padding: 15px 125px">At Sonnaz Group, we have a passion for technology. We strive to create apps that are user-friendly and practical. Our team is dedicated to providing you with the best app experiences possible. Here at Sonnaz Group, we are also committed to helping you optimize your every day. With a focus on the small things, we create solutions that are game changer to your everyday routine.</p>
+    </div>
+    <div class="col-12 col-lg-6 align-self-center">
+      <div class="container py-5">
+        <div class="row row-cols-1 row-cols-lg-2 g-4">
+          <!-- Box 1 -->
+          <div class="col d-flex justify-content-center align-items-center">
+            <div class="box bg-accent text-center rounded-5 p-4">
+              <h4 class="fw-bold mb-3 default-font fw-bold text-Sonnaz-Red">Privacy</h4>
+              <p class="default-font">Our apps collect no personal data at all. The only data we do collect is about app performance and efficiency to improve the experience for everyone.</p>
+            </div>
+          </div>
+          <!-- Box 2 -->
+          <div class="col d-flex justify-content-center align-items-center">
+            <div class="box bg-accent text-center rounded-5 p-4">
+              <h4 class="fw-bold mb-3 default-font fw-bold text-Sonnaz-Red">Data Science Expertise</h4>
+              <p class="default-font">At Sonnaz Group, our employees are at the top of their field, all working together to bring you the best app experience possible.</p>
+            </div>
+          </div>
+          <!-- Box 3 -->
+          <div class="col d-flex justify-content-center align-items-center">
+            <div class="box bg-accent text-center rounded-5 p-4">
+              <h4 class="fw-bold mb-3 default-font fw-bold text-Sonnaz-Red">Versatile App Development</h4>
+              <p class="default-font">We are committed to bringing you a variety of app solutions for your everyday life, allowing you to push beyond the ordinary.</p>
+            </div>
+          </div>
+          <!-- Box 4 -->
+          <div class="col d-flex justify-content-center align-items-center">
+            <div class="box bg-accent text-center rounded-5 p-4">
+              <h4 class="fw-bold mb-3 default-font fw-bold text-Sonnaz-Red">Customer-Centered Approach</h4>
+              <p class="default-font">Customer satisfaction is one of our top priorities, and we build all our apps around the user experience and user feedback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
@@ -103,6 +144,13 @@
 
 
 <script src="js/bootstrap.min.js"></script>
+<script>
+  // Initialize Scrollspy (Optional for Debugging)
+  const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#navbarNav',
+    offset: 70
+  });
+</script>
 <script>
   // Auto-collapse the navbar when a link is clicked
   const navbarNav = document.getElementById('navbarNav');

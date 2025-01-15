@@ -19,7 +19,6 @@
   transition: color 0.3s ease;
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
-  color: #FFFFFF;
   font-size: 130%;
 }
 
@@ -35,7 +34,39 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  overflow-x: hidden;
+.spacer {
+  height: 100px;
+  background-color: #000000;
 }
 
+
+/* Accent color for the boxes */
+.bg-accent {
+  background-color: #1B1C1E; /* Replace with your accent color */
+  color: #FFFFFF; /* Text color for contrast */
+}
+
+/* Center content and add border-radius */
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px; /* Rounded corners */
+  height: 100%; /* Ensures consistent box height */
+}
+
+/* Typography adjustments */
+h4 {
+  font-size: 1.5rem; /* Slightly larger title */
+}
+
+p {
+  font-size: 1rem; /* Standard paragraph size */
+  line-height: 1.5; /* Improve readability */
+  margin: 0;
+}
+
+section {
+  min-height: 100vh;
+}
