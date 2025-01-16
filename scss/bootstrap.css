@@ -12792,7 +12792,7 @@ textarea.form-control-lg {
 }
 
 .active {
-  color: #C32026 !important;
+  color: #d55151 !important;
 }
 
 html {
@@ -12831,10 +12831,6 @@ p {
   margin: 0;
 }
 
-section {
-  min-height: 100vh;
-}
-
 .unselectable {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
@@ -12848,7 +12844,24 @@ td, th {
 }
 
 a {
-  color: #C32026;
+  color: #d55151;
+}
+
+.footer-divider {
+  border: none;
+  border-top: 1px solid #FFFFFF;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #d55151;
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
