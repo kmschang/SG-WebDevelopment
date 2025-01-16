@@ -12775,6 +12775,13 @@ textarea.form-control-lg {
   font-size: 10vw;
 }
 
+.page-subtitle {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  font-size: 5vw;
+  color: #C32026;
+}
+
 .default-font {
   font-family: "SF Pro Display", sans-serif;
 }
