@@ -12842,4 +12842,9 @@ section {
   user-select: none; /* Standard syntax */
 }
 
+td, th {
+  border: 1px solid #ccc;
+  padding: 10px; /* Adds space inside the cells */
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

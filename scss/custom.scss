@@ -78,3 +78,8 @@ section {
   -ms-user-select: none;     /* Internet Explorer/Edge */
   user-select: none;         /* Standard syntax */
 }
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 10px; /* Adds space inside the cells */
+}
