@@ -7,7 +7,6 @@
 </head>
 <body>
 <?php
-
 include 'includes/SonnazGroup_Header.html';
 include 'includes/SonnazGroup_Home.html';
 include 'includes/SonnazGroup_Footer.html';
