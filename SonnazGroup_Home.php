@@ -20,5 +20,6 @@ include 'terms.html';
 */
 include 'includes/SonnazGroup_Footer.html';
 ?>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
