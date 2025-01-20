@@ -52,6 +52,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 120px; /* Matches the height of your header */
 }
 
 .spacer {
@@ -119,3 +120,4 @@ a {
 .footer-link:hover {
   color: #d55151;
 }
+

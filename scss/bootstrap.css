@@ -12910,6 +12910,7 @@ textarea.form-control-lg {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 120px; /* Matches the height of your header */
 }
 
 .spacer {
