@@ -1,5 +1,9 @@
 // Custom Font for Navbar
 
+.collapsing {
+  transition: none !important; /* Disable transitions temporarily */
+}
+
 .navbar-text {
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
@@ -167,3 +171,4 @@ a {
   color: #FFFFFF;
   transition: color 0.3s ease;
 }
+

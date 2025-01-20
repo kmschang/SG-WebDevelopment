@@ -12952,6 +12952,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.collapsing {
+  transition: none !important; /* Disable transitions temporarily */
+}
+
 .navbar-text {
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
