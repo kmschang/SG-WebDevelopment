@@ -121,3 +121,34 @@ a {
   color: #d55151;
 }
 
+
+/* About Us Page */
+
+.rounded-rectangle {
+  background-color: #1B1C1E;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  color: white;
+  text-align: left;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-sub-title {
+  font-size: 1.25rem;
+  font-weight: lighter;
+  margin-bottom: 10px;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-body {
+  font-size: 1rem;
+  font-family: "SF Pro Display", sans-serif;
+}
