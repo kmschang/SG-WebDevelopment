@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navbarToggler = document.getElementById("navbar-toggler");
     const navbarNav = document.getElementById("navbarNav");
 
-    // Close the menu when the toggler is clicked again
+    // Close the menu when the toggle is clicked again
     navbarToggler.addEventListener("click", () => {
         const isCollapsed = navbarNav.classList.contains("show");
         if (isCollapsed) {
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Close the menu when clicking outside of it
+    // Close the menu when clicking outside it
     document.addEventListener("click", (event) => {
         if (
             !navbarNav.contains(event.target) &&

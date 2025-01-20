@@ -11,6 +11,7 @@ include 'includes/SonnazGroup_Header.html';
 include 'includes/SonnazGroup_ComingSoon.html';
 include 'includes/SonnazGroup_Footer.html';
 ?>
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js" defer></script>
+<script src="js/navbar.js" defer></script>
 </body>
 </html>
