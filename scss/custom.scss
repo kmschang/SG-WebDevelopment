@@ -161,3 +161,9 @@ a {
   height: 50px; /* Adjust as needed */
   vertical-align: middle; /* Aligns the image with the text */
 }
+
+.app-link {
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
