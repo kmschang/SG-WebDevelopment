@@ -13102,4 +13102,11 @@ a {
   font-family: "SF Pro Display", sans-serif;
 }
 
+/* Releases */
+.icon {
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  vertical-align: middle; /* Aligns the image with the text */
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
