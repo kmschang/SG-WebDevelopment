@@ -7,7 +7,7 @@
 </head>
 <body style="background: #1B1C1E">
 <?php
-include 'includes/SonnazGroup_Header2.html';
+include 'includes/SonnazGroup_Header.html';
 include 'includes/SonnazGroup_Terms.html';
 include 'includes/SonnazGroup_Footer.html';
 ?>
