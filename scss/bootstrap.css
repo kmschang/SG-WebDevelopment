@@ -13119,4 +13119,32 @@ a {
   transition: color 0.3s ease;
 }
 
+/* Navbar v2.0*/
+/* Custom styles for the dropdown on small screens */
+@media (max-width: 991.98px) {
+  #navbarNav {
+    display: none; /* Hide default collapse content */
+  }
+  #navbarDropdown {
+    display: block; /* Show dropdown toggle */
+  }
+}
+@media (min-width: 992px) {
+  #navbarDropdown {
+    display: none; /* Hide dropdown toggle on large screens */
+  }
+  #navbarNav {
+    display: flex !important; /* Show inline links */
+  }
+}
+/* Center dropdown vertically on small screens */
+.dropdown-menu {
+  right: 0; /* Align to the right */
+  left: auto; /* Prevent default left alignment */
+}
+
+.navbar-nav {
+  margin: 0;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
