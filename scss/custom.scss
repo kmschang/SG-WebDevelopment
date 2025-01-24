@@ -19,7 +19,7 @@
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
   font-size: 5vw;
-  color: #C32026;
+  color: #A43240;
 }
 
 .page-header {
@@ -47,11 +47,11 @@
 }
 
 .nav-link:hover {
-  color: #d55151;
+  color: #A43240;
 }
 
 .active {
-  color:#d55151 !important;
+  color:#A43240 !important;
 }
 
 html {
@@ -106,7 +106,7 @@ td, th {
 }
 
 a {
-  color: #d55151;
+  color: #A43240;
 }
 
 .footer-divider {
@@ -123,7 +123,7 @@ a {
 }
 
 .footer-link:hover {
-  color: #d55151;
+  color: #A43240;
 }
 
 
@@ -201,4 +201,11 @@ a {
 
 .navbar-nav {
   margin: 0;
+}
+/* Home */
+
+.app-icon {
+  width: 100px; /* Adjust the size of the icon as needed */
+  height: 100px;
+  margin-bottom: 1rem; /* Adds space between the icon and the app name */
 }

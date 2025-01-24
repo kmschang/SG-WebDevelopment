@@ -37,7 +37,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-Sonnaz-Red: #C32026;
+  --bs-Sonnaz-Red: #A43240;
   --bs-Sonnaz-Gray: #1B1C1E;
   --bs-Sonnaz-Light-Gray: #242528;
   --bs-Sonnaz-Lighter-Gray: #595b5C;
@@ -49,7 +49,7 @@
   --bs-danger-rgb: 220, 53, 69;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
-  --bs-Sonnaz-Red-rgb: 195, 32, 38;
+  --bs-Sonnaz-Red-rgb: 164, 50, 64;
   --bs-Sonnaz-Gray-rgb: 27, 28, 30;
   --bs-Sonnaz-Light-Gray-rgb: 36, 37, 40;
   --bs-Sonnaz-Lighter-Gray-rgb: 89, 91, 92;
@@ -3119,19 +3119,19 @@ textarea.form-control-lg {
 
 .btn-Sonnaz-Red {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #C32026;
-  --bs-btn-border-color: #C32026;
+  --bs-btn-bg: #A43240;
+  --bs-btn-border-color: #A43240;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: rgb(165.75, 27.2, 32.3);
-  --bs-btn-hover-border-color: rgb(156, 25.6, 30.4);
-  --bs-btn-focus-shadow-rgb: 204, 65, 71;
+  --bs-btn-hover-bg: rgb(139.4, 42.5, 54.4);
+  --bs-btn-hover-border-color: rgb(131.2, 40, 51.2);
+  --bs-btn-focus-shadow-rgb: 178, 81, 93;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: rgb(156, 25.6, 30.4);
-  --bs-btn-active-border-color: rgb(146.25, 24, 28.5);
+  --bs-btn-active-bg: rgb(131.2, 40, 51.2);
+  --bs-btn-active-border-color: rgb(123, 37.5, 48);
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #C32026;
-  --bs-btn-disabled-border-color: #C32026;
+  --bs-btn-disabled-bg: #A43240;
+  --bs-btn-disabled-border-color: #A43240;
 }
 
 .btn-Sonnaz-Gray {
@@ -3322,19 +3322,19 @@ textarea.form-control-lg {
 }
 
 .btn-outline-Sonnaz-Red {
-  --bs-btn-color: #C32026;
-  --bs-btn-border-color: #C32026;
+  --bs-btn-color: #A43240;
+  --bs-btn-border-color: #A43240;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #C32026;
-  --bs-btn-hover-border-color: #C32026;
-  --bs-btn-focus-shadow-rgb: 195, 32, 38;
+  --bs-btn-hover-bg: #A43240;
+  --bs-btn-hover-border-color: #A43240;
+  --bs-btn-focus-shadow-rgb: 164, 50, 64;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #C32026;
-  --bs-btn-active-border-color: #C32026;
+  --bs-btn-active-bg: #A43240;
+  --bs-btn-active-border-color: #A43240;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #C32026;
+  --bs-btn-disabled-color: #A43240;
   --bs-btn-disabled-bg: transparent;
-  --bs-btn-disabled-border-color: #C32026;
+  --bs-btn-disabled-border-color: #A43240;
   --bs-gradient: none;
 }
 
@@ -7114,8 +7114,8 @@ textarea.form-control-lg {
   text-decoration-color: RGBA(var(--bs-Sonnaz-Red-rgb), var(--bs-link-underline-opacity, 1)) !important;
 }
 .link-Sonnaz-Red:hover, .link-Sonnaz-Red:focus {
-  color: RGBA(156, 26, 30, var(--bs-link-opacity, 1)) !important;
-  text-decoration-color: RGBA(156, 26, 30, var(--bs-link-underline-opacity, 1)) !important;
+  color: RGBA(131, 40, 51, var(--bs-link-opacity, 1)) !important;
+  text-decoration-color: RGBA(131, 40, 51, var(--bs-link-underline-opacity, 1)) !important;
 }
 
 .link-Sonnaz-Gray {
@@ -12971,7 +12971,7 @@ textarea.form-control-lg {
   font-family: "SF Pro Display", sans-serif;
   font-weight: bold;
   font-size: 5vw;
-  color: #C32026;
+  color: #A43240;
 }
 
 .page-header {
@@ -12999,11 +12999,11 @@ textarea.form-control-lg {
 }
 
 .nav-link:hover {
-  color: #d55151;
+  color: #A43240;
 }
 
 .active {
-  color: #d55151 !important;
+  color: #A43240 !important;
 }
 
 html {
@@ -13056,7 +13056,7 @@ td, th {
 }
 
 a {
-  color: #d55151;
+  color: #A43240;
 }
 
 .footer-divider {
@@ -13073,7 +13073,7 @@ a {
 }
 
 .footer-link:hover {
-  color: #d55151;
+  color: #A43240;
 }
 
 /* About Us Page */
@@ -13145,6 +13145,13 @@ a {
 
 .navbar-nav {
   margin: 0;
+}
+
+/* Home */
+.app-icon {
+  width: 100px; /* Adjust the size of the icon as needed */
+  height: 100px;
+  margin-bottom: 1rem; /* Adds space between the icon and the app name */
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
