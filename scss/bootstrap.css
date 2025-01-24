@@ -13154,4 +13154,21 @@ a {
   margin-bottom: 1rem; /* Adds space between the icon and the app name */
 }
 
+/* About Us */
+.team-title {
+  font-size: 1.5rem;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.team-position {
+  font-size: 1.25rem;
+  font-weight: lighter;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.team-body {
+  font-size: 1rem;
+  font-family: "SF Pro Display", sans-serif;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
