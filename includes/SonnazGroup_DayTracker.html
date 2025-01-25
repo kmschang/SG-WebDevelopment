@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day Tracker | Sonnaz Group</title>
+  <link rel="icon" type="image/png" sizes="256x256" href="../Assets/favicon.png">
+  <link rel="stylesheet" href="../scss/bootstrap.min.css">
+</head>
+<body>
+
+<!-- DAY TRACKER -->
+<section id="home" class="bg-black">
+  <div class="row g-0">
+    <div class="col-12 col-lg-6 p-0">
+      <img src="../Assets/Hero2.png" alt="Home Image" class="home-image w-100">
+    </div>
+    <div class="col-12 col-lg-6 text-container text-center align-self-start align-self-lg-center">
+      <div>
+        <img src="../Assets/DayCalculatorLogo.png" alt="day-tracker-icon" class="app-icon-large">
+        <h1 class="page-header text-white">Day Tracker</h1>
+        <a class="btn btn-outline-Sonnaz-Red default-font fw-bolder no-scroll-padding" role="button" href="#overview">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="overview">
+  <div class="container py-5">
+    <div class="row justify-content-center py-4">
+      <div class="col-12 col-md-10">
+        <div class="rounded-rectangle mb-4 bg-Sonnaz-Light-Gray">
+          <h3 class="rectangle-title pb-2">Overview</h3>
+          <p class="rectangle-body">
+            Day Tracker is an app whose sole purpose is to tell you what it is and what day of the year it is.
+            This is a useful app for those who depend on what day of the year it is. This app also has a feature
+            to tell you what any day of the year is going in the past and future. Another highly requested feature
+            is the ability to get the difference between two dates. This feature is still in beta testing but should
+            be out soon...
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section id="ss1">
+  <div class="bg-Sonnaz-Light-Gray py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-6">
+          <img src="../Assets/DayTracker_AppPreview.png" alt="Day Tracker App"
+               class="img-fluid d-block mx-auto">
+        </div>
+        <div class="col-12 col-lg-6 text-center text-lg-start">
+          <h1 class="page-subheader text-white">Day Tracker</h1>
+          <p class="text-white default-font py-3">
+            Day Tracker is an app whose sole purpose is to tell you what it is and what day of the year it is.
+            This is a useful app for those who depend on what day of the year it is. This app also has a feature
+            to tell you what any day of the year is going in the past and future. Another highly requested feature
+            is the ability to get the difference between two dates. This feature is still in beta testing but should
+            be out soon...
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ss2">
+  <div class="bg-Sonnaz-Gray py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center flex-lg-row-reverse">
+        <div class="col-12 col-lg-6">
+          <img src="../Assets/DiscountCalculator_AppPreview.png" alt="Discount Calculator App"
+               class="img-fluid d-block mx-auto">
+        </div>
+        <div class="col-12 col-lg-6 text-center text-lg-end">
+          <h1 class="page-subheader text-white">Discount Calculator</h1>
+          <p class="text-white default-font py-3">
+            Discount Calculator is an app whose purpose is to help calculate the price of an item. It has options
+            for tax, single discount, and multiple discounts. There is also a list of each state's sales tax to make
+            it an easy and essential travel app. This app also comes with an updated user interface which is very
+            customizable, including theme color, background color, and app icon color all controllable in the settings tab.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script src="../js/bootstrap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.no-scroll-padding').forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default scroll behavior
+        const targetId = this.getAttribute('href').substring(1); // Get the target ID
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          const targetPosition = targetElement.offsetTop; // Get element's top position
+          window.scrollTo({
+            top: targetPosition, // Scroll directly to the element
+            behavior: 'smooth' // Smooth scrolling
+          });
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -13154,6 +13154,12 @@ a {
   margin-bottom: 1rem; /* Adds space between the icon and the app name */
 }
 
+.app-icon-large {
+  width: 200px; /* Adjust the size of the icon as needed */
+  height: 200px;
+  margin-bottom: 1rem; /* Adds space between the icon and the app name */
+}
+
 /* About Us */
 .team-title {
   font-size: 1.5rem;

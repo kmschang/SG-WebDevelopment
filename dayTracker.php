@@ -8,7 +8,7 @@
 <body style="background: #1B1C1E">
 <?php
 include 'includes/SonnazGroup_Header.html';
-include 'includes/SonnazGroup_ComingSoon.html';
+include 'includes/SonnazGroup_DayTracker.html';
 include 'includes/SonnazGroup_Footer.html';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
