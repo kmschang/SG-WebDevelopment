@@ -256,9 +256,41 @@ a {
 
 .map-container {
   width: 75%;
-  height: 60vh;
+  height: 75vh;
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* FAQ */
+
+.faq-container {
+  background-color: var(--Sonnaz-Gray);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+.faq-box {
+  background-color: #1B1C1E;
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.faq-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.faq-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+.faq-link {
+  text-decoration: none;
+}
+
+.faq-link:hover {
+  text-decoration: underline;
 }
