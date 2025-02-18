@@ -312,13 +312,14 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
 }
 
 .roadmap-link {
   text-decoration: none;
+    color: #FFFFFF;
 }
 
 .roadmap-link:hover {
     text-decoration: underline;
+    color:#A43240
 }
