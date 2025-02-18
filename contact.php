@@ -8,7 +8,7 @@
 <body style="background: #1B1C1E">
 <?php
 include 'includes/SonnazGroup_Header.html';
-include 'includes/SonnazGroup_ComingSoon.html';
+include 'includes/SonnazGroup_ContactUs.html';
 include 'includes/SonnazGroup_Footer.html';
 ?>
 <script src="js/bootstrap.min.js"></script>
