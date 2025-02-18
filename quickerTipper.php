@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quicker Tipper | Sonnaz Group</title>
-    <link rel="icon" type="image/x-icon" href="Assets/favicon.png">
+    <link rel="icon" type="image/x-icon" href="Assets/QuickerTipper/QuickerTipper_Logo.png">
 </head>
 <body style="background: #1B1C1E">
 <?php

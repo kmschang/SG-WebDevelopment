@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Day Tracker | Sonnaz Group</title>
-    <link rel="icon" type="image/x-icon" href="Assets/favicon.png">
+    <link rel="icon" type="image/x-icon" href="Assets/DayTracker/DayTracker_Logo.png">
 </head>
 <body style="background: #1B1C1E">
 <?php
