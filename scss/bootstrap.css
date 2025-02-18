@@ -13177,4 +13177,33 @@ a {
   font-family: "SF Pro Display", sans-serif;
 }
 
+/* Contact Us */
+.custom-card {
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  margin: auto;
+}
+
+.custom-card img {
+  width: max(9vh, 6vw);
+  height: auto;
+  border-radius: 10px;
+}
+
+.custom-container {
+  padding: 30px; /* Increased outer padding */
+}
+
+.map-container {
+  width: 75%;
+  height: 60vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
