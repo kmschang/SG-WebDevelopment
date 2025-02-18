@@ -314,3 +314,11 @@ a {
   justify-content: center;
   height: 100%;
 }
+
+.roadmap-link {
+  text-decoration: none;
+}
+
+.roadmap-link:hover {
+    text-decoration: underline;
+}
