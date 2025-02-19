@@ -13268,4 +13268,13 @@ a {
   color: #A43240;
 }
 
+/* Products */
+.link-details {
+  color: #FFFFFF;
+}
+
+.link-details:hover {
+  color: #A43240;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
