@@ -333,3 +333,23 @@ a {
 .link-details:hover {
   color: #A43240;
 }
+
+/* Back to Top Button */
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: transparent;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.back-to-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+}
