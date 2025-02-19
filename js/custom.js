@@ -30,3 +30,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+// FAQ Search Bar
+document.getElementById("faqSearch").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let faqItems = document.querySelectorAll(".faq-box");
+
+    faqItems.forEach(function(item) {
+        let question = item.querySelector("strong").textContent.toLowerCase();
+        let answer = item.querySelector("p:nth-of-type(3)").textContent.toLowerCase();
+
+        if (question.includes(filter) || answer.includes(filter)) {
+            item.parentElement.style.display = "block";
+        } else {
+            item.parentElement.style.display = "none";
+        }
+    });
+});

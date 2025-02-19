@@ -138,23 +138,7 @@
   <img src="../Assets/Icons/Icon_BackToTop.png" alt="Back to Top Icon" class="img-fluid" style="height: 75px">
 </button>
 
-<script>
-  document.getElementById("faqSearch").addEventListener("keyup", function() {
-    let filter = this.value.toLowerCase();
-    let faqItems = document.querySelectorAll(".faq-box");
 
-    faqItems.forEach(function(item) {
-      let question = item.querySelector("strong").textContent.toLowerCase();
-      let answer = item.querySelector("p:nth-of-type(3)").textContent.toLowerCase();
-
-      if (question.includes(filter) || answer.includes(filter)) {
-        item.parentElement.style.display = "block";
-      } else {
-        item.parentElement.style.display = "none";
-      }
-    });
-  });
-</script>
 <script src="../js/custom.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 </body>
