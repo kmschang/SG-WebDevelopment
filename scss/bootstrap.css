@@ -13277,6 +13277,16 @@ a {
   color: #A43240;
 }
 
+.link-download {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.link-download:hover {
+  color: #A43240;
+  text-decoration: none;
+}
+
 /* Back to Top Button */
 .back-to-top-btn {
   position: fixed;

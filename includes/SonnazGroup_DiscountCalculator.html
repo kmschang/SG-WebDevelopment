@@ -143,7 +143,7 @@
                                         <div class="container">
                                             <div class="d-flex align-items-center">
                                                 <a href="#"><img src="../Assets/Icons/Icon_TestFlight.webp" alt="TestFlight Icon" class="img-fluid d-block mx-auto" style="max-height: 10vh; width: auto"></a>
-                                                <a href="#" class="roadmap-link"><p class="default-font rectangle-title ms-4">Download Discount Calculator with TestFlight<span style="color:gray; font-size: 75%" class="ms-2">(Beta)</span></p></a>
+                                                <a href="#" class="link-download"><p class="default-font rectangle-title ms-4">Download Discount Calculator with TestFlight<span style="color:gray; font-size: 75%" class="ms-2">(Beta)</span></p></a>
                                             </div>
                                             <p style="font-size: 65%;" class="mt-2"><i>**Apple, the Apple logo, and App Store are trademarks of Apple Inc., registered in the U.S. and other countries. The use of this badge is for informational purposes only and does not imply any affiliation or endorsement by Apple Inc.</i></p>
                                         </div>
@@ -179,26 +179,12 @@
     </div>
 </section>
 
+<button id="backToTopBtn" class="back-to-top-btn">
+    <img src="../Assets/Icons/Icon_BackToTop.png" alt="Back to Top Icon" class="img-fluid" style="height: 75px">
+</button>
 
+
+<script src="../js/custom.js"></script>
 <script src="../js/bootstrap.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.no-scroll-padding').forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default scroll behavior
-                const targetId = this.getAttribute('href').substring(1); // Get the target ID
-                const targetElement = document.getElementById(targetId);
-
-                if (targetElement) {
-                    const targetPosition = targetElement.offsetTop; // Get element's top position
-                    window.scrollTo({
-                        top: targetPosition, // Scroll directly to the element
-                        behavior: 'smooth' // Smooth scrolling
-                    });
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>
