@@ -1,1 +1,0 @@
-import "../includes/day-tracker-webapp/js/main";
