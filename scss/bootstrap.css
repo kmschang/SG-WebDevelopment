@@ -13306,4 +13306,391 @@ a {
   visibility: visible;
 }
 
+#main-page {
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.app-page {
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.app-page-secondary {
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.copy-button {
+  transition: transform 0.2s;
+  background: #595b5C;
+}
+
+.copy-button:hover {
+  transform: scale(1.02);
+  z-index: 2;
+  background-color: #717475;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+footer {
+  clear: both;
+}
+
+.collapsing {
+  transition: none !important; /* Disable transitions temporarily */
+}
+
+.navbar-text {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+}
+
+.page-title {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bolder;
+  font-size: 10vw;
+}
+
+.page-subtitle {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  font-size: 5vw;
+  color: #A63341;
+}
+
+.page-header {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  font-size: max(4vw, 6vh);
+}
+
+.page-subheader {
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  font-size: max(3vw, 5vh);
+}
+
+.default-font {
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: bold;
+  font-size: 130%;
+  color: #FFFFFF;
+}
+
+.nav-link:hover {
+  color: #A63341;
+}
+
+.active {
+  color: #A63341 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px; /* Matches the height of your header */
+}
+
+.spacer {
+  height: 100px;
+  background-color: #000000;
+}
+
+/* Accent color for the boxes */
+.bg-accent {
+  background-color: #1B1C1E; /* Replace with your accent color */
+  color: #FFFFFF; /* Text color for contrast */
+}
+
+/* Center content and add border-radius */
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px; /* Rounded corners */
+  height: 100%; /* Ensures consistent box height */
+}
+
+/* Typography adjustments */
+h4, .h4 {
+  font-size: 1.5rem; /* Slightly larger title */
+}
+
+p {
+  font-size: 1rem; /* Standard paragraph size */
+  line-height: 1.5; /* Improve readability */
+  margin: 0;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Standard syntax */
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 10px; /* Adds space inside the cells */
+}
+
+a {
+  color: #A63341;
+}
+
+.footer-divider {
+  border: none;
+  border-top: 1px solid #FFFFFF;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #A63341;
+}
+
+/* About Us Page */
+.rounded-rectangle {
+  background-color: #1B1C1E;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  color: white;
+  text-align: left;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-sub-title {
+  font-size: 1.25rem;
+  font-weight: lighter;
+  margin-bottom: 10px;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.rectangle-body {
+  font-size: 1rem;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+/* Releases */
+.icon {
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  vertical-align: middle; /* Aligns the image with the text */
+}
+
+.app-link {
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+/* Navbar v2.0*/
+/* Custom styles for the dropdown on small screens */
+@media (max-width: 991.98px) {
+  #navbarNav {
+    display: none; /* Hide default collapse content */
+  }
+  #navbarDropdown {
+    display: block; /* Show dropdown toggle */
+  }
+}
+@media (min-width: 992px) {
+  #navbarDropdown {
+    display: none; /* Hide dropdown toggle on large screens */
+  }
+  #navbarNav {
+    display: flex !important; /* Show inline links */
+  }
+}
+/* Center dropdown vertically on small screens */
+.dropdown-menu {
+  right: 0; /* Align to the right */
+  left: auto; /* Prevent default left alignment */
+}
+
+.navbar-nav {
+  margin: 0;
+}
+
+/* Home */
+.app-icon {
+  width: 100px; /* Adjust the size of the icon as needed */
+  height: 100px;
+  margin-bottom: 1rem; /* Adds space between the icon and the app name */
+}
+
+.app-icon-large {
+  width: 200px; /* Adjust the size of the icon as needed */
+  height: 200px;
+  margin-bottom: 1rem; /* Adds space between the icon and the app name */
+}
+
+/* About Us */
+.team-title {
+  font-size: 1.5rem;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.team-position {
+  font-size: 1.25rem;
+  font-weight: lighter;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+.team-body {
+  font-size: 1rem;
+  font-family: "SF Pro Display", sans-serif;
+}
+
+/* Contact Us */
+.custom-card {
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  margin: auto;
+}
+
+.custom-card img {
+  width: max(9vh, 6vw);
+  height: auto;
+  border-radius: 10px;
+}
+
+.custom-container {
+  padding: 30px; /* Increased outer padding */
+}
+
+.map-container {
+  width: 75%;
+  height: 75vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FAQ */
+.faq-container {
+  background-color: var(--Sonnaz-Gray);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.faq-box {
+  background-color: #1B1C1E;
+  color: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-top: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.faq-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.faq-link {
+  text-decoration: none;
+}
+
+.faq-link:hover {
+  text-decoration: underline;
+}
+
+/* Roadmap */
+.roadmap-box {
+  background-color: #242528;
+  color: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-top: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.roadmap-link {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.roadmap-link:hover {
+  text-decoration: underline;
+  color: #A43240;
+}
+
+/* Products */
+.link-details {
+  color: #FFFFFF;
+}
+
+.link-details:hover {
+  color: #A43240;
+}
+
+.link-download {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.link-download:hover {
+  color: #A43240;
+  text-decoration: none;
+}
+
+/* Back to Top Button */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: transparent;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.back-to-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

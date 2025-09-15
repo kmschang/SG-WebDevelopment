@@ -25,4 +25,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 
 // Importing Custom Styles
 @import "custom.scss";
+@import "../includes/day-tracker-webapp/scss/custom";
+@import "../includes/day-tracker-webapp/scss/custom_2";
 
