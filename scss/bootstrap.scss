@@ -12,6 +12,7 @@ $display-font-family: 'Inter', san serif;
 // Custom Colors
 $custom-colors: (
         "Sonnaz-Red":#A43240,
+        "Sonnaz-Blue": #53B6F9,
         "Sonnaz-Gray":#1B1C1E,
         "Sonnaz-Light-Gray":#242528,
         "Sonnaz-Lighter-Gray":#595b5C,
@@ -25,6 +26,3 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 
 // Importing Custom Styles
 @import "custom.scss";
-@import "../includes/day-tracker-webapp/scss/custom";
-@import "../includes/day-tracker-webapp/scss/custom_2";
-
