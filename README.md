@@ -147,33 +147,40 @@ Sonnaz Group is hosted on an internal server stack using NGINX and containerized
 
 This repository is the source-of-truth for website content. Production deploys are artifact-based:
 
-1. Commit and push to `main`
-2. GitHub Actions packages this repo as `dist/site-<sha>.tar.gz`
-3. Workflow uploads artifact + checksum to server
-4. Server deploy script unpacks to a versioned release folder
-5. Server switches the `current` symlink to that release
-6. Docker compose refreshes services and health-checks the site
+1. Merge PRs into `main` (deploy is triggered on push to `main`)
+2. GitHub Actions packages this repo as `dist/site-<sha>.tar.gz` plus checksum
+3. Workflow uploads files to `${RELEASES_ROOT}/incoming` on server
+4. Server deploy script verifies checksum and unpacks to `${RELEASES_ROOT}/releases/<sha>`
+5. Server switches `${RELEASES_ROOT}/current` to that release
+6. nginx repo `data` symlink points at `${RELEASES_ROOT}/current`
+7. Docker compose is refreshed and health check is run
 
-This means production no longer relies on `git pull` inside a nested web repo on the server.
+This removes the old nested repo sync problem and gives repeatable, versioned releases.
 
-### Files added for this flow
+### Files used for this flow
 
 - `.github/workflows/deploy-production-artifact.yml`  
-  CI/CD pipeline that builds and deploys release artifacts.
+  CI/CD pipeline that builds/uploads artifacts and triggers release activation.
 
 - `scripts/create-release-artifact.sh`  
-  Local/CI helper that packages the repo and generates a checksum file.
+  Local/CI helper that packages the repo and generates checksum.
 
-### Create an artifact locally (optional)
+### Daily developer workflow
 
-You can validate artifact creation before pushing:
+1. Create a feature branch (do not work directly on `main`)
+2. Make code changes in `SG-WebDevelopment`
+3. Preview locally at `http://localhost:8080` via nginx local stack
+4. Open PR to `main`
+5. Merge PR to deploy automatically
+
+### Create an artifact locally (optional parity check)
 
 ```bash
 bash scripts/create-release-artifact.sh
 ls -lh dist/
 ```
 
-Or use a custom release id:
+Custom release id:
 
 ```bash
 bash scripts/create-release-artifact.sh my-test-release
@@ -181,71 +188,64 @@ bash scripts/create-release-artifact.sh my-test-release
 
 ## GitHub Actions secrets required
 
-Add these in `SG-WebDevelopment` repository settings -> **Secrets and variables** -> **Actions**:
+Add these in `SG-WebDevelopment` -> **Settings** -> **Secrets and variables** -> **Actions**:
 
 - `SSH_HOST`  
-  Server hostname or IP.
-
-- `SSH_USER`  
-  Deploy user on server.
-
-- `SSH_PRIVATE_KEY`  
-  Private key matching a public key in `~/.ssh/authorized_keys` for `SSH_USER`.
+  Production server hostname or IP.
 
 - `SSH_PORT`  
-  SSH port (usually `22`).
+  SSH port (typically `22`).
+
+- `SSH_USER`  
+  Deploy user on server (must run deploy script and `docker compose`).
+
+- `SSH_PRIVATE_KEY`  
+  Private key for `SSH_USER` (deploy-only key recommended).
 
 - `DEPLOY_SCRIPT_PATH`  
-  Absolute path to server deploy script from nginx repo, example:  
-  `/opt/sonnaz/Servers/nginx/scripts/deploy-artifact.sh`
+  Absolute server path to deploy script from nginx repo.  
+  Example: `/path/to/Servers/nginx/scripts/deploy-artifact.sh`
 
 - `RELEASES_ROOT`  
-  Release root directory, example:  
-  `/srv/sonnaz`
+  Release root on server.  
+  Recommended: `/srv/sonnaz`
 
 - `HEALTHCHECK_URL`  
-  URL used to validate deploy success, example:  
-  `https://sonnazgroup.com`
+  URL checked after deploy.  
+  Recommended for stability: `http://127.0.0.1`  
+  (public domain checks can fail transiently during container restart/TLS reload).
 
 - `KEEP_RELEASES`  
-  Number of old releases to retain, example:  
-  `5`
+  How many past releases to keep.  
+  Example: `5`
 
 ## Required one-time server setup
 
-The deploy script and release layout live in the `nginx` repository. Follow the nginx README "Option C" setup section to:
+Follow the nginx repo README Option C setup to:
 
-1. Pull nginx repo changes on server
-2. Create `/srv/sonnaz/releases` and `/srv/sonnaz/current`
-3. Point `nginx/data` symlink to `/srv/sonnaz/current`
-4. Ensure deploy user can run docker compose
-5. Verify deploy script path used by `DEPLOY_SCRIPT_PATH`
-
-## Day-to-day release workflow
-
-1. Make website changes in this repository (`SG-WebDevelopment`)
-2. Validate locally (`docker compose` in nginx local stack)
-3. Push to `main`
-4. Watch workflow run
-5. If it fails, inspect logs and server deploy script output
+1. Pull nginx changes on server
+2. Create `/srv/sonnaz/releases` + `/srv/sonnaz/current`
+3. Set `nginx/data -> /srv/sonnaz/current`
+4. Ensure deploy user has docker compose permission
+5. Ensure `DEPLOY_SCRIPT_PATH` is executable
 
 ## Troubleshooting
 
 - Workflow cannot SSH:
-  - Check `SSH_HOST`, `SSH_PORT`, `SSH_USER`
-  - Verify private key/public key pair
-  - Confirm server firewall allows inbound SSH
+  - Re-check `SSH_HOST`, `SSH_PORT`, `SSH_USER`
+  - Verify key pair and server `authorized_keys`
+  - Confirm firewall allows SSH
 
-- Upload step fails:
-  - Ensure `/tmp/sonnaz-artifacts` is writable by `SSH_USER`
-  - Confirm enough disk space on server
+- Upload step fails with disk errors:
+  - Check disk: `df -h`
+  - Clean temporary/docker space as needed
+  - Verify `${RELEASES_ROOT}/incoming` is writable
 
 - Deploy script not found:
-  - Verify `DEPLOY_SCRIPT_PATH` points to the server path where nginx repo was pulled
-  - Confirm script is executable (`chmod +x`)
+  - Verify `DEPLOY_SCRIPT_PATH` value
+  - Run `chmod +x <deploy-script-path>`
 
 - Health check fails after switch:
-  - Check nginx/php container logs
-  - Validate `HEALTHCHECK_URL`
-  - Confirm compose files and cert paths are valid
-  - Roll back by repointing `current` to prior release (see nginx README)
+  - Check logs: `docker compose logs -f nginx php`
+  - Temporarily set `HEALTHCHECK_URL` to `http://127.0.0.1`
+  - Roll back to previous release (see nginx README)
