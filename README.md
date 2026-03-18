@@ -156,7 +156,7 @@ This repository is the source-of-truth for website content. Production deploys a
 4. Server deploy script verifies checksum and unpacks to `${RELEASES_ROOT}/releases/<sha>`
 5. Server switches `${RELEASES_ROOT}/current` to that release
 6. nginx repo `data` symlink points at `${RELEASES_ROOT}/current`
-7. Docker compose is refreshed (`docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`) and health check is run
+7. Docker compose is refreshed and health check is run
 
 This removes the old nested repo sync problem and gives repeatable, versioned releases.
 
@@ -261,4 +261,3 @@ Follow the nginx repo README release strategy setup to:
     - `mkdir -p /srv/sonnaz/releases /srv/sonnaz/current`
     - `ln -sfn /srv/sonnaz/current data`
     - `docker compose up -d nginx php certbot`
-
