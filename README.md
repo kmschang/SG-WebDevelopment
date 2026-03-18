@@ -261,3 +261,4 @@ Follow the nginx repo README release strategy setup to:
     - `mkdir -p /srv/sonnaz/releases /srv/sonnaz/current`
     - `ln -sfn /srv/sonnaz/current data`
     - `docker compose up -d nginx php certbot`
+
