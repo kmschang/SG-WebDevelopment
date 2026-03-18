@@ -249,5 +249,3 @@ The deploy script and release layout live in the `nginx` repository. Follow the 
   - Validate `HEALTHCHECK_URL`
   - Confirm compose files and cert paths are valid
   - Roll back by repointing `current` to prior release (see nginx README)
-
-- Google / Kagi / ChatGPT / Claude are last resorts
