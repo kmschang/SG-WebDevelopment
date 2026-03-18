@@ -2,17 +2,17 @@
 
 <p align="center">
   <img src="Assets/SonnazGroup/SonnazGroup_Title.png" alt="Sonnaz Group Logo" width="100%">
-  <img src="https://img.shields.io/github/license/kmschang/SG-WebDevelopment" alt="GitHub License">
-  <img src="https://img.shields.io/github/v/release/kmschang/SG-WebDevelopment" alt="GitHub Release">
-  <img src="https://img.shields.io/github/commit-activity/t/kmschang/SG-WebDevelopment" alt="GitHub Commit Activity">
-  <img src="https://img.shields.io/github/last-commit/kmschang/SG-WebDevelopment" alt="GitHub Last Commit">
-  <img src="https://img.shields.io/github/contributors/kmschang/SG-WebDevelopment" alt="GitHub Contributors">
+  <img src="https://img.shields.io/github/license/kmschang/SG-WebDevelopment?style=for-the-badge" alt="GitHub License">
+  <img src="https://img.shields.io/github/v/release/kmschang/SG-WebDevelopment?style=for-the-badge" alt="GitHub Release">
+  <img src="https://img.shields.io/github/commit-activity/t/kmschang/SG-WebDevelopment?style=for-the-badge" alt="GitHub Commit Activity">
+  <img src="https://img.shields.io/github/last-commit/kmschang/SG-WebDevelopment?style=for-the-badge" alt="GitHub Last Commit">
+  <img src="https://img.shields.io/github/contributors/kmschang/SG-WebDevelopment?style=for-the-badge" alt="GitHub Contributors">
 </p>
 <div align="center">
-  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.com&up_message=online&down_message=offline&label=sonnazgroup.com" alt="Sonnazgroup.com Check">
-  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.net&up_message=online&down_message=offline&label=sonnazgroup.net" alt="Sonnazgroup.net Check">
-  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.pro&up_message=online&down_message=offline&label=sonnazgroup.pro" alt="Sonnazgroup.pro Check">
-  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.app&up_message=online&down_message=offline&label=sonnazgroup.app" alt="Sonnazgroup.app Check">
+  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.com&up_message=online&down_message=offline&label=sonnazgroup.com&style=for-the-badge" alt="Sonnazgroup.com Check">
+  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.net&up_message=online&down_message=offline&label=sonnazgroup.net&style=for-the-badge" alt="Sonnazgroup.net Check">
+  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.pro&up_message=online&down_message=offline&label=sonnazgroup.pro&style=for-the-badge" alt="Sonnazgroup.pro Check">
+  <img src="https://img.shields.io/website?url=https%3A%2F%2Fsonnazgroup.app&up_message=online&down_message=offline&label=sonnazgroup.app&style=for-the-badge" alt="Sonnazgroup.app Check">
 </div>
 
 ---
