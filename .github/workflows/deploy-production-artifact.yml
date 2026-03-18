@@ -51,8 +51,13 @@ jobs:
           script: |
             set -euo pipefail
             DEPLOY_SCRIPT="${{ secrets.DEPLOY_SCRIPT_PATH }}"
-            ARTIFACT="/tmp/sonnaz-artifacts/site-${{ env.RELEASE_ID }}.tar.gz"
-            CHECKSUM="${ARTIFACT}.sha256"
+            ARTIFACT="$(find /tmp/sonnaz-artifacts -type f -name "site-${{ env.RELEASE_ID }}.tar.gz" | head -n 1)"
+            CHECKSUM="$(find /tmp/sonnaz-artifacts -type f -name "site-${{ env.RELEASE_ID }}.tar.gz.sha256" | head -n 1)"
+            if [ -z "${ARTIFACT}" ] || [ -z "${CHECKSUM}" ]; then
+              echo "Could not locate uploaded artifact or checksum under /tmp/sonnaz-artifacts"
+              find /tmp/sonnaz-artifacts -maxdepth 3 -type f | sort || true
+              exit 1
+            fi
             if [ ! -x "${DEPLOY_SCRIPT}" ]; then
               chmod +x "${DEPLOY_SCRIPT}"
             fi
