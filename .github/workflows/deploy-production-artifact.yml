@@ -63,4 +63,12 @@ jobs:
               chmod +x "${DEPLOY_SCRIPT}"
             fi
             "${DEPLOY_SCRIPT}" "${ARTIFACT}" "${CHECKSUM}" "${{ env.RELEASE_ID }}"
+            DEPLOY_SCRIPT_DIR="$(cd "$(dirname "${DEPLOY_SCRIPT}")" && pwd)"
+            COMPOSE_DIR="$(cd "${DEPLOY_SCRIPT_DIR}/.." && pwd)"
+            if [ -f "${COMPOSE_DIR}/docker-compose.yml" ] && [ -f "${COMPOSE_DIR}/docker-compose.prod.yml" ]; then
+              (
+                cd "${COMPOSE_DIR}"
+                docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+              )
+            fi
             rm -f "${ARTIFACT}" "${CHECKSUM}"
