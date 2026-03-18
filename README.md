@@ -252,3 +252,12 @@ Follow the nginx repo README release strategy setup to:
   - Check logs: `docker compose logs -f nginx php`
   - Temporarily set `HEALTHCHECK_URL` to `http://127.0.0.1`
   - Roll back to previous release (see nginx README)
+
+- `error while creating mount source path .../nginx/data: ... file exists`:
+  - `nginx/data` is a regular file, but Docker expects a directory/symlink source path
+  - Fix on server:
+    - `cd /root/nginx`
+    - `mv data "data.bak.$(date +%s)"` (only if `data` is a file)
+    - `mkdir -p /srv/sonnaz/releases /srv/sonnaz/current`
+    - `ln -sfn /srv/sonnaz/current data`
+    - `docker compose up -d nginx php certbot`
