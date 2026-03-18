@@ -1,0 +1,59 @@
+name: Deploy Production Artifact
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_ID: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create release artifact
+        run: bash scripts/create-release-artifact.sh "${RELEASE_ID}"
+
+      - name: Upload artifact to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "dist/site-${{ env.RELEASE_ID }}.tar.gz,dist/site-${{ env.RELEASE_ID }}.tar.gz.sha256"
+          target: "/tmp/sonnaz-artifacts"
+          overwrite: true
+
+      - name: Activate release on server
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          RELEASES_ROOT: ${{ secrets.RELEASES_ROOT }}
+          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+          KEEP_RELEASES: ${{ secrets.KEEP_RELEASES }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: RELEASES_ROOT,HEALTHCHECK_URL,KEEP_RELEASES
+          script: |
+            set -euo pipefail
+            DEPLOY_SCRIPT="${{ secrets.DEPLOY_SCRIPT_PATH }}"
+            ARTIFACT="/tmp/sonnaz-artifacts/site-${{ env.RELEASE_ID }}.tar.gz"
+            CHECKSUM="${ARTIFACT}.sha256"
+            if [ ! -x "${DEPLOY_SCRIPT}" ]; then
+              chmod +x "${DEPLOY_SCRIPT}"
+            fi
+            "${DEPLOY_SCRIPT}" "${ARTIFACT}" "${CHECKSUM}" "${{ env.RELEASE_ID }}"
