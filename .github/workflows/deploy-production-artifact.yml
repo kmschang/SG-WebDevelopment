@@ -63,23 +63,4 @@ jobs:
               chmod +x "${DEPLOY_SCRIPT}"
             fi
             "${DEPLOY_SCRIPT}" "${ARTIFACT}" "${CHECKSUM}" "${{ env.RELEASE_ID }}"
-            DEPLOY_SCRIPT_DIR="$(cd "$(dirname "${DEPLOY_SCRIPT}")" && pwd)"
-            COMPOSE_DIR="$(cd "${DEPLOY_SCRIPT_DIR}/.." && pwd)"
-            if [ -f "${COMPOSE_DIR}/docker-compose.yml" ] || [ -f "${COMPOSE_DIR}/docker-compose.yaml" ] || [ -f "${COMPOSE_DIR}/compose.yml" ] || [ -f "${COMPOSE_DIR}/compose.yaml" ]; then
-              cd "${COMPOSE_DIR}"
-              SERVICES="$(docker compose config --services)"
-              RECREATE_SERVICES=()
-              for SERVICE in nginx php; do
-                if printf '%s\n' "${SERVICES}" | grep -qx "${SERVICE}"; then
-                  RECREATE_SERVICES+=("${SERVICE}")
-                fi
-              done
-              if [ "${#RECREATE_SERVICES[@]}" -gt 0 ]; then
-                docker compose up -d --force-recreate "${RECREATE_SERVICES[@]}"
-              else
-                docker compose up -d --force-recreate
-              fi
-            else
-              echo "No compose file found at ${COMPOSE_DIR}; skipping explicit container recreation."
-            fi
             rm -f "${ARTIFACT}" "${CHECKSUM}"
