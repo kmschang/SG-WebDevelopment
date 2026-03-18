@@ -74,6 +74,17 @@ jobs:
               fi
             fi
             "${DEPLOY_SCRIPT}" "${ARTIFACT}" "${CHECKSUM}" "${{ env.RELEASE_ID }}"
+            if [ -f "${COMPOSE_DIR}/docker-compose.yml" ] && [ -f "${COMPOSE_DIR}/docker-compose.prod.yml" ]; then
+              (
+                cd "${COMPOSE_DIR}"
+                docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+              )
+            elif [ -f "${COMPOSE_DIR}/docker-compose.yml" ]; then
+              (
+                cd "${COMPOSE_DIR}"
+                docker compose -f docker-compose.yml up -d
+              )
+            fi
             if [ -n "${HEALTHCHECK_URL:-}" ]; then
               HEALTH_OK=0
               for ATTEMPT in $(seq 1 12); do
