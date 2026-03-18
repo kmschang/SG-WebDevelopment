@@ -47,10 +47,13 @@ Styling is built from Bootstrap + custom SCSS in `scss/bootstrap.scss`, which co
 
 ```text
 SG-WebDevelopment/
+├── .github/workflows/             # CI/CD workflows (production deploy pipeline)
 ├── Assets/                      # Images, icons, favicons, and other static assets
 ├── includes/                    # Reusable HTML partials for each page section
 ├── js/                          # Front-end scripts (Bootstrap bundle, navbar/custom logic)
+├── scripts/                     # Release tooling (artifact packaging helpers)
 ├── scss/                        # Bootstrap entry SCSS + custom styles, compiled CSS outputs
+├── dist/                        # Generated release artifacts (git-ignored)
 ├── *.php                        # Page entry points that compose includes/* content
 ├── index.html                   # Standalone static homepage variant
 ├── package.json                 # Node dependency metadata (Bootstrap currently tracked)
@@ -143,7 +146,7 @@ npm run sass:watch
 
 Sonnaz Group is hosted on an internal server stack using NGINX and containerized services. This repository provides the website content and frontend assets deployed in that environment.
 
-## Option C deployment artifact flow (production)
+## Production release strategy (artifact-based)
 
 This repository is the source-of-truth for website content. Production deploys are artifact-based:
 
@@ -221,7 +224,7 @@ Add these in `SG-WebDevelopment` -> **Settings** -> **Secrets and variables** ->
 
 ## Required one-time server setup
 
-Follow the nginx repo README Option C setup to:
+Follow the nginx repo README release strategy setup to:
 
 1. Pull nginx changes on server
 2. Create `/srv/sonnaz/releases` + `/srv/sonnaz/current`
