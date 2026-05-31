@@ -1,0 +1,19 @@
+---
+import { appleDisclaimer } from "../data/siteContent";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div>
+    <strong>Sonnaz Group</strong>
+    <p>Independent software for useful everyday moments.</p>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:support@sonnazgroup.com">support@sonnazgroup.com</a>
+    <a href="/#privacy">Privacy</a>
+    <a href="/#terms">Terms</a>
+  </div>
+  <p class="apple-disclaimer">{appleDisclaimer}</p>
+  <p class="copyright">&copy; {year} Sonnaz Group, LLC</p>
+</footer>

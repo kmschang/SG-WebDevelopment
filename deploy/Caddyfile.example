@@ -1,0 +1,16 @@
+{
+  email admin@sonnazgroup.com
+}
+
+sonnazgroup.com, www.sonnazgroup.com {
+  reverse_proxy sonnaz-site-prod:80
+}
+
+staging.sonnazgroup.com {
+  basicauth {
+    # Generate with: caddy hash-password
+    uat-user CHANGE_ME_HASH
+  }
+
+  reverse_proxy sonnaz-site-staging:80
+}

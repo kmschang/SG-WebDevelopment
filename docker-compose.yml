@@ -1,0 +1,8 @@
+services:
+  sonnaz-site:
+    build:
+      context: .
+      dockerfile: site/Dockerfile
+    image: sonnazgroup/site:local
+    ports:
+      - "8080:80"

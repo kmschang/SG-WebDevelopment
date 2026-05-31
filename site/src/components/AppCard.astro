@@ -1,0 +1,24 @@
+---
+import type { AppInfo } from "../data/apps";
+
+type Props = {
+  app: AppInfo;
+};
+
+const { app } = Astro.props;
+---
+
+<article class="app-card" style={`--app-accent: ${app.accent}`}>
+  <a class="app-card-media" href={`/${app.slug}`} aria-label={`View ${app.name}`}>
+    <img src={app.preview} alt={`${app.name} app preview`} loading="lazy" />
+  </a>
+  <div class="app-card-copy">
+    <div class="app-card-kicker">
+      <img src={app.logo} alt="" />
+      <span>{app.statusLabel}</span>
+    </div>
+    <h3>{app.name}</h3>
+    <p>{app.summary}</p>
+    <a class="text-link" href={`/${app.slug}`}>View app</a>
+  </div>
+</article>

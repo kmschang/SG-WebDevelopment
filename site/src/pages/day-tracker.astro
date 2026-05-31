@@ -1,0 +1,8 @@
+---
+import AppDetail from "../components/AppDetail.astro";
+import { getAppBySlug } from "../data/apps";
+
+const app = getAppBySlug("day-tracker");
+---
+
+<AppDetail app={app} canonicalPath="/day-tracker" />

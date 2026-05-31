@@ -2,263 +2,487 @@
   <img src="Assets/SonnazGroup/SonnazGroup_Title.png" alt="Sonnaz Group Logo" width="100%">
 </p>
 
-<div style="text-align: center;">
-<h1 align="center">📌 SG-WebDevelopment</h1>
-<p align="center"><code>SG-WebDevelopment</code> is the source repository for the Sonnaz Group website and utility web pages, built with PHP page wrappers, reusable HTML includes, Bootstrap 5, and custom SCSS/JavaScript assets.</p>
-</div>
+<h1 align="center">SG-WebDevelopment</h1>
 
----
-
-<div style="text-align: center; padding-top: 30px">
 <p align="center">
-<img src="https://img.shields.io/badge/PHP-777BB4.svg?style=for-the-badge&logo=php&logoColor=white" alt="PHP Badge">
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript Badge">
-<img src="https://img.shields.io/badge/HTML-E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="HTML Badge">
-<img src="https://img.shields.io/badge/SCSS-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white" alt="SCSS Badge">
-<img src="https://img.shields.io/badge/Bootstrap-7952B3.svg?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap Badge">
-<img src="https://img.shields.io/badge/NGINX-009639.svg?style=for-the-badge&logo=nginx&logoColor=white" alt="NGINX Badge">
-<img src="https://img.shields.io/badge/Docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Badge">
-<img src="https://img.shields.io/badge/Markdown-000000.svg?style=for-the-badge&logo=markdown&logoColor=white" alt="Markdown Badge">
+  The Sonnaz Group website, rebuilt as a modern Astro + TypeScript site and packaged as a Docker image.
 </p>
-</div>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/Astro-BC52EE.svg?style=for-the-badge&logo=astro&logoColor=white" alt="Astro Badge">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Badge">
+  <img src="https://img.shields.io/badge/SCSS-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white" alt="SCSS Badge">
+  <img src="https://img.shields.io/badge/Caddy-1F88C0.svg?style=for-the-badge&logo=caddy&logoColor=white" alt="Caddy Badge">
+  <img src="https://img.shields.io/badge/Docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Badge">
+</p>
 
 ## Overview
 
-This repository contains the website source for Sonnaz Group domains. The project uses PHP files as page entry points and composes each page from reusable HTML include files under `includes/`.
+This repository now contains the v2 Sonnaz Group website. The old PHP include-based website was removed on the v2 redesign branch so the repo can be organized around the new stack from the start.
 
-Styling is built from Bootstrap + custom SCSS in `scss/bootstrap.scss`, which compiles to `scss/bootstrap.min.css` used by pages. JavaScript behavior (navbar, scroll helpers, page interactions) lives in `js/`.
+The site is built with:
 
-## Key pages
+- Astro for static-first pages and reusable components.
+- TypeScript for typed app/content data.
+- SCSS for the main stylesheet.
+- Docker for repeatable local and production builds.
+- Caddy for serving the static site inside the image and for the planned public reverse proxy on the droplet.
+- GitHub Actions for build checks, image publishing, and future staging/production deploys.
 
-- `index.php` (Home)
-- `aboutUs.php`
-- `press.php`
-- `releases.php`
-- `FAQ.php`
-- `status.php`
-- `contact.php`
-- `privacy.php`
-- `terms.php`
-- Utility pages: `dayTracker.php`, `discountCalculator.php`, `quickerTipper.php`, `roadmap.php`, `404.php`
+The current website shape is a hybrid:
 
-## Repository structure
+- One main Sonnaz Group landing page with useful sections: apps, downloads, app info, FAQ, privacy, terms, and feedback.
+- Dedicated app detail pages for richer screenshots and feature sections.
+- Future app domains/subdomains can be routed to the same droplet with Caddy.
+
+The visual direction uses the compact app-landing-page feel of [PlateChaser](https://platechaser.app/) as a loose reference while keeping Sonnaz Group's darker app-preview style and existing assets.
+
+## Decisions
+
+### Same Repo
+
+The v2 rebuild stays in this repo to preserve project history. The old production state was tagged before the rebuild:
+
+```text
+pre-v2-php-site
+```
+
+That tag is the reference point for the old PHP site if it ever needs to be inspected again.
+
+### Astro Instead of Angular
+
+Angular is excellent for large client-side web apps, but this website is mostly content, screenshots, download links, and static pages. Astro is a better fit because it outputs fast static HTML while still giving component structure.
+
+### TypeScript
+
+App content lives in typed TypeScript data instead of being copied across separate HTML files. This makes the app names, download links, release details, and feature sections easier to update without hunting through page markup.
+
+Main content file:
+
+```text
+site/src/data/apps.ts
+```
+
+General site content:
+
+```text
+site/src/data/siteContent.ts
+```
+
+### SCSS
+
+The v2 site uses SCSS because it is familiar, expressive, and supported cleanly by Astro/Vite. The global stylesheet is:
+
+```text
+site/src/styles/global.scss
+```
+
+### Docker Image Deploys
+
+The deployment unit is intended to be a Docker image, not a copied folder of files. GitHub Actions will build an immutable image for a commit, push it to GitHub Container Registry, and the droplet can run that exact image.
+
+This gives cleaner rollbacks and makes staging/production behavior easier to reason about.
+
+### Caddy
+
+Caddy is used because it keeps HTTPS and reverse proxy configuration simple. In production, one Caddy instance can route many domains and subdomains on one droplet:
+
+```text
+sonnazgroup.com              -> production site container
+staging.sonnazgroup.com      -> staging site container
+daytrack.sonnazgroup.com     -> future app container
+daytrack.app                 -> future app container or redirect
+```
+
+## Repository Structure
 
 ```text
 SG-WebDevelopment/
-├── .github/workflows/             # CI/CD workflows (production deploy pipeline)
-├── Assets/                      # Images, icons, favicons, and other static assets
-├── includes/                    # Reusable HTML partials for each page section
-├── js/                          # Front-end scripts (Bootstrap bundle, navbar/custom logic)
-├── scripts/                     # Release tooling (artifact packaging helpers)
-├── scss/                        # Bootstrap entry SCSS + custom styles, compiled CSS outputs
-├── dist/                        # Generated release artifacts (git-ignored)
-├── *.php                        # Page entry points that compose includes/* content
-├── index.html                   # Standalone static homepage variant
-├── package.json                 # Node dependency metadata (Bootstrap currently tracked)
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   └── workflows/
+│       └── v2-site.yml
+├── Assets/
+│   ├── DayTracker/
+│   ├── DiscountCalculator/
+│   ├── Icons/
+│   ├── QuickerTipper/
+│   └── SonnazGroup/
+├── deploy/
+│   ├── Caddyfile.example
+│   └── compose.server.example.yml
+├── docs/
+│   └── v2-release-workflow.md
+├── site/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── data/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   └── styles/
+│   ├── Caddyfile
+│   ├── Dockerfile
+│   ├── astro.config.mjs
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├── docker-compose.yml
 └── README.md
 ```
 
-## How pages are composed
+## Routes
 
-Most PHP pages follow this pattern:
+Main one-page site:
 
-1. Include the shared header partial (`includes/SonnazGroup_Header.html`)
-2. Include page-specific content partial (`includes/SonnazGroup_*.html`)
-3. Include shared footer partial (`includes/SonnazGroup_Footer.html`)
-4. Load JavaScript bundles (`js/bootstrap.min.js`, Popper/CDN Bootstrap where present)
+```text
+/
+```
 
-This keeps shared layout in one place while preserving simple route-like PHP entry files.
+App detail pages:
 
-## Local setup (bootstrap)
+```text
+/day-tracker
+/discount-calculator
+/quicker-tipper
+```
 
-### Requirements
+Generated app routes are also available:
 
-- PHP-capable local server (Apache, NGINX + PHP-FPM, MAMP, etc.)
-- Node.js + npm (for frontend package management and Sass tooling)
+```text
+/apps/day-tracker
+/apps/discount-calculator
+/apps/quicker-tipper
+```
 
-### Install dependencies
+Astro also generates:
+
+```text
+/404.html
+```
+
+## Local Development
+
+Requirements:
+
+- Node.js 22 or compatible current Node runtime.
+- npm.
+- Docker Desktop if using the Docker workflow locally.
+
+Install dependencies:
 
 ```bash
+cd site
 npm install
 ```
 
-> The repository already tracks `bootstrap` in `package.json`.
-
-### Add Sass compiler (if not installed yet)
+Start Astro dev server:
 
 ```bash
-npm install --save-dev sass
+npm run dev
 ```
 
-## SCSS -> CSS workflow
+Astro local URL:
 
-The main stylesheet entry is:
+```text
+http://localhost:4321
+```
 
-- `scss/bootstrap.scss` (imports Bootstrap core + custom SCSS)
-
-Compiled output consumed by pages:
-
-- `scss/bootstrap.min.css`
-- `scss/bootstrap.min.css.map`
-
-### One-time compile
+Run a production-style Astro build:
 
 ```bash
-npx sass scss/bootstrap.scss scss/bootstrap.min.css --style=compressed --source-map
+npm run build
 ```
 
-### Watch mode (auto-recompile on save)
+That command runs:
+
+```text
+astro check
+astro build
+```
+
+So it verifies TypeScript/Astro diagnostics and then builds the static site.
+
+## Docker
+
+Build the local image from the repo root:
 
 ```bash
-npx sass --watch scss/bootstrap.scss:scss/bootstrap.min.css --style=compressed --source-map
+docker compose build
 ```
 
-### Optional npm scripts to add
-
-If you want this as `npm` commands, add these scripts in `package.json`:
-
-```json
-{
-  "scripts": {
-    "sass:build": "sass scss/bootstrap.scss scss/bootstrap.min.css --style=compressed --source-map",
-    "sass:watch": "sass --watch scss/bootstrap.scss:scss/bootstrap.min.css --style=compressed --source-map"
-  }
-}
-```
-
-Then run:
+Run it:
 
 ```bash
-npm run sass:build
-npm run sass:watch
+docker compose up -d
 ```
 
-## Development notes
+Local Docker URL:
 
-- Core theme colors and Bootstrap overrides are set in `scss/bootstrap.scss`.
-- Project-specific styles live in `scss/custom.scss`.
-- Keep compiled CSS in sync after SCSS changes before deploying.
-- `npm test` is currently a placeholder script and does not run automated tests yet.
+```text
+http://localhost:8081
+```
 
-## Deployment context
+Port `8081` is used because `8080` was already allocated locally during setup.
 
-Sonnaz Group is hosted on an internal server stack using NGINX and containerized services. This repository provides the website content and frontend assets deployed in that environment.
-
-## Production release strategy (artifact-based)
-
-This repository is the source-of-truth for website content. Production deploys are artifact-based:
-
-1. Merge PRs into `main` (deploy is triggered on push to `main`)
-2. GitHub Actions packages this repo as `dist/site-<sha>.tar.gz` plus checksum
-3. Workflow uploads files to `${RELEASES_ROOT}/incoming` on server
-4. Server deploy script verifies checksum and unpacks to `${RELEASES_ROOT}/releases/<sha>`
-5. Server switches `${RELEASES_ROOT}/current` to that release
-6. nginx repo `data` symlink points at `${RELEASES_ROOT}/current`
-7. Docker compose is refreshed and health check is run
-
-This removes the old nested repo sync problem and gives repeatable, versioned releases.
-
-### Files used for this flow
-
-- `.github/workflows/deploy-production-artifact.yml`  
-  CI/CD pipeline that builds/uploads artifacts and triggers release activation.
-
-- `scripts/create-release-artifact.sh`  
-  Local/CI helper that packages the repo and generates checksum.
-
-### Daily developer workflow
-
-1. Create a feature branch (do not work directly on `main`)
-2. Make code changes in `SG-WebDevelopment`
-3. Preview locally at `http://localhost:8080` via nginx local stack
-4. Open PR to `main`
-5. Merge PR to deploy automatically
-
-### Create an artifact locally (optional parity check)
+Check running containers:
 
 ```bash
-bash scripts/create-release-artifact.sh
-ls -lh dist/
+docker compose ps
 ```
 
-Custom release id:
+View logs:
 
 ```bash
-bash scripts/create-release-artifact.sh my-test-release
+docker compose logs --tail 80
 ```
 
-## GitHub Actions secrets required
+Stop the local container:
 
-Add these in `SG-WebDevelopment` -> **Settings** -> **Secrets and variables** -> **Actions**:
+```bash
+docker compose down
+```
 
-- `SSH_HOST`  
-  Production server hostname or IP.
+## Content Editing
 
-- `SSH_PORT`  
-  SSH port (typically `22`).
+### Apps
 
-- `SSH_USER`  
-  Deploy user on server (must run deploy script and `docker compose`).
+Edit apps in:
 
-- `SSH_PRIVATE_KEY`  
-  Private key for `SSH_USER` (deploy-only key recommended).
+```text
+site/src/data/apps.ts
+```
 
-- `DEPLOY_SCRIPT_PATH`  
-  Absolute server path to deploy script from nginx repo.  
-  Example: `/path/to/Servers/nginx/scripts/deploy-artifact.sh`
+Each app includes:
 
-- `RELEASES_ROOT`  
-  Release root on server.  
-  Recommended: `/srv/sonnaz`
+- name
+- slug
+- status label
+- accent color
+- summary and description
+- logo, preview, and hero images
+- feature screenshots
+- App Store/TestFlight download links
+- app information like version, release date, size, language, and developer
+- feedback links
 
-- `HEALTHCHECK_URL`  
-  URL checked after deploy.  
-  Recommended for stability: `http://127.0.0.1`  
-  (public domain checks can fail transiently during container restart/TLS reload).
+### FAQ, Privacy, Terms, Disclaimer
 
-- `KEEP_RELEASES`  
-  How many past releases to keep.  
-  Example: `5`
+Edit general content in:
 
-## Required one-time server setup
+```text
+site/src/data/siteContent.ts
+```
 
-Follow the nginx repo README release strategy setup to:
+This file contains:
 
-1. Pull nginx changes on server
-2. Create `/srv/sonnaz/releases` + `/srv/sonnaz/current`
-3. Set `nginx/data -> /srv/sonnaz/current`
-4. Ensure deploy user has docker compose permission
-5. Ensure `DEPLOY_SCRIPT_PATH` is executable
+- FAQ cards
+- plain-English privacy cards
+- plain-English terms cards
+- Apple trademark/download badge disclaimer
+
+The full legal pages from the old PHP site were intentionally replaced with readable sections on the main page. If formal long-form legal pages are needed again later, add them as new Astro pages instead of bringing back the old PHP files.
+
+### Styling
+
+Edit global styles in:
+
+```text
+site/src/styles/global.scss
+```
+
+The current design keeps:
+
+- dark app-first visuals
+- no duplicate visible Sonnaz Group headline under the logo image
+- dark feature sections on app pages
+- reusable cards for FAQ, policy summaries, downloads, and app info
+- 8px card/button radius
+
+## Git Workflow
+
+Planned branch flow:
+
+```text
+feature/* -> develop -> main
+```
+
+Recommended daily flow:
+
+1. Create a feature branch from `develop`.
+2. Build and test locally.
+3. Open a PR into `develop`.
+4. Merge to `develop` to deploy staging/UAT.
+5. Test staging.
+6. Open a PR from `develop` into `main`.
+7. Merge to `main` to deploy production.
+
+This keeps production stable while still giving a real staging environment.
+
+## GitHub Actions
+
+Workflow file:
+
+```text
+.github/workflows/v2-site.yml
+```
+
+Triggers:
+
+- Pull requests into `develop` or `main`.
+- Pushes to `develop` or `main`.
+- Manual workflow dispatch.
+
+Jobs:
+
+- `check`: installs `site/` dependencies and runs `npm run build`.
+- `image`: builds and pushes a Docker image to GitHub Container Registry on push/manual runs.
+- `deploy`: guarded behind a repo variable so server deployment can be enabled later.
+
+Image naming:
+
+```text
+ghcr.io/<owner>/sonnazgroup-site:<commit-sha>
+ghcr.io/<owner>/sonnazgroup-site:<branch-name>
+```
+
+Examples:
+
+```text
+ghcr.io/kmschang/sonnazgroup-site:develop
+ghcr.io/kmschang/sonnazgroup-site:main
+ghcr.io/kmschang/sonnazgroup-site:<sha>
+```
+
+## Deployment Configuration
+
+Deployment is currently guarded by this GitHub repository variable:
+
+```text
+V2_DEPLOY_ENABLED=true
+```
+
+Leave it unset or set to anything other than `true` until the droplet deploy script is ready.
+
+Required GitHub Actions secrets for deploy:
+
+```text
+SSH_HOST
+SSH_PORT
+SSH_USER
+SSH_PRIVATE_KEY
+V2_DEPLOY_SCRIPT_PATH
+```
+
+The deploy job calls the server script like this:
+
+```text
+<V2_DEPLOY_SCRIPT_PATH> <image-ref> <environment>
+```
+
+Example:
+
+```text
+/srv/sonnaz/deploy-site.sh ghcr.io/kmschang/sonnazgroup-site:<sha> staging
+```
+
+The environment value will be:
+
+```text
+staging
+production
+```
+
+depending on whether the push came from `develop` or `main`.
+
+## Server Shape
+
+Example server files:
+
+```text
+deploy/Caddyfile.example
+deploy/compose.server.example.yml
+```
+
+The intended server setup is:
+
+```text
+Docker Compose on one DigitalOcean droplet
+  caddy
+  sonnaz-site-prod
+  sonnaz-site-staging
+```
+
+Caddy routes:
+
+```text
+sonnazgroup.com, www.sonnazgroup.com
+  -> sonnaz-site-prod:80
+
+staging.sonnazgroup.com
+  -> basic auth
+  -> sonnaz-site-staging:80
+```
+
+Caddy can later route additional app domains or subdomains to other containers without needing a separate droplet for each website.
+
+## What Was Removed
+
+The old PHP website files were removed from the v2 branch:
+
+- `*.php` page wrappers
+- `includes/` HTML partials
+- old Bootstrap/SCSS output under `scss/`
+- old front-end scripts under `js/`
+- old root `package.json` and `package-lock.json`
+- old artifact packaging script
+- old production artifact workflow
+
+The useful content from those files was moved into the Astro data/components where it still belongs.
+
+## Verification
+
+Useful checks before opening a PR:
+
+```bash
+cd site
+npm run build
+```
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Then inspect:
+
+```text
+http://localhost:4321
+http://localhost:8081
+```
+
+Known dependency audit note:
+
+- Production dependencies currently report zero vulnerabilities with `npm audit --omit=dev`.
+- The moderate findings are from dev-only Astro language-server/check tooling.
 
 ## Troubleshooting
 
-- Workflow cannot SSH:
-  - Re-check `SSH_HOST`, `SSH_PORT`, `SSH_USER`
-  - Verify key pair and server `authorized_keys`
-  - Confirm firewall allows SSH
+If Docker says a port is allocated, change the host side of this mapping in `docker-compose.yml`:
 
-- Upload step fails with disk errors:
-  - Check disk: `df -h`
-  - Clean temporary/docker space as needed
-  - Verify `${RELEASES_ROOT}/incoming` is writable
+```yaml
+ports:
+  - "8081:80"
+```
 
-- Deploy script not found:
-  - Verify `DEPLOY_SCRIPT_PATH` value
-  - Run `chmod +x <deploy-script-path>`
+If Astro tries to write telemetry settings somewhere unexpected, telemetry is already disabled in the npm scripts and Docker build with:
 
-- Health check fails after switch:
-  - Check logs: `docker compose logs -f nginx php`
-  - Temporarily set `HEALTHCHECK_URL` to `http://127.0.0.1`
-  - Roll back to previous release (see nginx README)
+```text
+ASTRO_TELEMETRY_DISABLED=1
+```
 
-- `error while creating mount source path .../nginx/data: ... file exists`:
-  - `nginx/data` is a regular file, but Docker expects a directory/symlink source path
-  - Fix on server:
-    - `cd /root/nginx`
-    - `mv data "data.bak.$(date +%s)"` (only if `data` is a file)
-    - `mkdir -p /srv/sonnaz/releases /srv/sonnaz/current`
-    - `ln -sfn /srv/sonnaz/current data`
-    - `docker compose up -d nginx php certbot`
+If the GitHub Action builds an image but does not deploy, check:
 
+- `V2_DEPLOY_ENABLED` is set to `true`.
+- Deploy secrets exist.
+- The server deploy script exists and is executable.
+- The deploy user can run Docker Compose on the droplet.

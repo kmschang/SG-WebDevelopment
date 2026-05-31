@@ -1,0 +1,183 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppCard from "../components/AppCard.astro";
+import DownloadLink from "../components/DownloadLink.astro";
+import { apps } from "../data/apps";
+import { appleDisclaimer, faqItems, privacyCards, termsCards } from "../data/siteContent";
+import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png?url";
+import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
+---
+
+<BaseLayout
+  title="Sonnaz Group | Practical iOS Apps"
+  description="Sonnaz Group builds focused iOS apps for dates, shopping, tipping, and the everyday math people want handled quickly."
+>
+  <main>
+    <section class="home-hero">
+      <img class="hero-background" src={heroImage} alt="Sonnaz Group app previews" />
+      <div class="hero-scrim"></div>
+      <div class="home-hero-content">
+        <img class="brand-title-image" src={titleImage} alt="Sonnaz Group" />
+        <h1 class="sr-only">Sonnaz Group</h1>
+        <p>
+          Focused iOS apps for dates, shopping, tipping, and the little utility
+          jobs that are better when they are simple.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#apps">View apps</a>
+          <a class="secondary-button" href="#download">Download</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="apps" class="section apps-section">
+      <div class="section-heading">
+        <p class="eyebrow">Apps</p>
+        <h2>A small suite of practical utilities.</h2>
+        <p>
+          Each app gets a focused page for screenshots and details, while this
+          homepage stays as the one-page hub for the useful stuff.
+        </p>
+      </div>
+      <div class="app-grid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+    </section>
+
+    <section id="download" class="section download-section">
+      <div class="section-heading">
+        <p class="eyebrow">Downloads</p>
+        <h2>Official app links.</h2>
+        <p>
+          App Store and TestFlight links live here so they are easy to find
+          without digging through separate pages.
+        </p>
+      </div>
+      <div class="download-board">
+        {
+          apps.map((app) => (
+            <article class="download-card" style={`--app-accent: ${app.accent}`}>
+              <div class="download-card-heading">
+                <img src={app.logo} alt="" />
+                <div>
+                  <p class="eyebrow">{app.statusLabel}</p>
+                  <h3>{app.name}</h3>
+                </div>
+              </div>
+              <p>{app.availabilityNote}</p>
+              <div class="download-card-links">
+                {app.downloads.map((download) => <DownloadLink download={download} />)}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="legal-note">{appleDisclaimer}</p>
+    </section>
+
+    <section id="app-info" class="section app-info-section">
+      <div class="section-heading">
+        <p class="eyebrow">App information</p>
+        <h2>Current release details.</h2>
+      </div>
+      <div class="info-card-grid">
+        {
+          apps.map((app) => (
+            <article class="mini-info-card" style={`--app-accent: ${app.accent}`}>
+              <img src={app.logo} alt="" />
+              <h3>{app.name}</h3>
+              <dl class="compact-info-list">
+                <div>
+                  <dt>Release</dt>
+                  <dd>{app.appInfo.releaseDate}</dd>
+                </div>
+                <div>
+                  <dt>Version</dt>
+                  <dd>{app.appInfo.version}</dd>
+                </div>
+                <div>
+                  <dt>Size</dt>
+                  <dd>{app.appInfo.size}</dd>
+                </div>
+                <div>
+                  <dt>Languages</dt>
+                  <dd>{app.appInfo.languages}</dd>
+                </div>
+              </dl>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">FAQ</p>
+        <h2>Quick answers.</h2>
+      </div>
+      <div class="faq-grid">
+        {
+          faqItems.map((item) => (
+            <article class="plain-card">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="privacy" class="section policy-section">
+      <div class="section-heading">
+        <p class="eyebrow">Privacy</p>
+        <h2>Plain-English privacy notes.</h2>
+        <p>
+          Short version: the site is built to be informational, and feedback only
+          needs the information you choose to send.
+        </p>
+      </div>
+      <div class="policy-grid">
+        {
+          privacyCards.map((card) => (
+            <article class="plain-card">
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="terms" class="section policy-section">
+      <div class="section-heading">
+        <p class="eyebrow">Terms</p>
+        <h2>Plain-English terms.</h2>
+        <p>
+          Use the site and apps normally, use official download links, and do not
+          misuse the software, content, or infrastructure.
+        </p>
+      </div>
+      <div class="policy-grid">
+        {
+          termsCards.map((card) => (
+            <article class="plain-card">
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="section-heading">
+        <p class="eyebrow">Feedback</p>
+        <h2>Send app feedback.</h2>
+        <p>
+          Feedback works best when the app name and device details are included.
+        </p>
+      </div>
+      <a class="primary-button" href="mailto:support@sonnazgroup.com">Email Sonnaz Group</a>
+    </section>
+  </main>
+</BaseLayout>

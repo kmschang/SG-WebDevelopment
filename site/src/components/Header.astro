@@ -1,0 +1,20 @@
+---
+import logoUrl from "../../../Assets/SonnazGroup/SonnazGroup_Logo(Red)(Transparent).png?url";
+
+const navItems = [
+  { label: "Apps", href: "/#apps" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Privacy", href: "/#privacy" },
+  { label: "Terms", href: "/#terms" }
+];
+---
+
+<header class="site-header">
+  <a class="brand-link" href="/" aria-label="Sonnaz Group home">
+    <img src={logoUrl} alt="" class="brand-mark" />
+    <span>Sonnaz Group</span>
+  </a>
+  <nav class="site-nav" aria-label="Primary navigation">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+</header>

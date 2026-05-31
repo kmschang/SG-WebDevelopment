@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadLink from "./DownloadLink.astro";
+import { appleDisclaimer } from "../data/siteContent";
+import type { AppInfo } from "../data/apps";
+
+type Props = {
+  app: AppInfo;
+  canonicalPath: string;
+};
+
+const { app, canonicalPath } = Astro.props;
+---
+
+<BaseLayout
+  title={`${app.name} | Sonnaz Group`}
+  description={app.summary}
+  canonicalPath={canonicalPath}
+>
+  <main style={`--app-accent: ${app.accent}`}>
+    <section class="product-hero">
+      <img class="hero-background" src={app.hero} alt={`${app.name} app screen`} />
+      <div class="hero-scrim"></div>
+      <div class="product-hero-content">
+        <img src={app.logo} alt="" class="product-logo" />
+        <p class="eyebrow">{app.eyebrow}</p>
+        <h1>{app.name}</h1>
+        <p>{app.description}</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#download">Download</a>
+          <a class="secondary-button" href="#features">Explore features</a>
+          {app.links.map((link) => <a class="secondary-button" href={link.href}>{link.label}</a>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro-section">
+      <div class="section-heading">
+        <p class="eyebrow">Overview</p>
+        <h2>Built around the job you actually need done.</h2>
+      </div>
+      <p class="section-lede">{app.summary}</p>
+    </section>
+
+    <section id="features" class="feature-stack">
+      {app.features.map((feature, index) => (
+        <article class:list={["feature-row", index % 2 === 1 && "feature-row-reverse"]}>
+          <div class="feature-media">
+            <img src={feature.image} alt={`${app.name} ${feature.title}`} loading="lazy" />
+          </div>
+          <div class="feature-copy">
+            <p class="eyebrow">Feature {index + 1}</p>
+            <h2>{feature.title}</h2>
+            <p>{feature.body}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section id="download" class="section download-section">
+      <div class="section-heading">
+        <p class="eyebrow">Download</p>
+        <h2>Get {app.name}</h2>
+        <p>{app.availabilityNote}</p>
+      </div>
+      <div class="download-grid">
+        {app.downloads.map((download) => <DownloadLink download={download} />)}
+      </div>
+      <p class="legal-note">{appleDisclaimer}</p>
+    </section>
+
+    <section class="section info-section">
+      <div class="section-heading">
+        <p class="eyebrow">App information</p>
+        <h2>Current details</h2>
+      </div>
+      <dl class="info-list">
+        <div>
+          <dt>Release date</dt>
+          <dd>{app.appInfo.releaseDate}</dd>
+        </div>
+        <div>
+          <dt>Version</dt>
+          <dd>
+            {app.appInfo.versionHref ? (
+              <a href={app.appInfo.versionHref}>{app.appInfo.version}</a>
+            ) : (
+              app.appInfo.version
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt>Size</dt>
+          <dd>{app.appInfo.size}</dd>
+        </div>
+        <div>
+          <dt>Languages</dt>
+          <dd>{app.appInfo.languages}</dd>
+        </div>
+        <div>
+          <dt>Developer</dt>
+          <dd>{app.appInfo.developer}</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+</BaseLayout>
