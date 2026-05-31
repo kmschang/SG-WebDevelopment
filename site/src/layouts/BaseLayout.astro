@@ -8,12 +8,14 @@ type Props = {
   title?: string;
   description?: string;
   canonicalPath?: string;
+  noindex?: boolean;
 };
 
 const {
   title = "Sonnaz Group",
   description = "Sonnaz Group builds practical software for everyday tasks.",
-  canonicalPath = "/"
+  canonicalPath = "/",
+  noindex = false
 } = Astro.props;
 
 const canonicalUrl = new URL(canonicalPath, "https://sonnazgroup.com").toString();
@@ -25,6 +27,7 @@ const canonicalUrl = new URL(canonicalPath, "https://sonnazgroup.com").toString(
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" href={faviconUrl} />
     <meta property="og:title" content={title} />

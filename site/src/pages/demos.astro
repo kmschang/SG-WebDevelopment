@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { apps } from "../data/apps";
+---
+
+<BaseLayout
+  title="Interaction Demos | Sonnaz Group"
+  description="Optional interaction and animation ideas for the Sonnaz Group v2 site."
+  canonicalPath="/demos"
+  noindex
+>
+  <main>
+    <section class="section demo-hero">
+      <p class="eyebrow">Interaction demos</p>
+      <h1>Ideas that can stay in the lab until they earn a spot.</h1>
+      <p>
+        These are intentionally separate from the main page. They are here to
+        preview motion and interaction options without sneaking them into the
+        production-feeling version.
+      </p>
+    </section>
+
+    <section class="section demo-grid">
+      <article class="demo-card demo-orbit">
+        <p class="eyebrow">Option 1</p>
+        <h2>Orbit badges</h2>
+        <div class="orbit-stage" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <strong>SG</strong>
+        </div>
+        <p>Could be used around app icons, status, or release notes.</p>
+      </article>
+
+      <article class="demo-card demo-scrub">
+        <p class="eyebrow">Option 2</p>
+        <h2>Screenshot scrub</h2>
+        <div class="scrub-stack">
+          {apps.map((app) => <img src={app.preview} alt="" loading="lazy" />)}
+        </div>
+        <p>Hovering fans screenshots out like a quick product preview.</p>
+      </article>
+
+      <article class="demo-card demo-meter">
+        <p class="eyebrow">Option 3</p>
+        <h2>Release meter</h2>
+        <div class="meter-rail">
+          <span style="--meter: 72%"></span>
+        </div>
+        <p>Could visualize roadmap confidence, status, or release progress.</p>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

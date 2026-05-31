@@ -5,7 +5,7 @@
 <h1 align="center">SG-WebDevelopment</h1>
 
 <p align="center">
-  The Sonnaz Group website, rebuilt as a modern Astro + TypeScript site and packaged as a Docker image.
+  Sonnaz Group website v2: Astro + TypeScript + SCSS, packaged with Docker and served through Caddy.
 </p>
 
 <p align="center">
@@ -18,155 +18,114 @@
 
 ## Overview
 
-This repository now contains the v2 Sonnaz Group website. The old PHP include-based website was removed on the v2 redesign branch so the repo can be organized around the new stack from the start.
+This repo is the v2 Sonnaz Group website. The old PHP include-based site was removed from this branch after the useful content was moved into Astro data files and components.
 
-The site is built with:
+The site is designed as:
 
-- Astro for static-first pages and reusable components.
-- TypeScript for typed app/content data.
-- SCSS for the main stylesheet.
-- Docker for repeatable local and production builds.
-- Caddy for serving the static site inside the image and for the planned public reverse proxy on the droplet.
-- GitHub Actions for build checks, image publishing, and future staging/production deploys.
+- one main homepage for apps, FAQ, trust notes, status, roadmap, releases, press kits, and feedback
+- dedicated app pages for richer screenshots, downloads, app information, release notes, and press kits
+- a Docker image that can run locally, on staging, or in production
+- one droplet that can serve multiple domains and subdomains through Caddy
 
-The current website shape is a hybrid:
+## Stack
 
-- One main Sonnaz Group landing page with useful sections: apps, downloads, app info, FAQ, privacy, terms, and feedback.
-- Dedicated app detail pages for richer screenshots and feature sections.
-- Future app domains/subdomains can be routed to the same droplet with Caddy.
+- Astro: static-first website framework.
+- TypeScript: typed app/content data.
+- SCSS: global styling and interaction states.
+- Docker: repeatable build/runtime unit.
+- Caddy: static file server in the site image and reverse proxy on the droplet.
+- GitHub Actions: checks, Docker image builds, GHCR pushes, and deploy hooks.
+- GitHub Container Registry: stores versioned Docker images.
 
-The visual direction uses the compact app-landing-page feel of [PlateChaser](https://platechaser.app/) as a loose reference while keeping Sonnaz Group's darker app-preview style and existing assets.
+## Important Decision Notes
 
-## Decisions
+### Same repo
 
-### Same Repo
-
-The v2 rebuild stays in this repo to preserve project history. The old production state was tagged before the rebuild:
+The v2 site stays in this repo to preserve history. The old PHP production baseline was tagged before the rebuild:
 
 ```text
 pre-v2-php-site
 ```
 
-That tag is the reference point for the old PHP site if it ever needs to be inspected again.
+### Astro instead of Angular
 
-### Astro Instead of Angular
+Angular is great for full applications, but this website is mostly content, screenshots, downloads, and static pages. Astro gives reusable components without shipping a large client-side app.
 
-Angular is excellent for large client-side web apps, but this website is mostly content, screenshots, download links, and static pages. Astro is a better fit because it outputs fast static HTML while still giving component structure.
+### Docker image deploys
 
-### TypeScript
+Deployments are image-based. GitHub Actions builds the exact website into a Docker image, pushes it to GHCR, and the server pulls/runs that image.
 
-App content lives in typed TypeScript data instead of being copied across separate HTML files. This makes the app names, download links, release details, and feature sections easier to update without hunting through page markup.
+That means:
 
-Main content file:
+- local builds can match server builds
+- staging and production can run different image tags
+- rollback means switching back to an older image tag
+- the server does not need to build the website unless you choose to
 
-```text
-site/src/data/apps.ts
-```
-
-General site content:
-
-```text
-site/src/data/siteContent.ts
-```
-
-### SCSS
-
-The v2 site uses SCSS because it is familiar, expressive, and supported cleanly by Astro/Vite. The global stylesheet is:
-
-```text
-site/src/styles/global.scss
-```
-
-### Docker Image Deploys
-
-The deployment unit is intended to be a Docker image, not a copied folder of files. GitHub Actions will build an immutable image for a commit, push it to GitHub Container Registry, and the droplet can run that exact image.
-
-This gives cleaner rollbacks and makes staging/production behavior easier to reason about.
-
-### Caddy
-
-Caddy is used because it keeps HTTPS and reverse proxy configuration simple. In production, one Caddy instance can route many domains and subdomains on one droplet:
-
-```text
-sonnazgroup.com              -> production site container
-staging.sonnazgroup.com      -> staging site container
-daytrack.sonnazgroup.com     -> future app container
-daytrack.app                 -> future app container or redirect
-```
-
-## Repository Structure
+## Repository Layout
 
 ```text
 SG-WebDevelopment/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   └── workflows/
-│       └── v2-site.yml
+├── .github/workflows/v2-site.yml
 ├── Assets/
-│   ├── DayTracker/
-│   ├── DiscountCalculator/
-│   ├── Icons/
-│   ├── QuickerTipper/
-│   └── SonnazGroup/
 ├── deploy/
 │   ├── Caddyfile.example
-│   └── compose.server.example.yml
-├── docs/
-│   └── v2-release-workflow.md
+│   ├── compose.server.example.yml
+│   └── deploy-site.example.sh
+├── docs/v2-release-workflow.md
 ├── site/
+│   ├── public/
+│   ├── scripts/build-press-kits.mjs
 │   ├── src/
 │   │   ├── components/
 │   │   ├── data/
 │   │   ├── layouts/
 │   │   ├── pages/
-│   │   └── styles/
+│   │   └── styles/global.scss
 │   ├── Caddyfile
 │   ├── Dockerfile
 │   ├── astro.config.mjs
-│   ├── package-lock.json
 │   ├── package.json
 │   └── tsconfig.json
 ├── docker-compose.yml
 └── README.md
 ```
 
-## Routes
+## Environments
 
-Main one-page site:
+| Environment | Branch/Image | URL style | Purpose |
+| --- | --- | --- | --- |
+| Local Astro | local files | `http://localhost:4321` | Fast development with hot reload |
+| Local Docker | `sonnazgroup/site:local` | `http://localhost:8081` | Test the production-style container |
+| Staging/UAT | `ghcr.io/...:develop` | `staging.sonnazgroup.com` | Test in the real server environment before users see it |
+| Production | `ghcr.io/...:main` | `sonnazgroup.com` | Public site |
 
-```text
-/
-```
-
-App detail pages:
-
-```text
-/day-tracker
-/discount-calculator
-/quicker-tipper
-```
-
-Generated app routes are also available:
+Using one droplet for staging and production is fine for this site. Caddy routes requests by hostname, so production and staging can run as separate containers on the same machine:
 
 ```text
-/apps/day-tracker
-/apps/discount-calculator
-/apps/quicker-tipper
+sonnazgroup.com         -> sonnaz-site-prod
+staging.sonnazgroup.com -> sonnaz-site-staging
 ```
 
-Astro also generates:
+For a static site, this is a good setup. If future apps use databases, background jobs, or user accounts, staging should use separate environment variables, volumes, and databases so test data never touches production data.
 
-```text
-/404.html
-```
+Protect staging with:
+
+- Caddy basic auth
+- `noindex` headers or meta tags if needed
+- separate staging image/container
 
 ## Local Development
 
-Requirements:
+Fresh local machine checklist:
 
-- Node.js 22 or compatible current Node runtime.
-- npm.
-- Docker Desktop if using the Docker workflow locally.
+1. Install Git.
+2. Install Node.js 22 or newer, which includes npm.
+3. Clone this repo.
+4. Install site dependencies.
+5. Run the dev server or Docker preview.
+
+TypeScript, Sass, Astro, and the press-kit tooling are installed from `site/package.json`; do not install them globally unless you have another reason.
 
 Install dependencies:
 
@@ -181,146 +140,363 @@ Start Astro dev server:
 npm run dev
 ```
 
-Astro local URL:
+Open:
 
 ```text
 http://localhost:4321
 ```
 
-Run a production-style Astro build:
+Build Astro:
 
 ```bash
 npm run build
 ```
 
-That command runs:
+The build command:
 
-```text
-astro check
-astro build
-```
+1. generates press kit zip files
+2. runs `astro check`
+3. runs `astro build`
 
-So it verifies TypeScript/Astro diagnostics and then builds the static site.
+You do not need to install TypeScript globally. TypeScript, Astro, Sass, and press-kit tooling live in `site/package.json`.
 
-## Docker
+## Local Docker
 
-Build the local image from the repo root:
+From the repo root:
 
 ```bash
 docker compose build
-```
-
-Run it:
-
-```bash
 docker compose up -d
 ```
 
-Local Docker URL:
+Open:
 
 ```text
 http://localhost:8081
 ```
 
-Port `8081` is used because `8080` was already allocated locally during setup.
+Port `8081` is used because `8080` was already taken locally.
 
-Check running containers:
+Useful Docker commands:
 
 ```bash
 docker compose ps
-```
-
-View logs:
-
-```bash
 docker compose logs --tail 80
+docker compose down
 ```
 
-Stop the local container:
+The Dockerfile installs packages with `npm ci --audit=false --fund=false` so image builds stay quiet and repeatable. Run audits as an explicit local or CI step instead:
 
 ```bash
-docker compose down
+cd site
+npm audit --omit=dev
 ```
 
 ## Content Editing
 
 ### Apps
 
-Edit apps in:
+Edit:
 
 ```text
 site/src/data/apps.ts
 ```
 
-Each app includes:
+Each app has:
 
-- name
-- slug
+- name and slug
 - status label
 - accent color
 - summary and description
-- logo, preview, and hero images
-- feature screenshots
-- App Store/TestFlight download links
-- app information like version, release date, size, language, and developer
+- logos and screenshots
+- feature sections
+- App Store/TestFlight links
+- app information
 - feedback links
 
 ### FAQ, Privacy, Terms, Disclaimer
 
-Edit general content in:
+Edit:
 
 ```text
 site/src/data/siteContent.ts
 ```
 
-This file contains:
+### Status, Roadmap, Releases, Press Kits
 
-- FAQ cards
-- plain-English privacy cards
-- plain-English terms cards
-- Apple trademark/download badge disclaimer
-
-The full legal pages from the old PHP site were intentionally replaced with readable sections on the main page. If formal long-form legal pages are needed again later, add them as new Astro pages instead of bringing back the old PHP files.
-
-### Styling
-
-Edit global styles in:
+Edit:
 
 ```text
-site/src/styles/global.scss
+site/src/data/updates.ts
 ```
 
-The current design keeps:
+## Press Kit Automation
 
-- dark app-first visuals
-- no duplicate visible Sonnaz Group headline under the logo image
-- dark feature sections on app pages
-- reusable cards for FAQ, policy summaries, downloads, and app info
-- 8px card/button radius
+Press kits are generated during `npm run build`.
+
+Script:
+
+```text
+site/scripts/build-press-kits.mjs
+```
+
+Output:
+
+```text
+site/public/press-kits/
+```
+
+The output folder is git-ignored because it is generated. The Docker build runs the same build script, so the image includes fresh press kit zip files.
+
+Current source folders:
+
+```text
+Assets/SonnazGroup
+Assets/DayTracker
+Assets/DiscountCalculator
+Assets/QuickerTipper
+```
+
+If you add assets to one of those folders, the next build regenerates the zip. Existing `.zip` files and `.DS_Store` files are excluded so old press kits do not get nested inside new press kits.
+
+To add a new app press kit:
+
+1. Add the app asset folder under `Assets/AppName`.
+2. Add a new entry in `site/scripts/build-press-kits.mjs`.
+3. Add a matching entry in `site/src/data/updates.ts`.
+4. Run `cd site && npm run build`.
+
+## Routes
+
+Homepage:
+
+```text
+/
+```
+
+App pages:
+
+```text
+/day-tracker
+/discount-calculator
+/quicker-tipper
+```
+
+Generated app routes:
+
+```text
+/apps/day-tracker
+/apps/discount-calculator
+/apps/quicker-tipper
+```
+
+Interaction demo page:
+
+```text
+/demos
+```
+
+The demo page is marked `noindex` and is meant for previewing optional motion/interactions before moving any idea into the main site.
+
+## Adding a Normal Page
+
+Create a new `.astro` file in:
+
+```text
+site/src/pages/
+```
+
+Example:
+
+```text
+site/src/pages/example.astro
+```
+
+That becomes:
+
+```text
+/example
+```
+
+Use the base layout:
+
+```astro
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Example | Sonnaz Group" description="Example page.">
+  <main>
+    <section class="section">
+      <p class="eyebrow">Example</p>
+      <h1>Example page</h1>
+    </section>
+  </main>
+</BaseLayout>
+```
+
+## Adding a New App
+
+1. Add assets:
+
+```text
+Assets/NewApp/
+```
+
+Recommended minimum files:
+
+```text
+NewApp_Logo.png
+NewApp_AppPreview.png
+NewApp_Hero.png
+NewApp_Page1.png
+NewApp_Page2.png
+```
+
+2. Add imports and an app object in:
+
+```text
+site/src/data/apps.ts
+```
+
+3. Add release/press/status content in:
+
+```text
+site/src/data/updates.ts
+```
+
+4. Add press-kit generation in:
+
+```text
+site/scripts/build-press-kits.mjs
+```
+
+5. Optional: add a friendly top-level route:
+
+```text
+site/src/pages/new-app.astro
+```
+
+Use the same pattern as the existing app pages.
+
+6. Run:
+
+```bash
+cd site
+npm run build
+```
+
+## Domain Strategy
+
+One droplet can serve many domains and subdomains. DNS points the names to the droplet. Caddy decides which container gets the request based on the hostname.
+
+Examples:
+
+```text
+sonnazgroup.com
+sonnazgroup.app
+sonnazgroup.net
+sonnazgroup.pro
+
+staging.sonnazgroup.com
+staging.sonnazgroup.app
+staging.sonnazgroup.net
+staging.sonnazgroup.pro
+
+daytrack.app
+www.daytrack.app
+staging.daytrack.app
+
+daytrack.sonnazgroup.com
+staging.daytrack.sonnazgroup.com
+```
+
+### Porkbun DNS Pattern
+
+In Porkbun, DNS records have a type, host, answer/value, TTL, and optional notes. Porkbun documents that the host field is blank for the root domain, while subdomains use the subdomain name. A records point to IPv4 addresses. CNAME records point a non-root hostname to a fully qualified domain name and cannot use a blank host.
+
+Use this pattern for each apex/root domain:
+
+| Domain | Type | Host | Answer |
+| --- | --- | --- | --- |
+| `sonnazgroup.com` | A | blank | droplet IPv4 |
+| `sonnazgroup.app` | A | blank | droplet IPv4 |
+| `daytrack.app` | A | blank | droplet IPv4 |
+
+Use this pattern for subdomains:
+
+| Name | Type | Host | Answer |
+| --- | --- | --- | --- |
+| `www.sonnazgroup.com` | CNAME | `www` | `sonnazgroup.com` |
+| `staging.sonnazgroup.com` | CNAME | `staging` | `sonnazgroup.com` |
+| `daytrack.sonnazgroup.com` | CNAME | `daytrack` | `sonnazgroup.com` |
+| `staging.daytrack.sonnazgroup.com` | CNAME | `staging.daytrack` | `sonnazgroup.com` |
+| `www.daytrack.app` | CNAME | `www` | `daytrack.app` |
+| `staging.daytrack.app` | CNAME | `staging` | `daytrack.app` |
+
+If you prefer, subdomains can also use A records directly to the droplet IPv4. CNAME is easier to maintain because if the droplet IP changes, you update fewer records.
+
+### Caddy Domain Routing
+
+Production examples:
+
+```caddy
+sonnazgroup.com, www.sonnazgroup.com, sonnazgroup.app, www.sonnazgroup.app {
+  reverse_proxy sonnaz-site-prod:80
+}
+
+daytrack.app, www.daytrack.app, daytrack.sonnazgroup.com {
+  reverse_proxy daytrack-prod:3000
+}
+```
+
+Staging examples:
+
+```caddy
+staging.sonnazgroup.com, staging.sonnazgroup.app {
+  basicauth {
+    uat-user HASHED_PASSWORD
+  }
+
+  reverse_proxy sonnaz-site-staging:80
+}
+
+staging.daytrack.app, staging.daytrack.sonnazgroup.com {
+  basicauth {
+    uat-user HASHED_PASSWORD
+  }
+
+  reverse_proxy daytrack-staging:3000
+}
+```
+
+This is how you get “the same URL but with `staging.` before it.”
 
 ## Git Workflow
 
-Planned branch flow:
+Recommended branch flow:
 
 ```text
 feature/* -> develop -> main
 ```
 
-Recommended daily flow:
+Daily flow:
 
 1. Create a feature branch from `develop`.
-2. Build and test locally.
-3. Open a PR into `develop`.
-4. Merge to `develop` to deploy staging/UAT.
-5. Test staging.
-6. Open a PR from `develop` into `main`.
-7. Merge to `main` to deploy production.
-
-This keeps production stable while still giving a real staging environment.
+2. Work locally.
+3. Run `npm run build`.
+4. Run `docker compose build`.
+5. Open PR into `develop`.
+6. Merge to `develop`.
+7. GitHub Actions builds/pushes the `develop` image and deploys staging if deploy is enabled.
+8. Test on staging.
+9. Open PR from `develop` into `main`.
+10. Merge to `main`.
+11. GitHub Actions builds/pushes the `main` image and deploys production if deploy is enabled.
 
 ## GitHub Actions
 
-Workflow file:
+Workflow:
 
 ```text
 .github/workflows/v2-site.yml
@@ -328,42 +504,35 @@ Workflow file:
 
 Triggers:
 
-- Pull requests into `develop` or `main`.
-- Pushes to `develop` or `main`.
-- Manual workflow dispatch.
+- PR to `develop` or `main`
+- push to `develop` or `main`
+- manual workflow dispatch
 
 Jobs:
 
-- `check`: installs `site/` dependencies and runs `npm run build`.
-- `image`: builds and pushes a Docker image to GitHub Container Registry on push/manual runs.
-- `deploy`: guarded behind a repo variable so server deployment can be enabled later.
+- `check`: install dependencies and run `npm run build`
+- `image`: build/push Docker image to GHCR
+- `deploy`: SSH into the droplet and run the deploy script when enabled
 
-Image naming:
+Image tags:
 
 ```text
 ghcr.io/<owner>/sonnazgroup-site:<commit-sha>
-ghcr.io/<owner>/sonnazgroup-site:<branch-name>
+ghcr.io/<owner>/sonnazgroup-site:develop
+ghcr.io/<owner>/sonnazgroup-site:main
 ```
 
-Examples:
+The workflow uses `GITHUB_TOKEN` to publish images to GHCR. GitHub documents that `GITHUB_TOKEN` can publish packages associated with the workflow repository.
+
+## GitHub Setup
+
+In GitHub, go to:
 
 ```text
-ghcr.io/kmschang/sonnazgroup-site:develop
-ghcr.io/kmschang/sonnazgroup-site:main
-ghcr.io/kmschang/sonnazgroup-site:<sha>
+Repo -> Settings -> Secrets and variables -> Actions
 ```
 
-## Deployment Configuration
-
-Deployment is currently guarded by this GitHub repository variable:
-
-```text
-V2_DEPLOY_ENABLED=true
-```
-
-Leave it unset or set to anything other than `true` until the droplet deploy script is ready.
-
-Required GitHub Actions secrets for deploy:
+Add repository secrets:
 
 ```text
 SSH_HOST
@@ -373,116 +542,281 @@ SSH_PRIVATE_KEY
 V2_DEPLOY_SCRIPT_PATH
 ```
 
-The deploy job calls the server script like this:
+Add repository variable:
 
 ```text
-<V2_DEPLOY_SCRIPT_PATH> <image-ref> <environment>
+V2_DEPLOY_ENABLED=true
 ```
 
-Example:
+Leave `V2_DEPLOY_ENABLED` unset or not equal to `true` until the server is ready.
 
-```text
-/srv/sonnaz/deploy-site.sh ghcr.io/kmschang/sonnazgroup-site:<sha> staging
-```
-
-The environment value will be:
+Recommended GitHub environments:
 
 ```text
 staging
 production
 ```
 
-depending on whether the push came from `develop` or `main`.
-
-## Server Shape
-
-Example server files:
+In:
 
 ```text
-deploy/Caddyfile.example
-deploy/compose.server.example.yml
+Repo -> Settings -> Environments
 ```
 
-The intended server setup is:
+Use the `production` environment for optional required reviewers before production deploys. Staging can deploy automatically.
+
+## Server Assumption
+
+These server instructions assume Ubuntu on a DigitalOcean droplet.
+
+The production server does not need Node/npm/TypeScript if GitHub Actions builds the image. The server only needs Docker, Compose, Caddy config, and permission to pull images. Node/npm are only needed on the server if you choose to build the site there manually.
+
+For this repo, TypeScript is not installed globally. It is a project dependency in `site/package.json`, so `npm ci` or `npm install` brings it in when you are working locally or doing a manual build.
+
+## Fresh Ubuntu Server Setup
+
+1. Update the server:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y ca-certificates curl git ufw
+```
+
+2. Install Docker Engine from Docker's official apt repository. Docker recommends setting up the apt repository for first-time installs on a new host.
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+3. Create a deploy user:
+
+```bash
+sudo adduser --disabled-password --gecos "" deploy
+sudo usermod -aG docker deploy
+sudo mkdir -p /srv/sonnaz
+sudo chown deploy:deploy /srv/sonnaz
+```
+
+4. Configure firewall:
+
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+```
+
+5. Log in as deploy:
+
+```bash
+sudo su - deploy
+```
+
+6. Create `/srv/sonnaz` files:
+
+```bash
+cd /srv/sonnaz
+```
+
+Copy these repo files to the server:
 
 ```text
-Docker Compose on one DigitalOcean droplet
-  caddy
-  sonnaz-site-prod
-  sonnaz-site-staging
+deploy/Caddyfile.example             -> /srv/sonnaz/Caddyfile
+deploy/compose.server.example.yml    -> /srv/sonnaz/compose.server.yml
+deploy/deploy-site.example.sh        -> /srv/sonnaz/deploy-site.sh
 ```
 
-Caddy routes:
+You can copy these files manually, use `scp`, or clone the repo to the server and copy from the clone. For the normal GitHub Actions + GHCR flow, the server does not need the whole repo after these deploy files are in place.
+
+Optional repo clone pattern:
+
+```bash
+git clone https://github.com/YOUR_GITHUB_USER/SG-WebDevelopment.git /srv/sonnaz/repo
+cp /srv/sonnaz/repo/deploy/Caddyfile.example /srv/sonnaz/Caddyfile
+cp /srv/sonnaz/repo/deploy/compose.server.example.yml /srv/sonnaz/compose.server.yml
+cp /srv/sonnaz/repo/deploy/deploy-site.example.sh /srv/sonnaz/deploy-site.sh
+```
+
+Make deploy script executable:
+
+```bash
+chmod +x /srv/sonnaz/deploy-site.sh
+```
+
+7. Create `/srv/sonnaz/.env`:
+
+```bash
+touch /srv/sonnaz/.env
+```
+
+After the first GitHub image exists, it will contain values like:
 
 ```text
-sonnazgroup.com, www.sonnazgroup.com
-  -> sonnaz-site-prod:80
-
-staging.sonnazgroup.com
-  -> basic auth
-  -> sonnaz-site-staging:80
+PROD_SITE_IMAGE=ghcr.io/kmschang/sonnazgroup-site:main
+STAGING_SITE_IMAGE=ghcr.io/kmschang/sonnazgroup-site:develop
 ```
 
-Caddy can later route additional app domains or subdomains to other containers without needing a separate droplet for each website.
+The example compose file has harmless placeholder defaults so staging and production can be deployed one at a time on a fresh server. Once both images exist, keep both values in `.env` so restarting the stack brings back the exact staging and production images you expect.
 
-## What Was Removed
+8. Log in to GHCR from the server if the image is private:
 
-The old PHP website files were removed from the v2 branch:
+```bash
+echo YOUR_GITHUB_PAT | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
+```
 
-- `*.php` page wrappers
-- `includes/` HTML partials
-- old Bootstrap/SCSS output under `scss/`
-- old front-end scripts under `js/`
-- old root `package.json` and `package-lock.json`
-- old artifact packaging script
-- old production artifact workflow
+Use a classic PAT with `read:packages` for pulling private images. If the package is public, anonymous pulls may work, but logging in is still a good private-repo habit.
 
-The useful content from those files was moved into the Astro data/components where it still belongs.
+9. Start after images are available:
 
-## Verification
+```bash
+/srv/sonnaz/deploy-site.sh ghcr.io/kmschang/sonnazgroup-site:develop staging
+/srv/sonnaz/deploy-site.sh ghcr.io/kmschang/sonnazgroup-site:main production
+```
 
-Useful checks before opening a PR:
+### Optional Manual Server Build
+
+This is not the recommended deploy path, but it is useful to know. If you ever want to build the site directly on an Ubuntu server instead of pulling the GHCR image, install Node.js 22 or newer and npm, then run:
+
+```bash
+cd /srv/sonnaz/repo/site
+npm ci
+npm run build
+```
+
+You still do not need a global TypeScript install. The local `typescript` package runs through the project scripts.
+
+## SSH Deploy Key Setup
+
+Create a deploy key pair on your local machine:
+
+```bash
+ssh-keygen -t ed25519 -C "github-actions-sonnaz-deploy"
+```
+
+Copy the public key to the server deploy user:
+
+```bash
+ssh-copy-id deploy@YOUR_SERVER_IP
+```
+
+Put the private key contents into GitHub:
+
+```text
+SSH_PRIVATE_KEY
+```
+
+Use:
+
+```text
+SSH_USER=deploy
+SSH_HOST=<droplet-ip-or-hostname>
+SSH_PORT=22
+V2_DEPLOY_SCRIPT_PATH=/srv/sonnaz/deploy-site.sh
+```
+
+## Deployment Flow in Detail
+
+### Local
+
+You edit files, run:
 
 ```bash
 cd site
 npm run build
 ```
 
+Then test the container:
+
 ```bash
 docker compose build
 docker compose up -d
 ```
 
-Then inspect:
+### Pull Request
+
+When you open a PR into `develop` or `main`, GitHub Actions runs `check`. This catches TypeScript, Astro, and build problems before merging.
+
+### Merge to Develop
+
+When `develop` receives a push:
+
+1. GitHub Actions runs the build check.
+2. GitHub Actions builds a Docker image.
+3. The image is pushed to GHCR with the commit SHA and `develop` tags.
+4. If `V2_DEPLOY_ENABLED=true`, the deploy job SSHes into the droplet.
+5. The server deploy script updates `STAGING_SITE_IMAGE`.
+6. Docker Compose pulls the new staging image.
+7. Caddy routes `staging.*` hostnames to the staging container.
+
+### UAT/Staging
+
+You test:
 
 ```text
-http://localhost:4321
-http://localhost:8081
+staging.sonnazgroup.com
+staging.sonnazgroup.app
+staging.<app-domain>
 ```
 
-Known dependency audit note:
+This tests the real DNS, TLS, Caddy, container, and static site image before production.
 
-- Production dependencies currently report zero vulnerabilities with `npm audit --omit=dev`.
-- The moderate findings are from dev-only Astro language-server/check tooling.
+### Merge to Main
 
-## Troubleshooting
+When `main` receives a push:
 
-If Docker says a port is allocated, change the host side of this mapping in `docker-compose.yml`:
+1. GitHub Actions builds and pushes the production image.
+2. The deploy job SSHes into the droplet.
+3. The server deploy script updates `PROD_SITE_IMAGE`.
+4. Docker Compose pulls the new production image.
+5. Caddy routes public hostnames to production.
 
-```yaml
-ports:
-  - "8081:80"
-```
+Production changes only happen when `main` changes.
 
-If Astro tries to write telemetry settings somewhere unexpected, telemetry is already disabled in the npm scripts and Docker build with:
+## Moving to a New Server
 
-```text
-ASTRO_TELEMETRY_DISABLED=1
-```
+Because the site is Docker/GitHub-based, moving servers should be straightforward:
 
-If the GitHub Action builds an image but does not deploy, check:
+1. Create a new Ubuntu droplet.
+2. Install Docker and firewall rules.
+3. Copy `/srv/sonnaz/Caddyfile`, `/srv/sonnaz/compose.server.yml`, `/srv/sonnaz/deploy-site.sh`, and `/srv/sonnaz/.env`.
+4. Run `docker login ghcr.io`.
+5. Run the deploy script for staging and production.
+6. Change Porkbun DNS A records to the new droplet IP.
+7. Wait for DNS propagation.
+8. Verify staging and production.
 
-- `V2_DEPLOY_ENABLED` is set to `true`.
-- Deploy secrets exist.
-- The server deploy script exists and is executable.
-- The deploy user can run Docker Compose on the droplet.
+Caddy will request fresh certificates on the new server when DNS points there and ports 80/443 are open.
+
+## Asset Recommendations
+
+Good new assets to add:
+
+- Homepage hero: `2400x1350` or `2880x1620`, dark enough for white text.
+- App hero background per app: `2400x1350`, showing real screenshots or device compositions.
+- App icon: `1024x1024` PNG with transparency if possible.
+- App card preview: around `1600x1200` or larger transparent PNG.
+- Feature screenshots: native iPhone screenshot resolution, keep originals crisp.
+- Open Graph image per site/app: `1200x630`.
+- App Store-style promo strip: `2400x900`.
+- Optional short demo video: `1920x1080` MP4/WebM plus a poster image.
+- Press kit content: logo, icon, hero image, screenshots, short app description, and app metadata.
+
+Prefer real product screenshots over abstract backgrounds. The current design benefits most from clean device compositions and high-resolution transparent app previews.
+
+## Useful References
+
+- GitHub Actions secrets: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
+- GitHub Container Registry: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+- Docker Engine on Ubuntu: https://docs.docker.com/engine/install/ubuntu/
+- Porkbun DNS records: https://kb.porkbun.com/article/231-how-to-add-dns-records-on-porkbun

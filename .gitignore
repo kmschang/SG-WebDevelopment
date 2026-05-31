@@ -8,6 +8,7 @@
 node_modules/
 dist/
 site/.astro/
+site/public/press-kits/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

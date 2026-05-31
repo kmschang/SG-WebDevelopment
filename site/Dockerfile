@@ -6,7 +6,7 @@ WORKDIR /workspace/site
 ENV ASTRO_TELEMETRY_DISABLED=1
 
 COPY site/package*.json ./
-RUN npm ci
+RUN npm ci --audit=false --fund=false
 
 COPY site/ ./
 COPY Assets/ ../Assets/

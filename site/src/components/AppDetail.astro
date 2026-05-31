@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadLink from "./DownloadLink.astro";
 import { appleDisclaimer } from "../data/siteContent";
+import { getReleasesForApp, pressKits } from "../data/updates";
 import type { AppInfo } from "../data/apps";
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
 };
 
 const { app, canonicalPath } = Astro.props;
+const releases = getReleasesForApp(app.name);
+const pressKit = pressKits.find((kit) => kit.name === app.name);
 ---
 
 <BaseLayout
@@ -57,51 +60,83 @@ const { app, canonicalPath } = Astro.props;
       ))}
     </section>
 
-    <section id="download" class="section download-section">
+    <section id="download" class="section app-action-section">
       <div class="section-heading">
         <p class="eyebrow">Download</p>
-        <h2>Get {app.name}</h2>
+        <h2>
+          Download, version details, and the bits people usually hunt for.
+        </h2>
         <p>{app.availabilityNote}</p>
       </div>
-      <div class="download-grid">
-        {app.downloads.map((download) => <DownloadLink download={download} />)}
-      </div>
-      <p class="legal-note">{appleDisclaimer}</p>
-    </section>
+      <div class="app-action-grid">
+        <article class="glass-panel download-panel">
+          <p class="eyebrow">Official links</p>
+          <div class="download-grid">
+            {app.downloads.map((download) => <DownloadLink download={download} />)}
+          </div>
+          <p class="legal-note">{appleDisclaimer}</p>
+        </article>
 
-    <section class="section info-section">
-      <div class="section-heading">
-        <p class="eyebrow">App information</p>
-        <h2>Current details</h2>
-      </div>
-      <dl class="info-list">
-        <div>
-          <dt>Release date</dt>
-          <dd>{app.appInfo.releaseDate}</dd>
-        </div>
-        <div>
-          <dt>Version</dt>
-          <dd>
-            {app.appInfo.versionHref ? (
-              <a href={app.appInfo.versionHref}>{app.appInfo.version}</a>
+        <article class="glass-panel info-panel">
+          <p class="eyebrow">App information</p>
+          <dl class="info-list">
+            <div>
+              <dt>Release date</dt>
+              <dd>{app.appInfo.releaseDate}</dd>
+            </div>
+            <div>
+              <dt>Version</dt>
+              <dd>
+                {app.appInfo.versionHref ? (
+                  <a href={app.appInfo.versionHref}>{app.appInfo.version}</a>
+                ) : (
+                  app.appInfo.version
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Size</dt>
+              <dd>{app.appInfo.size}</dd>
+            </div>
+            <div>
+              <dt>Languages</dt>
+              <dd>{app.appInfo.languages}</dd>
+            </div>
+            <div>
+              <dt>Developer</dt>
+              <dd>{app.appInfo.developer}</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="glass-panel release-panel">
+          <p class="eyebrow">Release notes</p>
+          <div class="app-release-list">
+            {releases.length > 0 ? (
+              releases.slice(0, 2).map((release) => (
+                <section>
+                  <h3>{release.version}</h3>
+                  <small>{release.date}</small>
+                  <ul>
+                    {release.bullets.map((bullet) => <li>{bullet}</li>)}
+                  </ul>
+                </section>
+              ))
             ) : (
-              app.appInfo.version
+              <p>Release notes will appear here when this app is public.</p>
             )}
-          </dd>
-        </div>
-        <div>
-          <dt>Size</dt>
-          <dd>{app.appInfo.size}</dd>
-        </div>
-        <div>
-          <dt>Languages</dt>
-          <dd>{app.appInfo.languages}</dd>
-        </div>
-        <div>
-          <dt>Developer</dt>
-          <dd>{app.appInfo.developer}</dd>
-        </div>
-      </dl>
+          </div>
+        </article>
+
+        {pressKit && (
+          <article class="glass-panel press-panel app-press-panel">
+            <p class="eyebrow">Press kit</p>
+            <h3>{app.name} assets</h3>
+            <p>Generated during build from the current asset folder.</p>
+            <a class="secondary-button" href={pressKit.href} download>Download press kit</a>
+          </article>
+        )}
+      </div>
     </section>
   </main>
 </BaseLayout>

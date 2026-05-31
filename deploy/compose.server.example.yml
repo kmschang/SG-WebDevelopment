@@ -9,16 +9,13 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
-    depends_on:
-      - sonnaz-site-prod
-      - sonnaz-site-staging
 
   sonnaz-site-prod:
-    image: ${PROD_SITE_IMAGE}
+    image: ${PROD_SITE_IMAGE:-caddy:2-alpine}
     restart: unless-stopped
 
   sonnaz-site-staging:
-    image: ${STAGING_SITE_IMAGE}
+    image: ${STAGING_SITE_IMAGE:-caddy:2-alpine}
     restart: unless-stopped
 
 volumes:

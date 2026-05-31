@@ -2,11 +2,11 @@
   email admin@sonnazgroup.com
 }
 
-sonnazgroup.com, www.sonnazgroup.com {
+sonnazgroup.com, www.sonnazgroup.com, sonnazgroup.app, www.sonnazgroup.app, sonnazgroup.net, www.sonnazgroup.net, sonnazgroup.pro, www.sonnazgroup.pro {
   reverse_proxy sonnaz-site-prod:80
 }
 
-staging.sonnazgroup.com {
+staging.sonnazgroup.com, staging.sonnazgroup.app, staging.sonnazgroup.net, staging.sonnazgroup.pro {
   basicauth {
     # Generate with: caddy hash-password
     uat-user CHANGE_ME_HASH
@@ -14,3 +14,16 @@ staging.sonnazgroup.com {
 
   reverse_proxy sonnaz-site-staging:80
 }
+
+# Example future app routing:
+#
+# daytrack.app, www.daytrack.app, daytrack.sonnazgroup.com {
+#   reverse_proxy daytrack-prod:3000
+# }
+#
+# staging.daytrack.app, staging.daytrack.sonnazgroup.com {
+#   basicauth {
+#     uat-user CHANGE_ME_HASH
+#   }
+#   reverse_proxy daytrack-staging:3000
+# }

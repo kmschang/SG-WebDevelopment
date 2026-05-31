@@ -8,17 +8,32 @@ type Props = {
 const { app } = Astro.props;
 ---
 
-<article class="app-card" style={`--app-accent: ${app.accent}`}>
-  <a class="app-card-media" href={`/${app.slug}`} aria-label={`View ${app.name}`}>
-    <img src={app.preview} alt={`${app.name} app preview`} loading="lazy" />
-  </a>
-  <div class="app-card-copy">
-    <div class="app-card-kicker">
-      <img src={app.logo} alt="" />
-      <span>{app.statusLabel}</span>
+<article
+  class="app-card"
+  style={`--app-accent: ${app.accent}`}
+  tabindex="0"
+  aria-label={`${app.name} details`}
+>
+  <div class="app-card-inner">
+    <div class="app-card-face app-card-front">
+      <a class="app-card-media" href={`/${app.slug}`} aria-label={`View ${app.name}`}>
+        <img src={app.preview} alt={`${app.name} app preview`} loading="lazy" />
+      </a>
+      <div class="app-card-copy">
+        <div class="app-card-kicker">
+          <img src={app.logo} alt="" />
+          <span>{app.statusLabel}</span>
+        </div>
+        <h3>{app.name}</h3>
+        <p>{app.summary}</p>
+      </div>
     </div>
-    <h3>{app.name}</h3>
-    <p>{app.summary}</p>
-    <a class="text-link" href={`/${app.slug}`}>View app</a>
+    <div class="app-card-face app-card-back">
+      <img src={app.logo} alt="" />
+      <p class="eyebrow">{app.eyebrow}</p>
+      <h3>{app.name}</h3>
+      <p>{app.description}</p>
+      <a class="text-link" href={`/${app.slug}`}>Open app page</a>
+    </div>
   </div>
 </article>
