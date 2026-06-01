@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadLink from "./DownloadLink.astro";
 import { appleDisclaimer } from "../data/siteContent";
-import { getReleasesForApp, pressKits } from "../data/updates";
+import { getLatestReleaseForApp, getReleasesForApp, pressKits } from "../data/updates";
 import type { AppInfo } from "../data/apps";
 
 type Props = {
@@ -12,7 +12,15 @@ type Props = {
 
 const { app, canonicalPath } = Astro.props;
 const releases = getReleasesForApp(app.name);
+const latestRelease = getLatestReleaseForApp(app.name);
 const pressKit = pressKits.find((kit) => kit.name === app.name);
+const getScrubImages = (index: number) => {
+  const previous = app.features[(index - 1 + app.features.length) % app.features.length]?.image;
+  const current = app.features[index].image;
+  const next = app.features[(index + 1) % app.features.length]?.image;
+
+  return [previous, current, next].filter(Boolean);
+};
 ---
 
 <BaseLayout
@@ -37,19 +45,20 @@ const pressKit = pressKits.find((kit) => kit.name === app.name);
       </div>
     </section>
 
-    <section class="section intro-section">
-      <div class="section-heading">
-        <p class="eyebrow">Overview</p>
-        <h2>Built around the job you actually need done.</h2>
-      </div>
-      <p class="section-lede">{app.summary}</p>
-    </section>
-
     <section id="features" class="feature-stack">
       {app.features.map((feature, index) => (
         <article class:list={["feature-row", index % 2 === 1 && "feature-row-reverse"]}>
           <div class="feature-media">
-            <img src={feature.image} alt={`${app.name} ${feature.title}`} loading="lazy" />
+            <div class="feature-scrub" aria-label={`${app.name} screenshots related to ${feature.title}`}>
+              {getScrubImages(index).map((image, imageIndex) => (
+                <img
+                  class:list={["feature-scrub-image", imageIndex === 1 && "feature-scrub-primary"]}
+                  src={image}
+                  alt={imageIndex === 1 ? `${app.name} ${feature.title}` : ""}
+                  loading="lazy"
+                />
+              ))}
+            </div>
           </div>
           <div class="feature-copy">
             <p class="eyebrow">Feature {index + 1}</p>
@@ -82,15 +91,15 @@ const pressKit = pressKits.find((kit) => kit.name === app.name);
           <dl class="info-list">
             <div>
               <dt>Release date</dt>
-              <dd>{app.appInfo.releaseDate}</dd>
+              <dd>{latestRelease?.date ?? app.appInfo.releaseDate}</dd>
             </div>
             <div>
               <dt>Version</dt>
               <dd>
                 {app.appInfo.versionHref ? (
-                  <a href={app.appInfo.versionHref}>{app.appInfo.version}</a>
+                  <a href={app.appInfo.versionHref}>{latestRelease?.version ?? app.appInfo.version}</a>
                 ) : (
-                  app.appInfo.version
+                  latestRelease?.version ?? app.appInfo.version
                 )}
               </dd>
             </div>
@@ -132,7 +141,7 @@ const pressKit = pressKits.find((kit) => kit.name === app.name);
           <article class="glass-panel press-panel app-press-panel">
             <p class="eyebrow">Press kit</p>
             <h3>{app.name} assets</h3>
-            <p>Generated during build from the current asset folder.</p>
+            <p>Logos, screenshots, and app artwork for quick reference.</p>
             <a class="secondary-button" href={pressKit.href} download>Download press kit</a>
           </article>
         )}

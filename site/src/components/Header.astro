@@ -5,7 +5,8 @@ const navItems = [
   { label: "Apps", href: "/#apps" },
   { label: "Pulse", href: "/#pulse" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Trust", href: "/#trust" }
+  { label: "Privacy & Terms", href: "/#privacy-terms" },
+  { label: "Feedback", href: "/#contact" }
 ];
 ---
 
@@ -13,7 +14,6 @@ const navItems = [
   <a class="brand-link" href="/" aria-label="Sonnaz Group home">
     <img src={logoUrl} alt="" class="brand-mark" />
     <span>Sonnaz Group</span>
-    <small>v2</small>
   </a>
   <nav class="site-nav" aria-label="Primary navigation">
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}

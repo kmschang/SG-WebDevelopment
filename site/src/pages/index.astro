@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import AppCard from "../components/AppCard.astro";
 import { apps } from "../data/apps";
 import { faqItems, privacyCards, termsCards } from "../data/siteContent";
-import { pressKits, releaseItems, roadmapItems, statusItems } from "../data/updates";
+import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/updates";
 import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png?url";
 import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
 ---
@@ -88,7 +88,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
           <p class="eyebrow">Latest releases</p>
           <h3>Recent changes</h3>
           <div class="release-list">
-            {releaseItems.slice(0, 3).map((release) => (
+            {latestReleaseItems.slice(0, 3).map((release) => (
               <div class="release-chip">
                 <strong>{release.app} {release.version}</strong>
                 <small>{release.date}</small>
@@ -99,11 +99,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
 
         <article class="pulse-card press-panel">
           <p class="eyebrow">Press kits</p>
-          <h3>Generated from assets</h3>
-          <p>
-            Press kit zip files are rebuilt during the site build, so changing
-            an asset folder updates the downloadable kit.
-          </p>
+          <h3>Brand and app assets</h3>
           <div class="press-kit-list">
             {pressKits.map((kit) => (
               <a href={kit.href} download>
@@ -141,11 +137,11 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
       </div>
     </section>
 
-    <section id="trust" class="section trust-section">
+    <section id="privacy-terms" class="section trust-section">
       <div class="section-heading">
-        <p class="eyebrow">Trust notes</p>
+        <p class="eyebrow">Privacy and terms</p>
         <h2>
-          Privacy and terms, but written like a person still has to read them.
+          Straight answers about tracking, data, purchases, and app use.
         </h2>
       </div>
       <div class="trust-columns">
@@ -153,7 +149,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
           <p class="eyebrow">Privacy</p>
           <div class="trust-stack">
             {privacyCards.map((card, index) => (
-              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]} tabindex="0">
+              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
                 <h3>{card.title}</h3>
                 <p>{card.shortBody}</p>
                 <small>{card.body}</small>
@@ -165,7 +161,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
           <p class="eyebrow">Terms</p>
           <div class="trust-stack">
             {termsCards.map((card, index) => (
-              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]} tabindex="0">
+              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
                 <h3>{card.title}</h3>
                 <p>{card.shortBody}</p>
                 <small>{card.body}</small>

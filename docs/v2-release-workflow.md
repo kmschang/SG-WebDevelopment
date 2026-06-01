@@ -55,7 +55,7 @@ docker compose up
 The local Docker site is served at:
 
 ```text
-http://localhost:8081
+http://localhost:8080
 ```
 
 Docker Desktop or another local Docker daemon must be running before Docker commands will work.

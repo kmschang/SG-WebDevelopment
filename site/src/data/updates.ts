@@ -133,6 +133,16 @@ export const pressKits: PressKit[] = [
   }
 ];
 
+function sortByNewestRelease(first: ReleaseItem, second: ReleaseItem): number {
+  return Date.parse(second.date) - Date.parse(first.date);
+}
+
+export const latestReleaseItems = [...releaseItems].sort(sortByNewestRelease);
+
 export function getReleasesForApp(appName: string): ReleaseItem[] {
-  return releaseItems.filter((release) => release.app === appName);
+  return latestReleaseItems.filter((release) => release.app === appName);
+}
+
+export function getLatestReleaseForApp(appName: string): ReleaseItem | undefined {
+  return getReleasesForApp(appName)[0];
 }

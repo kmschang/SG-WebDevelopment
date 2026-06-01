@@ -80,8 +80,7 @@
 }
 
 .app-card:focus-visible,
-.flip-card:focus-visible,
-.trust-card:focus-visible {
+.flip-card:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--color-brand) 70%, white);
   outline-offset: 5px;
 }
@@ -1267,11 +1266,6 @@ h3 {
   transform: rotateX(180deg);
 }
 
-.trust-card:focus {
-  border-color: rgba(255, 255, 255, 0.28);
-  transform: translateY(-4px) rotate(-0.4deg);
-}
-
 .app-card-face {
   position: absolute;
   inset: 0;
@@ -1325,8 +1319,216 @@ h3 {
     #0c0e12;
 }
 
+/* Current v2 polish overrides: isolated here so design experiments are easy to back out. */
+.status-row {
+  position: relative;
+  overflow: hidden;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.status-row::after {
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-brand), var(--color-green), var(--color-blue));
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.status-row:hover {
+  background: rgba(255, 255, 255, 0.082);
+  transform: translateX(4px);
+}
+
+.status-row:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.status-dot {
+  position: relative;
+}
+
+.status-dot::after {
+  position: absolute;
+  inset: -0.38rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  content: "";
+  opacity: 0;
+  transform: scale(0.55);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.status-row:hover .status-dot::after {
+  opacity: 0.42;
+  transform: scale(1);
+}
+
+.release-chip {
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.release-chip:hover {
+  background: rgba(255, 255, 255, 0.088);
+  transform: translateY(-2px);
+}
+
+.app-action-grid {
+  grid-template-areas:
+    "downloads info"
+    "release release"
+    "press press";
+}
+
+.release-panel,
+.app-press-panel {
+  min-width: 0;
+}
+
+.app-release-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.app-release-list section {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.app-press-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  padding-block: 1rem;
+}
+
+.app-press-panel .eyebrow,
+.app-press-panel h3,
+.app-press-panel p {
+  margin: 0;
+}
+
+.app-press-panel .eyebrow {
+  grid-column: 1 / -1;
+}
+
+.feature-stack {
+  position: relative;
+  gap: clamp(0rem, 2vw, 1rem);
+  padding-block: clamp(1rem, 3vw, 2rem);
+}
+
+.feature-row,
+.feature-row:nth-child(3n + 1),
+.feature-row:nth-child(3n + 2),
+.feature-row:nth-child(3n) {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: clamp(360px, 42vw, 480px);
+  border-top: 0;
+}
+
+.feature-row::before {
+  position: absolute;
+  inset: 0 clamp(1rem, 5vw, 4rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(circle at 30% 50%, color-mix(in srgb, var(--app-accent) 12%, transparent), transparent 36%),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.feature-media,
+.feature-copy {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+.feature-media {
+  overflow: hidden;
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.feature-copy {
+  padding: clamp(1.4rem, 4vw, 3rem);
+}
+
+.feature-scrub {
+  position: relative;
+  width: min(290px, 66vw);
+  aspect-ratio: 9 / 16;
+  isolation: isolate;
+}
+
+.feature-scrub-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.42));
+  opacity: 0.48;
+  transform: translateX(-28%) rotate(-10deg) scale(0.88);
+  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 260ms ease;
+}
+
+.feature-scrub-image:nth-child(3) {
+  transform: translateX(28%) rotate(10deg) scale(0.88);
+}
+
+.feature-scrub-primary {
+  z-index: 2;
+  opacity: 1;
+  transform: rotate(-2deg) scale(0.98);
+}
+
+.feature-row:nth-child(even) .feature-scrub-primary {
+  transform: rotate(2deg) scale(0.98);
+}
+
+.feature-media:hover .feature-scrub-image {
+  opacity: 0.58;
+  filter: drop-shadow(0 34px 44px rgba(0, 0, 0, 0.48));
+}
+
+.feature-media:hover .feature-scrub-image:nth-child(1) {
+  transform: translateX(-42%) rotate(-13deg) scale(0.88);
+}
+
+.feature-media:hover .feature-scrub-image:nth-child(3) {
+  transform: translateX(42%) rotate(13deg) scale(0.88);
+}
+
+.feature-media:hover .feature-scrub-primary {
+  opacity: 1;
+  transform: translateY(-4px) rotate(0deg) scale(1.03);
+}
+
 @media (max-width: 980px) {
   .feature-row:nth-child(n) {
+    grid-template-columns: 1fr;
+  }
+
+  .app-action-grid {
+    grid-template-areas:
+      "downloads"
+      "info"
+      "release"
+      "press";
+  }
+
+  .app-release-list,
+  .app-press-panel {
     grid-template-columns: 1fr;
   }
 }
@@ -1339,5 +1541,22 @@ h3 {
 
   .app-card-front {
     grid-template-rows: 220px 1fr;
+  }
+
+  .feature-row,
+  .feature-row:nth-child(n) {
+    min-height: 0;
+  }
+
+  .feature-scrub {
+    width: min(220px, 70vw);
+  }
+
+  .feature-media:hover .feature-scrub-image:nth-child(1) {
+    transform: translateX(-28%) rotate(-10deg) scale(0.88);
+  }
+
+  .feature-media:hover .feature-scrub-image:nth-child(3) {
+    transform: translateX(28%) rotate(10deg) scale(0.88);
   }
 }

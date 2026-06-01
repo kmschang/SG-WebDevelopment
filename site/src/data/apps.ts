@@ -172,7 +172,6 @@ export const apps: AppInfo[] = [
     appInfo: {
       releaseDate: "March 25, 2026",
       version: "2.0.1.80",
-      versionHref: "/#app-info",
       size: "142 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
@@ -236,7 +235,6 @@ export const apps: AppInfo[] = [
     appInfo: {
       releaseDate: "Planned",
       version: "1.0.4.27",
-      versionHref: "/#app-info",
       size: "256 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
@@ -300,7 +298,6 @@ export const apps: AppInfo[] = [
     appInfo: {
       releaseDate: "Planned",
       version: "1.0.0.0",
-      versionHref: "/#app-info",
       size: "256 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"

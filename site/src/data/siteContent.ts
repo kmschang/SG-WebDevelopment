@@ -31,9 +31,9 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "Are the apps free?",
-    shortAnswer: "Easy to try is the current idea.",
+    shortAnswer: "Yes, the current apps are free.",
     answer:
-      "The current plan is to keep the apps easy to try. Pricing can change later if larger premium features are added, but the site will call that out clearly."
+      "The current apps are free to download or test. If a future version ever adds paid features, the app page and App Store listing will make that clear before anyone pays for anything."
   },
   {
     question: "Can I join a beta?",
@@ -51,55 +51,55 @@ export const faqItems: FaqItem[] = [
 
 export const privacyCards: PolicyCard[] = [
   {
-    title: "Your note stays your note",
-    shortBody: "Feedback only includes what you decide to send.",
+    title: "No user tracking",
+    shortBody: "The apps do not collect or store personal user data.",
     body:
-      "If you email Sonnaz Group or send feedback, that message can include your email address and anything you write. The site does not ask you to create an account."
+      "Sonnaz Group apps do not create accounts, build user profiles, or store information about who you are or how you use the app."
   },
   {
-    title: "The server keeps the lights on",
-    shortBody: "Basic request logs help the site load and stay safe.",
+    title: "Apple analytics only",
+    shortBody: "App analytics come from Apple developer tools.",
     body:
-      "The server may process ordinary technical information like IP address, browser type, page requests, and timestamps so the site can load safely and reliably."
+      "Apple may provide aggregate App Store, TestFlight, crash, and usage analytics. Those reports help spot problems, but they are not used to personally track users."
   },
   {
-    title: "No secret vault here",
-    shortBody: "Please do not send sensitive personal details.",
+    title: "The website is simple",
+    shortBody: "No accounts, newsletter signup, or marketing tracker.",
     body:
-      "The site is not designed to collect sensitive personal information. Please do not send private, financial, medical, or highly sensitive information through feedback messages."
+      "This website is for app information, downloads, FAQ, and support links. It is not set up to collect user accounts, store visitor profiles, or sell visitor data."
   },
   {
-    title: "You can ask for cleanup",
-    shortBody: "Questions and deletion requests go to support.",
+    title: "Feedback is your choice",
+    shortBody: "Email only includes what you decide to send.",
     body:
-      "If you want to ask what information was sent, correct something, or request deletion of a message you sent, email support@sonnazgroup.com."
+      "If you email support, the message includes your email address and whatever you write. Use support@sonnazgroup.com if you want a sent message corrected or deleted."
   }
 ];
 
 export const termsCards: PolicyCard[] = [
   {
-    title: "Browse, download, enjoy",
-    shortBody: "Use the site for app info and official links.",
+    title: "Free to use",
+    shortBody: "The current apps are free.",
     body:
-      "You can browse the site, download apps from official links, and use the content for personal reference."
+      "The apps currently shown here are free to download or test. If pricing ever changes, it should be clear in the App Store or TestFlight flow before you install or buy."
   },
   {
-    title: "No funny business",
-    shortBody: "Do not attack, copy, or abuse the site.",
+    title: "Use official links",
+    shortBody: "Download through App Store or TestFlight links.",
     body:
-      "Do not attack, scrape, copy, impersonate, or use the site or apps in a way that breaks laws, harms systems, or infringes someone else's rights."
+      "Use the official links on the app pages. Do not copy, impersonate, resell, abuse, or attack the website or apps."
   },
   {
-    title: "The apps keep moving",
-    shortBody: "Features and beta links may change over time.",
+    title: "Betas can move around",
+    shortBody: "TestFlight builds may change or break.",
     body:
-      "Features, beta availability, screenshots, sizes, prices, and release details can change as the apps are updated."
+      "Beta apps can change quickly, expire, lose TestFlight availability, or include rough edges. Public releases are the calmer version."
   },
   {
-    title: "Ideas are welcome",
-    shortBody: "Feedback may be used to improve the apps.",
+    title: "Helpful, not official advice",
+    shortBody: "Double-check important dates, money, and totals.",
     body:
-      "If you send ideas or feedback, Sonnaz Group may use that feedback to improve the apps without owing payment or credit."
+      "The apps are utilities meant to help with dates, discounts, tips, and small calculations. For important decisions, double-check the result before relying on it."
   }
 ];
 

@@ -22,7 +22,7 @@ This repo is the v2 Sonnaz Group website. The old PHP include-based site was rem
 
 The site is designed as:
 
-- one main homepage for apps, FAQ, trust notes, status, roadmap, releases, press kits, and feedback
+- one main homepage for apps, FAQ, privacy and terms, status, roadmap, releases, press kits, and feedback
 - dedicated app pages for richer screenshots, downloads, app information, release notes, and press kits
 - a Docker image that can run locally, on staging, or in production
 - one droplet that can serve multiple domains and subdomains through Caddy
@@ -72,7 +72,9 @@ SG-WebDevelopment/
 │   ├── Caddyfile.example
 │   ├── compose.server.example.yml
 │   └── deploy-site.example.sh
-├── docs/v2-release-workflow.md
+├── docs/
+│   ├── v2-design-notes.md
+│   └── v2-release-workflow.md
 ├── site/
 │   ├── public/
 │   ├── scripts/build-press-kits.mjs
@@ -96,7 +98,7 @@ SG-WebDevelopment/
 | Environment | Branch/Image | URL style | Purpose |
 | --- | --- | --- | --- |
 | Local Astro | local files | `http://localhost:4321` | Fast development with hot reload |
-| Local Docker | `sonnazgroup/site:local` | `http://localhost:8081` | Test the production-style container |
+| Local Docker | `sonnazgroup/site:local` | `http://localhost:8080` | Test the production-style container |
 | Staging/UAT | `ghcr.io/...:develop` | `staging.sonnazgroup.com` | Test in the real server environment before users see it |
 | Production | `ghcr.io/...:main` | `sonnazgroup.com` | Public site |
 
@@ -172,10 +174,10 @@ docker compose up -d
 Open:
 
 ```text
-http://localhost:8081
+http://localhost:8080
 ```
 
-Port `8081` is used because `8080` was already taken locally.
+Port `8080` maps to port `80` inside the local Caddy container.
 
 Useful Docker commands:
 
@@ -228,6 +230,48 @@ Edit:
 
 ```text
 site/src/data/updates.ts
+```
+
+#### Adding an App Release
+
+Most release updates happen in one place:
+
+```text
+site/src/data/updates.ts
+```
+
+Add a new object to `releaseItems`:
+
+```ts
+{
+  app: "Day Tracker",
+  version: "2.0.2.81",
+  date: "April 10, 2026",
+  bullets: [
+    "Short plain-English change",
+    "Another useful change",
+    "Bug fix or polish note"
+  ]
+}
+```
+
+Rules:
+
+- `app` must exactly match the app name in `site/src/data/apps.ts`.
+- `date` should be a real date string that JavaScript can parse, like `April 10, 2026`.
+- Releases sort newest-first automatically.
+- The homepage shows the newest 3 releases automatically.
+- Each app page shows the newest 2 releases for that app automatically.
+- The app page `Version` and `Release date` fields use the newest release automatically when one exists.
+
+Only edit `site/src/data/apps.ts` for a release when other app metadata changes, such as app size, download links, availability text, screenshots, or feature copy. You should not need to manually move older releases down or remove them from app pages.
+
+### Accent Colors and Visual Notes
+
+Design notes, app accent hex values, and common RGBA values are documented in:
+
+```text
+docs/v2-design-notes.md
 ```
 
 ## Press Kit Automation
@@ -289,14 +333,6 @@ Generated app routes:
 /apps/discount-calculator
 /apps/quicker-tipper
 ```
-
-Interaction demo page:
-
-```text
-/demos
-```
-
-The demo page is marked `noindex` and is meant for previewing optional motion/interactions before moving any idea into the main site.
 
 ## Adding a Normal Page
 
