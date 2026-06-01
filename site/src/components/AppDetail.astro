@@ -45,28 +45,74 @@ const getScrubImages = (index: number) => {
       </div>
     </section>
 
-    <section id="features" class="feature-stack">
-      {app.features.map((feature, index) => (
-        <article class:list={["feature-row", index % 2 === 1 && "feature-row-reverse"]}>
-          <div class="feature-media">
-            <div class="feature-scrub" aria-label={`${app.name} screenshots related to ${feature.title}`}>
-              {getScrubImages(index).map((image, imageIndex) => (
-                <img
-                  class:list={["feature-scrub-image", imageIndex === 1 && "feature-scrub-primary"]}
-                  src={image}
-                  alt={imageIndex === 1 ? `${app.name} ${feature.title}` : ""}
-                  loading="lazy"
-                />
-              ))}
-            </div>
+    <section
+      id="features"
+      class="feature-carousel-section"
+      data-feature-carousel
+      aria-label={`${app.name} feature slideshow`}
+    >
+      <div class="section-heading feature-carousel-heading">
+        <p class="eyebrow">Features</p>
+        <h2>Swipe through the parts people actually use.</h2>
+      </div>
+
+      <div class="feature-carousel">
+        <button
+          class="feature-carousel-button feature-carousel-prev"
+          type="button"
+          data-carousel-prev
+          aria-label="Previous feature"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <div class="feature-carousel-viewport">
+          <div class="feature-carousel-track" data-carousel-track>
+            {app.features.map((feature, index) => (
+              <article class="feature-slide" data-carousel-slide aria-hidden={index === 0 ? "false" : "true"}>
+                <div class="feature-media">
+                  <div class="feature-scrub" aria-label={`${app.name} screenshots related to ${feature.title}`}>
+                    {getScrubImages(index).map((image, imageIndex) => (
+                      <img
+                        class:list={["feature-scrub-image", imageIndex === 1 && "feature-scrub-primary"]}
+                        src={image}
+                        alt={imageIndex === 1 ? `${app.name} ${feature.title}` : ""}
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div class="feature-copy">
+                  <p class="eyebrow">Feature {index + 1} of {app.features.length}</p>
+                  <h2>{feature.title}</h2>
+                  <p>{feature.body}</p>
+                </div>
+              </article>
+            ))}
           </div>
-          <div class="feature-copy">
-            <p class="eyebrow">Feature {index + 1}</p>
-            <h2>{feature.title}</h2>
-            <p>{feature.body}</p>
-          </div>
-        </article>
-      ))}
+        </div>
+
+        <button
+          class="feature-carousel-button feature-carousel-next"
+          type="button"
+          data-carousel-next
+          aria-label="Next feature"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+
+        <div class="feature-dots" aria-label={`${app.name} feature navigation`}>
+          {app.features.map((feature, index) => (
+            <button
+              class:list={["feature-dot", index === 0 && "is-active"]}
+              type="button"
+              data-carousel-dot
+              aria-label={`Show ${feature.title}`}
+              aria-current={index === 0 ? "true" : "false"}
+            ></button>
+          ))}
+        </div>
+      </div>
     </section>
 
     <section id="download" class="section app-action-section">
@@ -142,10 +188,102 @@ const getScrubImages = (index: number) => {
             <p class="eyebrow">Press kit</p>
             <h3>{app.name} assets</h3>
             <p>Logos, screenshots, and app artwork for quick reference.</p>
-            <a class="secondary-button" href={pressKit.href} download>Download press kit</a>
+            <a class="app-press-download" href={pressKit.href} download>
+              <img src={pressKit.icon} alt="" />
+              <span>Download press kit</span>
+            </a>
           </article>
         )}
       </div>
     </section>
   </main>
+
+  <script>
+    const setupFeatureCarousels = () => {
+      const carousels = document.querySelectorAll<HTMLElement>("[data-feature-carousel]");
+
+      carousels.forEach((carousel) => {
+        const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+        const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+        const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
+        const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+        const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const intervalMs = 10000;
+        let activeIndex = 0;
+        let timer: number | undefined;
+
+        if (!track || slides.length === 0) {
+          return;
+        }
+
+        const stopTimer = () => {
+          if (timer !== undefined) {
+            window.clearInterval(timer);
+            timer = undefined;
+          }
+        };
+
+        const startTimer = () => {
+          stopTimer();
+
+          if (!prefersReducedMotion && slides.length > 1) {
+            timer = window.setInterval(() => {
+              setSlide(activeIndex + 1);
+            }, intervalMs);
+          }
+        };
+
+        const setSlide = (index: number) => {
+          activeIndex = (index + slides.length) % slides.length;
+          carousel.style.setProperty("--feature-slide-index", String(activeIndex));
+          carousel.style.setProperty("--feature-slide-offset", `${activeIndex * -100}%`);
+          track.style.transform = `translate3d(${activeIndex * -100}%, 0, 0)`;
+
+          slides.forEach((slide, slideIndex) => {
+            const isActive = slideIndex === activeIndex;
+            slide.classList.toggle("is-active", isActive);
+            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+          });
+
+          dots.forEach((dot, dotIndex) => {
+            const isActive = dotIndex === activeIndex;
+            dot.classList.toggle("is-active", isActive);
+            dot.setAttribute("aria-current", isActive ? "true" : "false");
+          });
+        };
+
+        previous?.addEventListener("click", () => {
+          setSlide(activeIndex - 1);
+          startTimer();
+        });
+
+        next?.addEventListener("click", () => {
+          setSlide(activeIndex + 1);
+          startTimer();
+        });
+
+        dots.forEach((dot, dotIndex) => {
+          dot.addEventListener("click", () => {
+            setSlide(dotIndex);
+            startTimer();
+          });
+        });
+
+        carousel.addEventListener("mouseenter", stopTimer);
+        carousel.addEventListener("mouseleave", startTimer);
+        carousel.addEventListener("focusin", stopTimer);
+        carousel.addEventListener("focusout", startTimer);
+
+        setSlide(0);
+        startTimer();
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupFeatureCarousels, { once: true });
+    } else {
+      setupFeatureCarousels();
+    }
+  </script>
 </BaseLayout>
