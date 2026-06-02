@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppCard from "../components/AppCard.astro";
+import { apps } from "../data/apps";
+import { faqItems, privacyCards, termsCards } from "../data/siteContent";
+import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/updates";
+import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png?url";
+import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
+---
+
+<BaseLayout
+  title="Sonnaz Group | Practical iOS Apps"
+  description="Sonnaz Group builds focused iOS apps for dates, shopping, tipping, and the everyday math people want handled quickly."
+>
+  <main>
+    <section class="home-hero">
+      <img class="hero-background" src={heroImage} alt="Sonnaz Group app previews" />
+      <div class="hero-scrim"></div>
+      <div class="home-hero-content">
+        <img class="brand-title-image" src={titleImage} alt="Sonnaz Group" />
+        <h1 class="sr-only">Sonnaz Group</h1>
+        <p>
+          Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
+          <span>tips</span>, and the small utility jobs that feel better when
+          they are handled cleanly.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#apps">View apps</a>
+          <a class="secondary-button" href="#pulse">Check pulse</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="apps" class="section apps-section">
+      <div class="section-heading">
+        <p class="eyebrow">Apps</p>
+        <h2>
+          Small tools with <span class="text-pop">specific jobs</span>.
+        </h2>
+        <p>
+          Hover an app card for the quick version, then open the app page for
+          screenshots, downloads, release details, and press material.
+        </p>
+      </div>
+      <div class="app-grid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+    </section>
+
+    <section id="pulse" class="section pulse-section">
+      <div class="section-heading">
+        <p class="eyebrow">Pulse board</p>
+        <h2>
+          Status, roadmap, releases, and press kits in one
+          <span class="text-pop">control panel</span>.
+        </h2>
+      </div>
+      <div class="pulse-layout">
+        <article class="pulse-card status-panel">
+          <p class="eyebrow">Status</p>
+          <h3>All systems operational</h3>
+          <div class="status-list">
+            {statusItems.map((item) => (
+              <div class="status-row">
+                <span class:list={["status-dot", item.state]}></span>
+                <strong>{item.name}</strong>
+                <small>{item.label}</small>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="pulse-card roadmap-panel">
+          <p class="eyebrow">Roadmap</p>
+          <h3>What is moving</h3>
+          <div class="timeline-list">
+            {roadmapItems.slice(0, 5).map((item) => (
+              <div class="timeline-item">
+                <small>{item.phase} / {item.app}</small>
+                <strong>{item.title}</strong>
+                <p>{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="pulse-card releases-panel">
+          <p class="eyebrow">Latest releases</p>
+          <h3>Recent changes</h3>
+          <div class="release-list">
+            {latestReleaseItems.slice(0, 3).map((release) => (
+              <div class="release-chip">
+                <strong>{release.app} {release.version}</strong>
+                <small>{release.date}</small>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="pulse-card press-panel">
+          <p class="eyebrow">Press kits</p>
+          <h3>Brand and app assets</h3>
+          <div class="press-kit-list">
+            {pressKits.map((kit) => (
+              <a href={kit.href} download>
+                <img src={kit.icon} alt="" />
+                <span>{kit.name}</span>
+              </a>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">FAQ</p>
+        <h2>
+          Quick questions with a <span class="text-pop">peek behind the card</span>.
+        </h2>
+      </div>
+      <div class="flip-grid">
+        {faqItems.map((item) => (
+          <article class="flip-card" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-face flip-front">
+                <p class="eyebrow">Question</p>
+                <h3>{item.question}</h3>
+                <p>{item.shortAnswer}</p>
+              </div>
+              <div class="flip-face flip-back">
+                <p>{item.answer}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="privacy-terms" class="section trust-section">
+      <div class="section-heading">
+        <p class="eyebrow">Privacy and terms</p>
+        <h2>
+          Straight answers about tracking, data, purchases, and app use.
+        </h2>
+      </div>
+      <div class="trust-columns">
+        <div>
+          <p class="eyebrow">Privacy</p>
+          <div class="trust-stack">
+            {privacyCards.map((card, index) => (
+              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
+                <h3>{card.title}</h3>
+                <p>{card.shortBody}</p>
+                <small>{card.body}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Terms</p>
+          <div class="trust-stack">
+            {termsCards.map((card, index) => (
+              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
+                <h3>{card.title}</h3>
+                <p>{card.shortBody}</p>
+                <small>{card.body}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="section-heading">
+        <p class="eyebrow">Feedback</p>
+        <h2>
+          Found a rough edge? Send it over while it is still warm.
+        </h2>
+        <p>
+          Feedback works best when the app name, device details, and a short
+          description are included.
+        </p>
+      </div>
+      <a class="primary-button" href="mailto:support@sonnazgroup.com">Email Sonnaz Group</a>
+    </section>
+  </main>
+</BaseLayout>
