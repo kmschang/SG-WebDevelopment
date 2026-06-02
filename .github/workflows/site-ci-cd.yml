@@ -1,4 +1,4 @@
-name: V2 Site
+name: Site CI/CD
 
 on:
   pull_request:

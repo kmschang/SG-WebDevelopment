@@ -66,7 +66,7 @@ That means:
 
 ```text
 SG-WebDevelopment/
-├── .github/workflows/v2-site.yml
+├── .github/workflows/site-ci-cd.yml
 ├── Assets/
 ├── deploy/
 │   ├── Caddyfile.example
@@ -535,7 +535,7 @@ Daily flow:
 Workflow:
 
 ```text
-.github/workflows/v2-site.yml
+.github/workflows/site-ci-cd.yml
 ```
 
 Triggers:
