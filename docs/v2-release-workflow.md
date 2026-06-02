@@ -1,4 +1,4 @@
-# V2 Release Workflow
+# Release Workflow
 
 The v2 website is the active implementation on this branch. The legacy PHP site was removed from the branch after the useful content was moved into Astro data and components.
 
@@ -62,10 +62,10 @@ Docker Desktop or another local Docker daemon must be running before Docker comm
 
 ## GitHub Actions
 
-The v2 workflow lives at:
+The site workflow lives at:
 
 ```text
-.github/workflows/v2-site.yml
+.github/workflows/site-ci-cd.yml
 ```
 
 It currently:
