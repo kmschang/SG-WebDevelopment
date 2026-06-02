@@ -73,6 +73,7 @@ SG-WebDevelopment/
 │   ├── compose.server.example.yml
 │   └── deploy-site.example.sh
 ├── docs/
+│   ├── testing-guide.md
 │   ├── v2-design-notes.md
 │   └── v2-release-workflow.md
 ├── site/
@@ -94,6 +95,12 @@ SG-WebDevelopment/
 ```
 
 ## Environments
+
+For the quick "how do I test this?" version, use:
+
+```text
+docs/testing-guide.md
+```
 
 | Environment | Branch/Image | URL style | Purpose |
 | --- | --- | --- | --- |
