@@ -558,6 +558,12 @@ ghcr.io/<owner>/sonnazgroup-site:develop
 ghcr.io/<owner>/sonnazgroup-site:main
 ```
 
+Build environment marker:
+
+- `develop` images build with `PUBLIC_DEPLOY_ENV=staging`.
+- `main` images build with `PUBLIC_DEPLOY_ENV=production`.
+- The staging build shows a subtle red viewport outline and `Staging` marker so you can tell UAT from production without changing page layout.
+
 The workflow uses `GITHUB_TOKEN` to publish images to GHCR. GitHub documents that `GITHUB_TOKEN` can publish packages associated with the workflow repository.
 
 ## GitHub Setup

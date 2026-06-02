@@ -78,6 +78,8 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.image_ref }}
             ${{ steps.meta.outputs.branch_ref }}
+          build-args: |
+            PUBLIC_DEPLOY_ENV=${{ github.ref_name == 'main' && 'production' || 'staging' }}
 
   deploy:
     runs-on: ubuntu-latest
