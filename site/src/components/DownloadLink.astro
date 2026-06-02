@@ -1,0 +1,33 @@
+---
+import type { AppDownload } from "../data/apps";
+import appStoreBadge from "../../../Assets/Icons/Icon_DownloadAppStore_White.png?url";
+import testFlightBadge from "../../../Assets/Icons/Icon_TestFlight.webp?url";
+
+type Props = {
+  download: AppDownload;
+};
+
+const { download } = Astro.props;
+const badge = download.kind === "app-store" ? appStoreBadge : testFlightBadge;
+const altText = download.kind === "app-store" ? "Download on the App Store" : "Join with TestFlight";
+---
+
+{
+  download.href ? (
+    <a class="download-link" href={download.href} target="_blank" rel="noreferrer">
+      <img src={badge} alt={altText} loading="lazy" />
+      <span>
+        <strong>{download.label}</strong>
+        {download.note && <small>{download.note}</small>}
+      </span>
+    </a>
+  ) : (
+    <div class="download-link download-link-disabled" aria-disabled="true">
+      <img src={badge} alt="" loading="lazy" />
+      <span>
+        <strong>{download.label}</strong>
+        {download.note && <small>{download.note}</small>}
+      </span>
+    </div>
+  )
+}

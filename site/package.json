@@ -1,0 +1,22 @@
+{
+  "name": "@sonnazgroup/site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
+    "build": "npm run presskits && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
+    "presskits": "node scripts/build-press-kits.mjs"
+  },
+  "dependencies": {
+    "astro": "^6.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "archiver": "^8.0.0",
+    "sass": "^1.100.0",
+    "typescript": "^6.0.3"
+  }
+}

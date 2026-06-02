@@ -1,0 +1,15 @@
+---
+import AppDetail from "../../components/AppDetail.astro";
+import { apps } from "../../data/apps";
+
+export function getStaticPaths() {
+  return apps.map((app) => ({
+    params: { slug: app.slug },
+    props: { app }
+  }));
+}
+
+const { app } = Astro.props;
+---
+
+<AppDetail app={app} canonicalPath={`/apps/${app.slug}`} />
