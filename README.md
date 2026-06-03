@@ -73,6 +73,7 @@ SG-WebDevelopment/
 │   ├── compose.server.example.yml
 │   └── deploy-site.example.sh
 ├── docs/
+│   ├── image-rendering.md
 │   ├── testing-guide.md
 │   ├── v2-design-notes.md
 │   └── v2-release-workflow.md
@@ -279,6 +280,16 @@ Design notes, app accent hex values, and common RGBA values are documented in:
 
 ```text
 docs/v2-design-notes.md
+```
+
+### Images
+
+The website uses the original high-resolution files in `Assets/` as the source of truth. Astro generates responsive AVIF, WebP, and PNG output during `npm run build`, so you do not need to keep separate AVIF copies by hand.
+
+Image workflow notes are documented in:
+
+```text
+docs/image-rendering.md
 ```
 
 ## Press Kit Automation

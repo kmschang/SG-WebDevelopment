@@ -1,0 +1,53 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata, ImageOutputFormat, ImageQuality } from "astro";
+
+type Props = {
+  src: ImageMetadata;
+  alt: string;
+  pictureClass?: string;
+  imageClass?: string;
+  widths?: number[];
+  sizes?: string;
+  quality?: ImageQuality;
+  formats?: ImageOutputFormat[];
+  fallbackFormat?: ImageOutputFormat;
+  priority?: boolean;
+  loading?: "eager" | "lazy";
+  fit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+  position?: string;
+};
+
+const {
+  src,
+  alt,
+  pictureClass,
+  imageClass,
+  widths,
+  sizes,
+  quality = "high",
+  formats = ["avif", "webp"],
+  fallbackFormat = "png",
+  priority = false,
+  loading = "lazy",
+  fit,
+  position
+} = Astro.props;
+---
+
+<Picture
+  src={src}
+  alt={alt}
+  class={imageClass}
+  pictureAttributes={pictureClass ? { class: pictureClass } : undefined}
+  formats={formats}
+  fallbackFormat={fallbackFormat}
+  quality={quality}
+  widths={widths}
+  sizes={sizes}
+  priority={priority}
+  loading={priority ? "eager" : loading}
+  decoding={priority ? "sync" : "async"}
+  fit={fit}
+  position={position}
+/>

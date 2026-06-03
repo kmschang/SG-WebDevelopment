@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadLink from "./DownloadLink.astro";
+import ResponsivePicture from "./ResponsivePicture.astro";
 import { appleDisclaimer } from "../data/siteContent";
 import { getLatestReleaseForApp, getReleasesForApp, pressKits } from "../data/updates";
 import type { AppInfo } from "../data/apps";
@@ -30,10 +31,27 @@ const getScrubImages = (index: number) => {
 >
   <main style={`--app-accent: ${app.accent}`}>
     <section class="product-hero">
-      <img class="hero-background" src={app.hero} alt={`${app.name} app screen`} />
+      <ResponsivePicture
+        src={app.hero}
+        alt={`${app.name} app screen`}
+        pictureClass="hero-background"
+        imageClass="hero-background-image"
+        widths={[960, 1280, 1600, 1920]}
+        sizes="100vw"
+        priority
+        fit="cover"
+        position="center"
+      />
       <div class="hero-scrim"></div>
       <div class="product-hero-content">
-        <img src={app.logo} alt="" class="product-logo" />
+        <ResponsivePicture
+          src={app.logo}
+          alt=""
+          imageClass="product-logo"
+          widths={[86, 172, 258]}
+          sizes="86px"
+          loading="eager"
+        />
         <p class="eyebrow">{app.eyebrow}</p>
         <h1>{app.name}</h1>
         <p>{app.description}</p>
@@ -73,11 +91,16 @@ const getScrubImages = (index: number) => {
                 <div class="feature-media">
                   <div class="feature-scrub" aria-label={`${app.name} screenshots related to ${feature.title}`}>
                     {getScrubImages(index).map((image, imageIndex) => (
-                      <img
-                        class:list={["feature-scrub-image", imageIndex === 1 && "feature-scrub-primary"]}
+                      <ResponsivePicture
                         src={image}
+                        pictureClass={["feature-scrub-image", imageIndex === 1 && "feature-scrub-primary"]
+                          .filter(Boolean)
+                          .join(" ")}
+                        imageClass="feature-scrub-img"
                         alt={imageIndex === 1 ? `${app.name} ${feature.title}` : ""}
-                        loading="lazy"
+                        widths={[360, 540, 720, 960]}
+                        sizes="(max-width: 700px) 58vw, 340px"
+                        fit="contain"
                       />
                     ))}
                   </div>
@@ -189,7 +212,7 @@ const getScrubImages = (index: number) => {
             <h3>{app.name} assets</h3>
             <p>Logos, screenshots, and app artwork for quick reference.</p>
             <a class="app-press-download" href={pressKit.href} download>
-              <img src={pressKit.icon} alt="" />
+              <ResponsivePicture src={pressKit.icon} alt="" widths={[36, 72, 108]} sizes="36px" />
               <span>Download press kit</span>
             </a>
           </article>

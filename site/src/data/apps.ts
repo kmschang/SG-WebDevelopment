@@ -1,32 +1,33 @@
-import dayTrackerLogo from "../../../Assets/DayTracker/DayTracker_Logo.png?url";
-import dayTrackerPreview from "../../../Assets/DayTracker/DayTracker_AppPreview.png?url";
-import dayTrackerHero from "../../../Assets/DayTracker/DayTracker_Hero.png?url";
-import dayTrackerToday from "../../../Assets/DayTracker/DayTracker_TodayTab.png?url";
-import dayTrackerLookup from "../../../Assets/DayTracker/DayTracker_LookupTab.png?url";
-import dayTrackerBetween from "../../../Assets/DayTracker/DayTracker_BetweenTab.png?url";
-import dayTrackerCountdowns from "../../../Assets/DayTracker/DayTracker_Countdowns.png?url";
-import dayTrackerNotifications from "../../../Assets/DayTracker/DayTracker_Notifications.png?url";
-import dayTrackerWidgets from "../../../Assets/DayTracker/DayTracker_Widgets.png?url";
-import dayTrackerAppIcons from "../../../Assets/DayTracker/DayTracker_AppIcons.png?url";
-import dayTrackerThemes from "../../../Assets/DayTracker/DayTracker_Themes.png?url";
-import dayTrackerBadges from "../../../Assets/DayTracker/DayTracker_Badges.png?url";
-import dayTrackerSettings from "../../../Assets/DayTracker/DayTracker_Settings.png?url";
+import type { ImageMetadata } from "astro";
+import dayTrackerLogo from "../../../Assets/DayTracker/DayTracker_Logo.png";
+import dayTrackerPreview from "../../../Assets/DayTracker/DayTracker_AppPreview.png";
+import dayTrackerHero from "../../../Assets/DayTracker/DayTracker_Hero.png";
+import dayTrackerToday from "../../../Assets/DayTracker/DayTracker_TodayTab.png";
+import dayTrackerLookup from "../../../Assets/DayTracker/DayTracker_LookupTab.png";
+import dayTrackerBetween from "../../../Assets/DayTracker/DayTracker_BetweenTab.png";
+import dayTrackerCountdowns from "../../../Assets/DayTracker/DayTracker_Countdowns.png";
+import dayTrackerNotifications from "../../../Assets/DayTracker/DayTracker_Notifications.png";
+import dayTrackerWidgets from "../../../Assets/DayTracker/DayTracker_Widgets.png";
+import dayTrackerAppIcons from "../../../Assets/DayTracker/DayTracker_AppIcons.png";
+import dayTrackerThemes from "../../../Assets/DayTracker/DayTracker_Themes.png";
+import dayTrackerBadges from "../../../Assets/DayTracker/DayTracker_Badges.png";
+import dayTrackerSettings from "../../../Assets/DayTracker/DayTracker_Settings.png";
 
-import discountLogo from "../../../Assets/DiscountCalculator/DiscountCalculator_Logo.png?url";
-import discountPreview from "../../../Assets/DiscountCalculator/DiscountCalculator_AppPreview.png?url";
-import discountHero from "../../../Assets/DiscountCalculator/DiscountCalculator_Hero1.png?url";
-import discountCalculator from "../../../Assets/DiscountCalculator/DiscountCalculator_Page1.png?url";
-import discountDiscounts from "../../../Assets/DiscountCalculator/DiscountCalculator_Page2.png?url";
-import discountTax from "../../../Assets/DiscountCalculator/DiscountCalculator_Page3.png?url";
-import discountSettings from "../../../Assets/DiscountCalculator/DiscountCalculator_Page4.png?url";
+import discountLogo from "../../../Assets/DiscountCalculator/DiscountCalculator_Logo.png";
+import discountPreview from "../../../Assets/DiscountCalculator/DiscountCalculator_AppPreview.png";
+import discountHero from "../../../Assets/DiscountCalculator/DiscountCalculator_Hero1.png";
+import discountCalculator from "../../../Assets/DiscountCalculator/DiscountCalculator_Page1.png";
+import discountDiscounts from "../../../Assets/DiscountCalculator/DiscountCalculator_Page2.png";
+import discountTax from "../../../Assets/DiscountCalculator/DiscountCalculator_Page3.png";
+import discountSettings from "../../../Assets/DiscountCalculator/DiscountCalculator_Page4.png";
 
-import quickerTipperLogo from "../../../Assets/QuickerTipper/QuickerTipper_Logo.png?url";
-import quickerTipperPreview from "../../../Assets/QuickerTipper/QuickerTipper_AppPreview.png?url";
-import quickerTipperHero from "../../../Assets/QuickerTipper/QuickerTipper_Hero1.png?url";
-import quickerTipperCalc from "../../../Assets/QuickerTipper/QuickerTipper_Page1.png?url";
-import quickerTipperRounding from "../../../Assets/QuickerTipper/QuickerTipper_Page2.png?url";
-import quickerTipperMinimal from "../../../Assets/QuickerTipper/QuickerTipper_Page3.png?url";
-import quickerTipperSplit from "../../../Assets/QuickerTipper/QuickerTipper_Page4.png?url";
+import quickerTipperLogo from "../../../Assets/QuickerTipper/QuickerTipper_Logo.png";
+import quickerTipperPreview from "../../../Assets/QuickerTipper/QuickerTipper_AppPreview.png";
+import quickerTipperHero from "../../../Assets/QuickerTipper/QuickerTipper_Hero1.png";
+import quickerTipperCalc from "../../../Assets/QuickerTipper/QuickerTipper_Page1.png";
+import quickerTipperRounding from "../../../Assets/QuickerTipper/QuickerTipper_Page2.png";
+import quickerTipperMinimal from "../../../Assets/QuickerTipper/QuickerTipper_Page3.png";
+import quickerTipperSplit from "../../../Assets/QuickerTipper/QuickerTipper_Page4.png";
 
 export type AppStatus = "available" | "beta" | "planned";
 export type DownloadKind = "app-store" | "testflight";
@@ -34,7 +35,7 @@ export type DownloadKind = "app-store" | "testflight";
 export type AppFeature = {
   title: string;
   body: string;
-  image: string;
+  image: ImageMetadata;
 };
 
 export type AppLink = {
@@ -67,9 +68,9 @@ export type AppInfo = {
   accent: string;
   summary: string;
   description: string;
-  logo: string;
-  preview: string;
-  hero: string;
+  logo: ImageMetadata;
+  preview: ImageMetadata;
+  hero: ImageMetadata;
   availabilityNote: string;
   features: AppFeature[];
   downloads: AppDownload[];
