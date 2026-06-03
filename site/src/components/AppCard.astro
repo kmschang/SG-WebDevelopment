@@ -1,4 +1,5 @@
 ---
+import ResponsivePicture from "./ResponsivePicture.astro";
 import type { AppInfo } from "../data/apps";
 
 type Props = {
@@ -17,11 +18,17 @@ const { app } = Astro.props;
   <div class="app-card-inner">
     <div class="app-card-face app-card-front">
       <a class="app-card-media" href={`/${app.slug}`} aria-label={`View ${app.name}`}>
-        <img src={app.preview} alt={`${app.name} app preview`} loading="lazy" />
+        <ResponsivePicture
+          src={app.preview}
+          alt={`${app.name} app preview`}
+          imageClass="app-card-preview"
+          widths={[360, 540, 720, 960]}
+          sizes="(max-width: 760px) 86vw, 360px"
+        />
       </a>
       <div class="app-card-copy">
         <div class="app-card-kicker">
-          <img src={app.logo} alt="" />
+          <ResponsivePicture src={app.logo} alt="" imageClass="app-card-icon" widths={[32, 64, 96]} sizes="32px" />
           <span>{app.statusLabel}</span>
         </div>
         <h3>{app.name}</h3>
@@ -29,7 +36,7 @@ const { app } = Astro.props;
       </div>
     </div>
     <div class="app-card-face app-card-back">
-      <img src={app.logo} alt="" />
+      <ResponsivePicture src={app.logo} alt="" imageClass="app-card-back-icon" widths={[60, 120, 180]} sizes="60px" />
       <p class="eyebrow">{app.eyebrow}</p>
       <h3>{app.name}</h3>
       <p>{app.description}</p>

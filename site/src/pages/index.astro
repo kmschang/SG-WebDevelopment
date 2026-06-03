@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AppCard from "../components/AppCard.astro";
+import ResponsivePicture from "../components/ResponsivePicture.astro";
 import { apps } from "../data/apps";
 import { faqItems, privacyCards, termsCards } from "../data/siteContent";
 import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/updates";
-import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png?url";
-import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
+import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png";
+import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
 ---
 
 <BaseLayout
@@ -14,10 +15,29 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
 >
   <main>
     <section class="home-hero">
-      <img class="hero-background" src={heroImage} alt="Sonnaz Group app previews" />
+      <ResponsivePicture
+        src={heroImage}
+        alt="Sonnaz Group app previews"
+        pictureClass="hero-background"
+        imageClass="hero-background-image"
+        widths={[960, 1280, 1600, 1920]}
+        sizes="100vw"
+        priority
+        fit="cover"
+        position="center"
+      />
       <div class="hero-scrim"></div>
       <div class="home-hero-content">
-        <img class="brand-title-image" src={titleImage} alt="Sonnaz Group" />
+        <ResponsivePicture
+          src={titleImage}
+          alt="Sonnaz Group"
+          pictureClass="brand-title-picture"
+          imageClass="brand-title-image"
+          widths={[640, 960, 1280, 1728, 2304]}
+          sizes="min(860px, 92vw)"
+          loading="eager"
+          fit="contain"
+        />
         <h1 class="sr-only">Sonnaz Group</h1>
         <p>
           Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
@@ -103,7 +123,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png?url";
           <div class="press-kit-list">
             {pressKits.map((kit) => (
               <a href={kit.href} download>
-                <img src={kit.icon} alt="" />
+                <ResponsivePicture src={kit.icon} alt="" widths={[42, 84, 126]} sizes="42px" />
                 <span>{kit.name}</span>
               </a>
             ))}
