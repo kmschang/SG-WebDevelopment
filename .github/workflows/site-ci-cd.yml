@@ -40,6 +40,7 @@ jobs:
         run: |
           mkdir -p ~/.cache
           mkdir -p ~/.cache/sharp
+          mkdir -p .astro
           mkdir -p .cache
           mkdir -p node_modules/.cache
 
@@ -49,6 +50,7 @@ jobs:
           path: |
             ~/.cache
             ~/.cache/sharp
+            site/.astro
             site/.cache
             site/node_modules/.cache
           key: build-cache-${{ runner.os }}-${{ hashFiles('site/package-lock.json') }}
@@ -63,6 +65,9 @@ jobs:
           echo "Listing home ~/.cache/sharp"
           ls -la ~/.cache/sharp || true
           du -sh ~/.cache/sharp || true
+          echo "Listing site/.astro"
+          ls -la .astro || true
+          du -sh .astro || true
           echo "Listing site/.cache"
           ls -la .cache || true
           du -sh .cache || true
@@ -78,6 +83,7 @@ jobs:
 
       - name: Ensure cache directories exist
         run: |
+          mkdir -p .astro
           mkdir -p .cache
           mkdir -p node_modules/.cache
           mkdir -p ~/.cache
@@ -115,6 +121,9 @@ jobs:
 
       - name: Show repo caches (image job)
         run: |
+          echo "site/.astro"
+          ls -la site/.astro || true
+          du -sh site/.astro || true
           echo "site/.cache"
           ls -la site/.cache || true
           du -sh site/.cache || true
