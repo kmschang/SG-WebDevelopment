@@ -40,6 +40,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            ~/.cache
+            ~/.cache/sharp
             site/.cache
             site/node_modules/.cache
           key: build-cache-${{ runner.os }}-${{ hashFiles('site/package-lock.json') }}
@@ -48,6 +50,12 @@ jobs:
 
       - name: Show restored caches
         run: |
+          echo "Listing home ~/.cache"
+          ls -la ~/.cache || true
+          du -sh ~/.cache || true
+          echo "Listing home ~/.cache/sharp"
+          ls -la ~/.cache/sharp || true
+          du -sh ~/.cache/sharp || true
           echo "Listing site/.cache"
           ls -la .cache || true
           du -sh .cache || true
@@ -65,6 +73,8 @@ jobs:
         run: |
           mkdir -p .cache
           mkdir -p node_modules/.cache
+          mkdir -p ~/.cache
+          mkdir -p ~/.cache/sharp
 
   image:
     runs-on: ubuntu-latest
