@@ -46,6 +46,15 @@ jobs:
           restore-keys: |
             build-cache-${{ runner.os }}-
 
+      - name: Show restored caches
+        run: |
+          echo "Listing site/.cache"
+          ls -la .cache || true
+          du -sh .cache || true
+          echo "Listing node_modules/.cache"
+          ls -la node_modules/.cache || true
+          du -sh node_modules/.cache || true
+
       - name: Install
         run: npm ci
 
@@ -86,6 +95,15 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Show repo caches (image job)
+        run: |
+          echo "site/.cache"
+          ls -la site/.cache || true
+          du -sh site/.cache || true
+          echo "site/node_modules/.cache"
+          ls -la site/node_modules/.cache || true
+          du -sh site/node_modules/.cache || true
 
       - name: Build and push
         uses: docker/build-push-action@v6

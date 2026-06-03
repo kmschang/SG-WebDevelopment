@@ -18,6 +18,7 @@ COPY Assets/ ../Assets/
 # Cache build artifacts, tool caches, and node_modules to speed subsequent builds
 RUN --mount=type=cache,id=build-cache,target=/workspace/site/.cache \
 	--mount=type=cache,id=imagemin,target=/root/.cache \
+	--mount=type=cache,id=sharp-cache,target=/root/.cache/sharp \
 	--mount=type=cache,id=node-modules,target=/workspace/site/node_modules \
 	npm run build
 
