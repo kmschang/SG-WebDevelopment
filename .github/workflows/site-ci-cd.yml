@@ -52,6 +52,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Ensure cache directories exist
+        run: |
+          mkdir -p .cache
+          mkdir -p node_modules/.cache
+
   image:
     runs-on: ubuntu-latest
     needs: check
