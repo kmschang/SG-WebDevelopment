@@ -5,7 +5,7 @@
 <h1 align="center">SG-WebDevelopment</h1>
 
 <p align="center">
-  Sonnaz Group website v2: Astro + TypeScript + SCSS, packaged with Docker and served through Caddy.
+  Sonnaz Group website: Astro + TypeScript + SCSS, packaged with Docker and served through Caddy.
 </p>
 
 <p align="center">
