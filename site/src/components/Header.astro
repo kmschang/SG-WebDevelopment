@@ -1,5 +1,6 @@
 ---
-import logoUrl from "../../../Assets/SonnazGroup/SonnazGroup_Logo(Red)(Transparent).png?url";
+import ResponsivePicture from "./ResponsivePicture.astro";
+import logoUrl from "../../../Assets/SonnazGroup/SonnazGroup_Logo(Red)(Transparent).png";
 
 const navItems = [
   { label: "Apps", href: "/#apps" },
@@ -12,7 +13,14 @@ const navItems = [
 
 <header class="site-header">
   <a class="brand-link" href="/" aria-label="Sonnaz Group home">
-    <img src={logoUrl} alt="" class="brand-mark" />
+    <ResponsivePicture
+      src={logoUrl}
+      alt=""
+      imageClass="brand-mark"
+      widths={[38, 76, 114]}
+      sizes="38px"
+      loading="eager"
+    />
     <span>Sonnaz Group</span>
   </a>
   <nav class="site-nav" aria-label="Primary navigation">

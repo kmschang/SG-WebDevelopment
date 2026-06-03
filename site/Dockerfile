@@ -3,7 +3,9 @@
 FROM node:22-alpine AS build
 
 WORKDIR /workspace/site
+ARG PUBLIC_DEPLOY_ENV=local
 ENV ASTRO_TELEMETRY_DISABLED=1
+ENV PUBLIC_DEPLOY_ENV=${PUBLIC_DEPLOY_ENV}
 
 COPY site/package*.json ./
 RUN npm ci --audit=false --fund=false

@@ -19,6 +19,8 @@ const {
 } = Astro.props;
 
 const canonicalUrl = new URL(canonicalPath, "https://sonnazgroup.com").toString();
+const deployEnvironment = (import.meta.env.PUBLIC_DEPLOY_ENV ?? "").toLowerCase();
+const isStaging = deployEnvironment === "staging";
 ---
 
 <!doctype html>
@@ -36,7 +38,8 @@ const canonicalUrl = new URL(canonicalPath, "https://sonnazgroup.com").toString(
     <meta property="og:url" content={canonicalUrl} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class={isStaging ? "is-staging" : undefined}>
+    {isStaging && <div class="staging-marker" role="note" aria-label="Staging environment">Staging</div>}
     <Header />
     <slot />
     <Footer />

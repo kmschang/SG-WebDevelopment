@@ -1,7 +1,8 @@
-import dayTrackerLogo from "../../../Assets/DayTracker/DayTracker_Logo.png?url";
-import discountLogo from "../../../Assets/DiscountCalculator/DiscountCalculator_Logo.png?url";
-import quickerTipperLogo from "../../../Assets/QuickerTipper/QuickerTipper_Logo.png?url";
-import sonnazLogo from "../../../Assets/SonnazGroup/SonnazGroup_Logo(White)(Red).png?url";
+import type { ImageMetadata } from "astro";
+import dayTrackerLogo from "../../../Assets/DayTracker/DayTracker_Logo.png";
+import discountLogo from "../../../Assets/DiscountCalculator/DiscountCalculator_Logo.png";
+import quickerTipperLogo from "../../../Assets/QuickerTipper/QuickerTipper_Logo.png";
+import sonnazLogo from "../../../Assets/SonnazGroup/SonnazGroup_Logo(White)(Red).png";
 
 export type StatusItem = {
   name: string;
@@ -25,7 +26,7 @@ export type ReleaseItem = {
 
 export type PressKit = {
   name: string;
-  icon: string;
+  icon: ImageMetadata;
   href: string;
 };
 

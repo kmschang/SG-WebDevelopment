@@ -73,6 +73,8 @@ SG-WebDevelopment/
 │   ├── compose.server.example.yml
 │   └── deploy-site.example.sh
 ├── docs/
+│   ├── image-rendering.md
+│   ├── testing-guide.md
 │   ├── v2-design-notes.md
 │   └── v2-release-workflow.md
 ├── site/
@@ -94,6 +96,12 @@ SG-WebDevelopment/
 ```
 
 ## Environments
+
+For the quick "how do I test this?" version, use:
+
+```text
+docs/testing-guide.md
+```
 
 | Environment | Branch/Image | URL style | Purpose |
 | --- | --- | --- | --- |
@@ -272,6 +280,16 @@ Design notes, app accent hex values, and common RGBA values are documented in:
 
 ```text
 docs/v2-design-notes.md
+```
+
+### Images
+
+The website uses the original high-resolution files in `Assets/` as the source of truth. Astro generates responsive AVIF, WebP, and PNG output during `npm run build`, so you do not need to keep separate AVIF copies by hand.
+
+Image workflow notes are documented in:
+
+```text
+docs/image-rendering.md
 ```
 
 ## Press Kit Automation
@@ -557,6 +575,12 @@ ghcr.io/<owner>/sonnazgroup-site:<commit-sha>
 ghcr.io/<owner>/sonnazgroup-site:develop
 ghcr.io/<owner>/sonnazgroup-site:main
 ```
+
+Build environment marker:
+
+- `develop` images build with `PUBLIC_DEPLOY_ENV=staging`.
+- `main` images build with `PUBLIC_DEPLOY_ENV=production`.
+- The staging build shows a subtle red viewport outline and `Staging` marker so you can tell UAT from production without changing page layout.
 
 The workflow uses `GITHUB_TOKEN` to publish images to GHCR. GitHub documents that `GITHUB_TOKEN` can publish packages associated with the workflow repository.
 
