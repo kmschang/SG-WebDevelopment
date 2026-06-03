@@ -36,6 +36,13 @@ jobs:
           cache: npm
           cache-dependency-path: site/package-lock.json
 
+      - name: Ensure cache directories exist (pre-restore)
+        run: |
+          mkdir -p ~/.cache
+          mkdir -p ~/.cache/sharp
+          mkdir -p .cache
+          mkdir -p node_modules/.cache
+
       - name: Restore build caches
         uses: actions/cache@v4
         with:
