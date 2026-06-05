@@ -1,6 +1,14 @@
 :80 {
 	root * /srv
 	encode zstd gzip
+
+	# Apple App Site Association (Universal Links). Apple requires the file at the
+	# extension-less paths below, served as application/json with no redirect.
+	# We store it as a .json file (so Caddy sets the right Content-Type) and map
+	# the well-known URLs to it via an internal rewrite (not an HTTP redirect).
+	@aasa path /.well-known/apple-app-site-association /apple-app-site-association
+	rewrite @aasa /apple-app-site-association.json
+
 	file_server
 
 	handle_errors {
