@@ -1883,3 +1883,36 @@ h3 {
     width: 100%;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Touch support.
+
+   The 3D flip cards (app cards + FAQ cards) and several lift/slide effects are
+   triggered by :hover, which touch devices can't do — and some mobile browsers
+   emulate :hover on tap, leaving a card stuck mid-flip. On touch devices we
+   therefore neutralize the emulated :hover transforms, and a small script
+   toggles .is-flipped on tap so the back of each card is still reachable.
+   Desktop hover behavior is unchanged.
+   --------------------------------------------------------------------------- */
+@media (hover: none) {
+  .app-card:hover .app-card-inner,
+  .flip-card:hover .flip-card-inner,
+  .trust-card:hover,
+  .status-row:hover,
+  .release-chip:hover,
+  .press-kit-list a:hover,
+  .app-press-download:hover,
+  .feature-row:hover .feature-media img {
+    transform: none;
+  }
+}
+
+/* Tap-to-flip. Declared last so it wins over the :hover rules above on every
+   device (click also flips on desktop, which is harmless). */
+.app-card.is-flipped .app-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateX(180deg);
+}

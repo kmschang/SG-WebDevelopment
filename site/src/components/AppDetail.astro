@@ -3,8 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadLink from "./DownloadLink.astro";
 import ResponsivePicture from "./ResponsivePicture.astro";
 import { appleDisclaimer } from "../data/siteContent";
-import { getLatestReleaseForApp, getReleasesForApp, pressKits } from "../data/updates";
-import type { AppInfo } from "../data/apps";
+import { getLatestReleaseForApp, getReleasesForApp, type AppInfo } from "../data/apps";
 
 type Props = {
   app: AppInfo;
@@ -12,9 +11,8 @@ type Props = {
 };
 
 const { app, canonicalPath } = Astro.props;
-const releases = getReleasesForApp(app.name);
-const latestRelease = getLatestReleaseForApp(app.name);
-const pressKit = pressKits.find((kit) => kit.name === app.name);
+const releases = getReleasesForApp(app);
+const latestRelease = getLatestReleaseForApp(app);
 const getScrubImages = (index: number) => {
   const previous = app.features[(index - 1 + app.features.length) % app.features.length]?.image;
   const current = app.features[index].image;
@@ -160,17 +158,11 @@ const getScrubImages = (index: number) => {
           <dl class="info-list">
             <div>
               <dt>Release date</dt>
-              <dd>{latestRelease?.date ?? app.appInfo.releaseDate}</dd>
+              <dd>{latestRelease?.date ?? app.plannedRelease?.date ?? "—"}</dd>
             </div>
             <div>
               <dt>Version</dt>
-              <dd>
-                {app.appInfo.versionHref ? (
-                  <a href={app.appInfo.versionHref}>{latestRelease?.version ?? app.appInfo.version}</a>
-                ) : (
-                  latestRelease?.version ?? app.appInfo.version
-                )}
-              </dd>
+              <dd>{latestRelease?.version ?? app.plannedRelease?.version ?? "—"}</dd>
             </div>
             <div>
               <dt>Size</dt>
@@ -206,13 +198,13 @@ const getScrubImages = (index: number) => {
           </div>
         </article>
 
-        {pressKit && (
+        {app.pressKitHref && (
           <article class="glass-panel press-panel app-press-panel">
             <p class="eyebrow">Press kit</p>
             <h3>{app.name} assets</h3>
             <p>Logos, screenshots, and app artwork for quick reference.</p>
-            <a class="app-press-download" href={pressKit.href} download>
-              <ResponsivePicture src={pressKit.icon} alt="" widths={[36, 72, 108]} sizes="36px" />
+            <a class="app-press-download" href={app.pressKitHref} download>
+              <ResponsivePicture src={app.logo} alt="" widths={[36, 72, 108]} sizes="36px" />
               <span>Download press kit</span>
             </a>
           </article>

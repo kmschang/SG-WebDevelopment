@@ -4,7 +4,7 @@ import AppCard from "../components/AppCard.astro";
 import ResponsivePicture from "../components/ResponsivePicture.astro";
 import { apps } from "../data/apps";
 import { faqItems, privacyCards, termsCards } from "../data/siteContent";
-import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/updates";
+import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/pulse";
 import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png";
 import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
 ---
@@ -58,7 +58,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
           Small tools with <span class="text-pop">specific jobs</span>.
         </h2>
         <p>
-          Hover over an app card for the quick version, then open the app page for
+          Tap or hover an app card for the quick version, then open the app page for
           screenshots, downloads, release details, and press material.
         </p>
       </div>
@@ -206,4 +206,29 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       <a class="primary-button" href="mailto:support@sonnazgroup.com">Email Sonnaz Group</a>
     </section>
   </main>
+
+  <script>
+    // Tap-to-flip for the app cards and FAQ cards. On desktop these flip on
+    // hover; touch devices can't hover, so a tap toggles the flip instead.
+    // Taps on links or buttons are left alone so they still navigate.
+    const setupCardFlips = () => {
+      const cards = document.querySelectorAll<HTMLElement>(".app-card, .flip-card");
+
+      cards.forEach((card) => {
+        card.addEventListener("click", (event) => {
+          if ((event.target as HTMLElement).closest("a, button")) {
+            return;
+          }
+
+          card.classList.toggle("is-flipped");
+        });
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupCardFlips, { once: true });
+    } else {
+      setupCardFlips();
+    }
+  </script>
 </BaseLayout>
