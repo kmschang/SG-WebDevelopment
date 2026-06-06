@@ -28,3 +28,7 @@ lerna-debug.log*
 # OS generated files
 Thumbs.db
 .DS_Store
+
+# Claude Code (local dev tooling)
+.claude/launch.json
+.claude/settings.local.json
