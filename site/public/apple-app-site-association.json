@@ -5,9 +5,9 @@
         "appIDs": ["GKM5JVVJFH.com.schang.DayCalculator"],
         "components": [
           {
-            "/": "/countdown",
+            "/": "/countdown*",
             "?": { "d": "*" },
-            "comment": "Shared single-countdown import links"
+            "comment": "Shared single-countdown import links (matches /countdown and /countdown/)"
           }
         ]
       }
