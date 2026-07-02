@@ -6,8 +6,7 @@
         "components": [
           {
             "/": "/countdown*",
-            "?": { "d": "*" },
-            "comment": "Shared single-countdown import links (matches /countdown and /countdown/)"
+            "comment": "Shared single-countdown import links. Matches /countdown (and /countdown/) regardless of query, so the payload can travel in the URL fragment (#...) instead of ?d= — the fragment survives link-preview/canonicalization stripping in transit."
           }
         ]
       }
