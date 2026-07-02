@@ -18,3 +18,6 @@ FROM caddy:2-alpine AS runtime
 
 COPY site/Caddyfile /etc/caddy/Caddyfile
 COPY --from=build /workspace/site/dist/ /srv/
+# Fail the image build on a broken Caddyfile so a bad config can never take the
+# live site down on deploy.
+RUN caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile

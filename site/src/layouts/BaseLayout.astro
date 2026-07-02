@@ -8,6 +8,7 @@ type Props = {
   title?: string;
   description?: string;
   canonicalPath?: string;
+  canonicalOverride?: string;
   noindex?: boolean;
 };
 
@@ -15,10 +16,16 @@ const {
   title = "Sonnaz Group",
   description = "Sonnaz Group builds practical software for everyday tasks.",
   canonicalPath = "/",
+  canonicalOverride,
   noindex = false
 } = Astro.props;
 
-const canonicalUrl = new URL(canonicalPath, "https://sonnazgroup.com").toString();
+// When set, `canonicalOverride` is emitted verbatim as the canonical + og:url.
+// The shared-countdown page uses it to carry a Caddy template token so the live
+// server can stamp the real request URL (with the ?d= payload) into og:url —
+// see site/Caddyfile. Rich-link previewers (iMessage) adopt og:url as the
+// tappable link, so it must reflect the incoming URL or the payload is stripped.
+const canonicalUrl = canonicalOverride ?? new URL(canonicalPath, "https://sonnazgroup.com").toString();
 const deployEnvironment = (import.meta.env.PUBLIC_DEPLOY_ENV ?? "").toLowerCase();
 const isStaging = deployEnvironment === "staging";
 ---

@@ -10,12 +10,19 @@ import { getAppBySlug } from "../data/apps";
 // Everyone else lands here, so point them at the App Store.
 const app = getAppBySlug("day-tracker");
 const appStore = app.downloads.find((download) => download.kind === "app-store");
+
+// og:url / canonical must reflect the REAL incoming URL (including the ?d=
+// payload) so rich-link previewers like iMessage keep the payload when they
+// adopt og:url as the tappable link. Caddy stamps the live request URI into this
+// token at serve time (see site/Caddyfile); `html` escapes it to prevent
+// reflected injection.
+const canonicalOverride = "https://sonnazgroup.com{{html .Req.RequestURI}}";
 ---
 
 <BaseLayout
   title={`Open shared countdown | ${app.name}`}
   description={`Someone shared a countdown with you. Get ${app.name} to open it on your iPhone.`}
-  canonicalPath="/countdown"
+  canonicalOverride={canonicalOverride}
   noindex={true}
 >
   <main style={`--app-accent: ${app.accent}`}>
