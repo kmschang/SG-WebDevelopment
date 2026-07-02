@@ -9,6 +9,15 @@
 	@aasa path /.well-known/apple-app-site-association /apple-app-site-association
 	rewrite @aasa /apple-app-site-association.json
 
+	# Shared-countdown links carry their payload in the ?d= query. Rich-link
+	# previewers (iMessage, etc.) replace the tappable URL with the page's
+	# og:url/canonical, so those MUST reflect the real incoming URL or the payload
+	# is stripped in transit. Render ONLY the /countdown page as a template so
+	# Caddy can stamp the live request URI ({{html .Req.RequestURI}}) into it.
+	# NOTE: keep Go-template syntax ({{ }}) out of the /countdown page's HTML.
+	@countdown path /countdown /countdown/
+	templates @countdown
+
 	file_server
 
 	handle_errors {
