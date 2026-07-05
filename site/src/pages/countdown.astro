@@ -24,81 +24,106 @@ const canonicalOverride = "https://sonnazgroup.com{{html .Req.RequestURI}}";
   description={`Someone shared a countdown with you. Get ${app.name} to open it on your iPhone.`}
   canonicalOverride={canonicalOverride}
   noindex={true}
+  ambient="red"
 >
-  <main style={`--app-accent: ${app.accent}`}>
-    <section class="product-hero countdown-hero">
-      <ResponsivePicture
-        src={app.hero}
-        alt={`${app.name} app screen`}
-        pictureClass="hero-background"
-        imageClass="hero-background-image"
-        widths={[960, 1280, 1600, 1920]}
-        sizes="100vw"
-        priority
-        fit="cover"
-        position="center"
-      />
-      <div class="hero-scrim"></div>
-      <div class="product-hero-content countdown-content">
-        <ResponsivePicture
-          src={app.logo}
-          alt=""
-          imageClass="product-logo"
-          widths={[86, 172, 258]}
-          sizes="86px"
-          loading="eager"
-        />
+  <main style={`--app-accent: ${app.accent}; --app-accent-text: var(--accent-red-text)`}>
+    <section class="countdown-landing">
+      <div class="glass countdown-panel" data-reveal>
+        <div class="countdown-logo-ring">
+          <ResponsivePicture
+            src={app.logo}
+            alt=""
+            imageClass="countdown-logo"
+            widths={[84, 168, 252]}
+            sizes="84px"
+            loading="eager"
+          />
+        </div>
         <p class="eyebrow">Shared countdown</p>
         <h1>Someone shared a countdown</h1>
-        <p>
+        <p class="countdown-copy">
           This link opens in {app.name} on iPhone. If you already have the app, tap
           the link again and it jumps straight to the countdown. If not, download {app.name}
           first, then reopen the link to import it.
         </p>
-        {
-          appStore && (
-            <div class="countdown-cta">
-              <DownloadLink download={appStore} />
-              <a class="text-link" href="/day-tracker">
-                Learn more about {app.name} &rarr;
-              </a>
-            </div>
-          )
-        }
+        <div class="countdown-cta">
+          {appStore && <DownloadLink download={appStore} />}
+          <a class="pill pill--glass" href="/day-tracker">Learn more about {app.name}</a>
+        </div>
       </div>
     </section>
   </main>
 
   <style>
-    /* Compact, single-screen landing — shorter than the full product hero,
-       smaller headline so it never clips under the sticky header, and one CTA. */
-    .countdown-hero {
-      min-height: clamp(34rem, 78svh, 44rem);
-      padding-block: clamp(4.5rem, 10vw, 7rem);
+    /* Single-viewport landing: one frosted panel centered on the ambient. */
+    .countdown-landing {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--header-h) + 48px) var(--page-pad) 96px;
     }
 
-    .countdown-hero h1 {
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
+    .countdown-panel {
+      border-radius: var(--r-lg);
+      padding: clamp(32px, 6vw, 56px);
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .countdown-logo-ring {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 16px 40px -18px rgba(0, 0, 0, 0.6);
+      margin-bottom: 22px;
+    }
+
+    .countdown-panel :global(.countdown-logo) {
+      display: block;
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+    }
+
+    .countdown-panel h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: var(--track-display);
       line-height: 1.05;
+      color: var(--text-1);
+      margin: 10px 0 0;
     }
 
-    .countdown-content > p {
-      max-width: 52ch;
+    .countdown-copy {
+      font-size: var(--text-base);
+      letter-spacing: var(--track-body);
+      line-height: 1.6;
+      color: var(--text-2);
+      max-width: 44ch;
+      margin: 16px auto 0;
     }
 
     .countdown-cta {
       display: grid;
-      gap: 0.9rem;
-      justify-items: start;
-      margin-top: 1.8rem;
+      gap: 14px;
+      justify-items: center;
+      margin-top: 32px;
     }
 
-    .countdown-cta .download-link {
-      width: min(360px, 100%);
+    .countdown-cta :global(.download-link) {
+      width: 100%;
+      max-width: 380px;
+      margin-inline: auto;
     }
 
-    .countdown-cta .text-link {
-      margin-top: 0;
+    .countdown-cta .pill {
+      width: 100%;
+      max-width: 380px;
     }
   </style>
 </BaseLayout>
