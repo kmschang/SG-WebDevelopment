@@ -18,6 +18,22 @@
 	@countdown path /countdown /countdown/
 	templates @countdown
 
+	# Redirects from the old multi-page site to the single-page anchors, so links
+	# shared before the redesign (App Store listings, business cards, etc.) still
+	# land in the right place. 301 = permanent. Targets are quoted because a bare
+	# "#" would start a Caddyfile comment.
+	@privacyTerms path /privacy /privacy/ /terms /terms/
+	redir @privacyTerms "/#privacy-terms" 301
+
+	@faq path /faq /faq/
+	redir @faq "/#faq" 301
+
+	@contact path /contact /contact/ /feedback /feedback/ /support /support/
+	redir @contact "/#contact" 301
+
+	@pulse path /pulse /pulse/
+	redir @pulse "/#pulse" 301
+
 	file_server
 
 	handle_errors {
