@@ -12,18 +12,89 @@ const navItems = [
 ---
 
 <header class="site-header">
-  <a class="brand-link" href="/" aria-label="Sonnaz Group home">
-    <ResponsivePicture
-      src={logoUrl}
-      alt=""
-      imageClass="brand-mark"
-      widths={[38, 76, 114]}
-      sizes="38px"
-      loading="eager"
-    />
-    <span>Sonnaz Group</span>
-  </a>
-  <nav class="site-nav" aria-label="Primary navigation">
+  <div class="container site-header__row">
+    <a class="brand-link" href="/" aria-label="Sonnaz Group home">
+      <ResponsivePicture
+        src={logoUrl}
+        alt=""
+        imageClass="brand-mark"
+        widths={[28, 56, 84]}
+        sizes="28px"
+        loading="eager"
+      />
+      <span>Sonnaz Group</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <button
+      class="nav-toggle pill pill--glass"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-sheet"
+    >
+      Menu
+    </button>
+  </div>
+  <nav class="nav-sheet" id="nav-sheet" aria-label="Primary navigation (mobile)">
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const sheet = document.querySelector<HTMLElement>(".nav-sheet");
+
+  // Condense-on-scroll: rAF-throttled, toggles a class that only animates the
+  // pre-built glass skin's opacity (never the backdrop-filter itself).
+  if (header) {
+    const scrolledHeader: HTMLElement = header;
+    let ticking = false;
+    const update = (): void => {
+      ticking = false;
+      scrolledHeader.classList.toggle("is-scrolled", window.scrollY > 24);
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+
+  // Mobile menu sheet.
+  if (toggle && sheet) {
+    const menuButton: HTMLButtonElement = toggle;
+    const menuSheet: HTMLElement = sheet;
+
+    const setOpen = (open: boolean): void => {
+      menuSheet.classList.toggle("is-open", open);
+      menuButton.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+
+    menuButton.addEventListener("click", () => {
+      setOpen(!menuSheet.classList.contains("is-open"));
+    });
+
+    // Selecting a destination closes the sheet.
+    menuSheet.addEventListener("click", (event: MouseEvent) => {
+      if (event.target instanceof Element && event.target.closest("a")) {
+        setOpen(false);
+      }
+    });
+
+    // Escape closes and returns focus to the toggle.
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key === "Escape" && menuSheet.classList.contains("is-open")) {
+        setOpen(false);
+        menuButton.focus();
+      }
+    });
+  }
+</script>

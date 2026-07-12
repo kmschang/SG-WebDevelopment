@@ -31,6 +31,7 @@ import quickerTipperSplit from "../../../Assets/QuickerTipper/QuickerTipper_Page
 
 export type AppStatus = "available" | "beta" | "planned";
 export type DownloadKind = "app-store" | "testflight";
+export type RoadmapPhase = "In progress" | "Considering" | "Launched";
 
 export type AppFeature = {
   title: string;
@@ -50,10 +51,24 @@ export type AppDownload = {
   note?: string;
 };
 
-export type AppMetadata = {
-  releaseDate: string;
+// A shipped release. The newest entry (by date) drives the version and release
+// date shown on the app page, and feeds the home page "Latest releases" board.
+export type ReleaseEntry = {
   version: string;
-  versionHref?: string;
+  date: string;
+  bullets: string[];
+};
+
+// A roadmap entry for this app. These feed the home page "Roadmap" board,
+// grouped by phase (In progress, then Considering, then Launched).
+export type RoadmapEntry = {
+  title: string;
+  phase: RoadmapPhase;
+  body: string;
+};
+
+// Static store metadata that does not change with each release.
+export type AppMetadata = {
   size: string;
   languages: string;
   developer: string;
@@ -75,6 +90,12 @@ export type AppInfo = {
   features: AppFeature[];
   downloads: AppDownload[];
   appInfo: AppMetadata;
+  // Order does not matter; getReleasesForApp() sorts these newest-first.
+  releases: ReleaseEntry[];
+  // Shown in the App Information panel only when releases is empty.
+  plannedRelease?: { version: string; date: string };
+  roadmap: RoadmapEntry[];
+  pressKitHref: string;
   links: AppLink[];
 };
 
@@ -171,12 +192,60 @@ export const apps: AppInfo[] = [
       }
     ],
     appInfo: {
-      releaseDate: "March 25, 2026",
-      version: "2.0.1.80",
-      size: "142 MB",
+      size: "70 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
     },
+    releases: [
+      {
+        version: "2.0.2.88",
+        date: "March 31, 2026",
+        bullets: [
+          "More customizable reminders, clearer countdown widgets, smoother settings navigation",
+          "Add Countdown dismissal, reversed widget info, reminder behavior, hidden sections, app icon display",
+          "Removed unused files to reduce app size"
+        ]
+      },
+      {
+        version: "2.0.1.80",
+        date: "March 25, 2026",
+        bullets: [
+          "Updated custom date experience and settings flow",
+          "Improved date formatting consistency",
+          "Fixed first-launch navigation and widget launch behavior"
+        ]
+      },
+      {
+        version: "2.0.0.235",
+        date: "March 21, 2026",
+        bullets: [
+          "Complete visual refresh",
+          "Rebuilt Today, Lookup, and Between experiences",
+          "Expanded countdowns, reminders, widgets, themes, and app icons"
+        ]
+      }
+    ],
+    roadmap: [
+      {
+        title: "More widgets",
+        phase: "In progress",
+        body:
+          "Refresh existing widgets and add more options so the most useful date information can live on the Home Screen."
+      },
+      {
+        title: "Photo capability",
+        phase: "Considering",
+        body:
+          "Explore a daily photo layer for tracking memories alongside calendar milestones."
+      },
+      {
+        title: "iOS redesign",
+        phase: "Launched",
+        body:
+          "A glass-inspired redesign, refreshed tabs, expanded countdowns, widgets, themes, and app icons."
+      }
+    ],
+    pressKitHref: "/press-kits/DayTracker-PressKit.zip",
     links: [
       {
         label: "Send feedback",
@@ -234,12 +303,36 @@ export const apps: AppInfo[] = [
       }
     ],
     appInfo: {
-      releaseDate: "Planned",
-      version: "1.0.4.27",
       size: "256 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
     },
+    releases: [
+      {
+        version: "1.0.4.27",
+        date: "January 20, 2025",
+        bullets: [
+          "Updated icons and logo",
+          "Fixed app icon changing",
+          "Small formatting and stability fixes"
+        ]
+      }
+    ],
+    roadmap: [
+      {
+        title: "SwiftUI migration",
+        phase: "In progress",
+        body:
+          "Rebuild the app around a cleaner foundation so future design and feature updates are easier."
+      },
+      {
+        title: "Presets",
+        phase: "Considering",
+        body:
+          "Save common discounts, taxes, themes, or shopping setups and reuse them later."
+      }
+    ],
+    pressKitHref: "/press-kits/DiscountCalculator-PressKit.zip",
     links: [
       {
         label: "Send feedback",
@@ -297,12 +390,21 @@ export const apps: AppInfo[] = [
       }
     ],
     appInfo: {
-      releaseDate: "Planned",
-      version: "1.0.0.0",
       size: "256 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
     },
+    releases: [],
+    plannedRelease: { version: "1.0.0.0", date: "Planned" },
+    roadmap: [
+      {
+        title: "SwiftUI migration",
+        phase: "In progress",
+        body:
+          "Modernize the app structure and interface while keeping the fast one-screen tip workflow."
+      }
+    ],
+    pressKitHref: "/press-kits/QuickerTipper-PressKit.zip",
     links: [
       {
         label: "Send feedback",
@@ -320,4 +422,17 @@ export function getAppBySlug(slug: string): AppInfo {
   }
 
   return app;
+}
+
+function sortByNewestRelease(first: ReleaseEntry, second: ReleaseEntry): number {
+  return Date.parse(second.date) - Date.parse(first.date);
+}
+
+// An app's releases, newest first. Source order in the data does not matter.
+export function getReleasesForApp(app: AppInfo): ReleaseEntry[] {
+  return [...app.releases].sort(sortByNewestRelease);
+}
+
+export function getLatestReleaseForApp(app: AppInfo): ReleaseEntry | undefined {
+  return getReleasesForApp(app)[0];
 }

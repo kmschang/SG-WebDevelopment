@@ -1,6 +1,39 @@
 :80 {
 	root * /srv
 	encode zstd gzip
+
+	# Apple App Site Association (Universal Links). Apple requires the file at the
+	# extension-less paths below, served as application/json with no redirect.
+	# We store it as a .json file (so Caddy sets the right Content-Type) and map
+	# the well-known URLs to it via an internal rewrite (not an HTTP redirect).
+	@aasa path /.well-known/apple-app-site-association /apple-app-site-association
+	rewrite @aasa /apple-app-site-association.json
+
+	# Shared-countdown links carry their payload in the ?d= query. Rich-link
+	# previewers (iMessage, etc.) replace the tappable URL with the page's
+	# og:url/canonical, so those MUST reflect the real incoming URL or the payload
+	# is stripped in transit. Render ONLY the /countdown page as a template so
+	# Caddy can stamp the live request URI ({{html .Req.RequestURI}}) into it.
+	# NOTE: keep Go-template syntax ({{ }}) out of the /countdown page's HTML.
+	@countdown path /countdown /countdown/
+	templates @countdown
+
+	# Redirects from the old multi-page site to the single-page anchors, so links
+	# shared before the redesign (App Store listings, business cards, etc.) still
+	# land in the right place. 301 = permanent. Targets are quoted because a bare
+	# "#" would start a Caddyfile comment.
+	@privacyTerms path /privacy /privacy/ /terms /terms/
+	redir @privacyTerms "/#privacy-terms" 301
+
+	@faq path /faq /faq/
+	redir @faq "/#faq" 301
+
+	@contact path /contact /contact/ /feedback /feedback/ /support /support/
+	redir @contact "/#contact" 301
+
+	@pulse path /pulse /pulse/
+	redir @pulse "/#pulse" 301
+
 	file_server
 
 	handle_errors {

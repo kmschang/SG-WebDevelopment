@@ -4,7 +4,7 @@ import AppCard from "../components/AppCard.astro";
 import ResponsivePicture from "../components/ResponsivePicture.astro";
 import { apps } from "../data/apps";
 import { faqItems, privacyCards, termsCards } from "../data/siteContent";
-import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/updates";
+import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/pulse";
 import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png";
 import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
 ---
@@ -14,117 +14,127 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
   description="Sonnaz Group builds focused iOS apps for dates, shopping, tipping, and the everyday math people want handled quickly."
 >
   <main>
+    <!-- HERO -->
     <section class="home-hero">
-      <ResponsivePicture
-        src={heroImage}
-        alt="Sonnaz Group app previews"
-        pictureClass="hero-background"
-        imageClass="hero-background-image"
-        widths={[960, 1280, 1600, 1920]}
-        sizes="100vw"
-        priority
-        fit="cover"
-        position="center"
-      />
-      <div class="hero-scrim"></div>
-      <div class="home-hero-content">
-        <ResponsivePicture
-          src={titleImage}
-          alt="Sonnaz Group"
-          pictureClass="brand-title-picture"
-          imageClass="brand-title-image"
-          widths={[640, 960, 1280, 1728, 2304]}
-          sizes="min(860px, 92vw)"
-          loading="eager"
-          fit="contain"
-        />
-        <h1 class="sr-only">Sonnaz Group</h1>
-        <p>
-          Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
-          <span>tips</span>, and the small utility jobs that feel better when
-          they are handled cleanly.
-        </p>
-        <div class="hero-actions">
-          <a class="primary-button" href="#apps">View apps</a>
-          <a class="secondary-button" href="#pulse">Check pulse</a>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-brand">
+            <ResponsivePicture
+              src={titleImage}
+              alt=""
+              pictureClass="hero-title-picture"
+              imageClass="hero-title-image"
+              widths={[560, 1120, 1680]}
+              sizes="min(560px, 78vw)"
+              priority
+              fit="contain"
+            />
+          </div>
+          <h1 class="sr-only">Sonnaz Group</h1>
+          <p class="hero-tagline">
+            Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
+            <span>tips</span>, and the small utility jobs that feel better when
+            they are handled cleanly.
+          </p>
+          <div class="hero-actions">
+            <a class="pill pill--primary" href="#apps">View apps</a>
+            <a class="pill pill--glass" href="#pulse">Check pulse</a>
+          </div>
+        </div>
+
+        <div class="glass hero-slab">
+          <ResponsivePicture
+            src={heroImage}
+            alt="Day Tracker app banner"
+            pictureClass="hero-slab-picture"
+            imageClass="hero-slab-image"
+            widths={[768, 1152, 1536, 1920]}
+            sizes="min(980px, 92vw)"
+            loading="eager"
+          />
         </div>
       </div>
+
+      <div class="glass hero-scroll-cue" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
     </section>
 
-    <section id="apps" class="section apps-section">
-      <div class="section-heading">
-        <p class="eyebrow">Apps</p>
-        <h2>
-          Small tools with <span class="text-pop">specific jobs</span>.
-        </h2>
-        <p>
-          Hover an app card for the quick version, then open the app page for
-          screenshots, downloads, release details, and press material.
+    <!-- APPS -->
+    <section id="apps" class="container home-section">
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>Apps</p>
+        <h2 class="headline" data-reveal style="--i: 1">Small tools with specific jobs.</h2>
+        <p class="section-lede" data-reveal style="--i: 2">
+          Tap an app for screenshots, downloads, release details, and press material.
         </p>
-      </div>
+      </header>
       <div class="app-grid">
-        {apps.map((app) => <AppCard app={app} />)}
+        {apps.map((app, i) => <AppCard app={app} index={i} />)}
       </div>
     </section>
 
-    <section id="pulse" class="section pulse-section">
-      <div class="section-heading">
-        <p class="eyebrow">Pulse board</p>
-        <h2>
-          Status, roadmap, releases, and press kits in one
-          <span class="text-pop">control panel</span>.
-        </h2>
-      </div>
-      <div class="pulse-layout">
-        <article class="pulse-card status-panel">
+    <!-- PULSE -->
+    <section id="pulse" class="container home-section">
+      <div class="pulse-grid">
+        <article class="glass sheen pulse-panel status-panel" data-reveal>
           <p class="eyebrow">Status</p>
-          <h3>All systems operational</h3>
+          <h3 class="panel-title">All systems operational</h3>
           <div class="status-list">
             {statusItems.map((item) => (
               <div class="status-row">
                 <span class:list={["status-dot", item.state]}></span>
-                <strong>{item.name}</strong>
-                <small>{item.label}</small>
+                <strong class="status-name">{item.name}</strong>
+                <small class="status-label">{item.label}</small>
               </div>
             ))}
           </div>
         </article>
 
-        <article class="pulse-card roadmap-panel">
+        <article class="glass sheen pulse-panel roadmap-panel" data-reveal style="--i: 1">
           <p class="eyebrow">Roadmap</p>
-          <h3>What is moving</h3>
-          <div class="timeline-list">
+          <h3 class="panel-title">What is moving</h3>
+          <div class="roadmap-list">
             {roadmapItems.slice(0, 5).map((item) => (
-              <div class="timeline-item">
-                <small>{item.phase} / {item.app}</small>
-                <strong>{item.title}</strong>
-                <p>{item.body}</p>
+              <div class="roadmap-item">
+                <small class="roadmap-meta">{item.phase} / {item.app}</small>
+                <strong class="roadmap-title">{item.title}</strong>
+                <p class="roadmap-body">{item.body}</p>
               </div>
             ))}
           </div>
         </article>
 
-        <article class="pulse-card releases-panel">
+        <article class="glass sheen pulse-panel releases-panel" data-reveal style="--i: 2">
           <p class="eyebrow">Latest releases</p>
-          <h3>Recent changes</h3>
+          <h3 class="panel-title">Recent changes</h3>
           <div class="release-list">
             {latestReleaseItems.slice(0, 3).map((release) => (
               <div class="release-chip">
-                <strong>{release.app} {release.version}</strong>
-                <small>{release.date}</small>
+                <strong class="release-name">{release.app} {release.version}</strong>
+                <small class="release-date">{release.date}</small>
               </div>
             ))}
           </div>
         </article>
 
-        <article class="pulse-card press-panel">
+        <article class="glass sheen pulse-panel press-panel" data-reveal style="--i: 3">
           <p class="eyebrow">Press kits</p>
-          <h3>Brand and app assets</h3>
-          <div class="press-kit-list">
+          <h3 class="panel-title">Brand and app assets</h3>
+          <div class="press-grid">
             {pressKits.map((kit) => (
-              <a href={kit.href} download>
-                <ResponsivePicture src={kit.icon} alt="" widths={[42, 84, 126]} sizes="42px" />
-                <span>{kit.name}</span>
+              <a class="glass--flat press-tile" href={kit.href} download>
+                <ResponsivePicture
+                  src={kit.icon}
+                  alt=""
+                  imageClass="press-icon"
+                  widths={[42, 84, 126]}
+                  sizes="42px"
+                />
+                <span class="press-name">{kit.name}</span>
+                <span class="press-glyph" aria-hidden="true">&darr;</span>
               </a>
             ))}
           </div>
@@ -132,59 +142,57 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       </div>
     </section>
 
-    <section id="faq" class="section faq-section">
-      <div class="section-heading">
-        <p class="eyebrow">FAQ</p>
-        <h2>
-          Quick questions with a <span class="text-pop">peek behind the card</span>.
-        </h2>
-      </div>
-      <div class="flip-grid">
-        {faqItems.map((item) => (
-          <article class="flip-card" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-face flip-front">
-                <p class="eyebrow">Question</p>
-                <h3>{item.question}</h3>
-                <p>{item.shortAnswer}</p>
-              </div>
-              <div class="flip-face flip-back">
-                <p>{item.answer}</p>
-              </div>
-            </div>
-          </article>
+    <!-- FAQ -->
+    <section id="faq" class="container home-section">
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>FAQ</p>
+        <h2 class="headline" data-reveal style="--i: 1">Quick questions, straight answers.</h2>
+      </header>
+      <div class="faq-stack">
+        {faqItems.map((item, i) => (
+          <details class="glass--flat faq" data-reveal style={`--i: ${i}`}>
+            <summary>
+              <span class="faq-question">
+                {item.question}
+                <span class="faq-short">{item.shortAnswer}</span>
+              </span>
+              <span class="faq-indicator" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer">{item.answer}</div>
+          </details>
         ))}
       </div>
     </section>
 
-    <section id="privacy-terms" class="section trust-section">
-      <div class="section-heading">
-        <p class="eyebrow">Privacy and terms</p>
-        <h2>
+    <!-- PRIVACY AND TERMS -->
+    <section id="privacy-terms" class="container home-section">
+      <header class="section-heading">
+        <p class="eyebrow" data-reveal>Privacy and terms</p>
+        <h2 class="headline" data-reveal style="--i: 1">
           Straight answers about tracking, data, purchases, and app use.
         </h2>
-      </div>
+      </header>
       <div class="trust-columns">
-        <div>
+        <div class="trust-col">
           <p class="eyebrow">Privacy</p>
           <div class="trust-stack">
-            {privacyCards.map((card, index) => (
-              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
-                <h3>{card.title}</h3>
-                <p>{card.shortBody}</p>
-                <small>{card.body}</small>
+            {privacyCards.map((card, i) => (
+              <article class="glass--flat trust-card" data-reveal style={`--i: ${i}`}>
+                <h3 class="trust-title">{card.title}</h3>
+                <p class="trust-short">{card.shortBody}</p>
+                <small class="trust-note">{card.body}</small>
               </article>
             ))}
           </div>
         </div>
-        <div>
+        <div class="trust-col">
           <p class="eyebrow">Terms</p>
           <div class="trust-stack">
-            {termsCards.map((card, index) => (
-              <article class:list={["trust-card", index % 2 === 1 && "trust-card-offset"]}>
-                <h3>{card.title}</h3>
-                <p>{card.shortBody}</p>
-                <small>{card.body}</small>
+            {termsCards.map((card, i) => (
+              <article class="glass--flat trust-card" data-reveal style={`--i: ${i}`}>
+                <h3 class="trust-title">{card.title}</h3>
+                <p class="trust-short">{card.shortBody}</p>
+                <small class="trust-note">{card.body}</small>
               </article>
             ))}
           </div>
@@ -192,18 +200,818 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       </div>
     </section>
 
-    <section id="contact" class="section contact-section">
-      <div class="section-heading">
-        <p class="eyebrow">Feedback</p>
-        <h2>
+    <!-- CONTACT -->
+    <section id="contact" class="container contact-section">
+      <div class="contact-bloom" aria-hidden="true"></div>
+      <div class="contact-inner">
+        <p class="eyebrow" data-reveal>Feedback</p>
+        <h2 class="headline contact-headline" data-reveal style="--i: 1">
           Found a rough edge? Send it over while it is still warm.
         </h2>
-        <p>
+        <p class="contact-helper" data-reveal style="--i: 2">
           Feedback works best when the app name, device details, and a short
           description are included.
         </p>
+        <a class="pill pill--primary contact-cta" href="mailto:support@sonnazgroup.com" data-reveal style="--i: 3">
+          Email Sonnaz Group
+        </a>
+        <p class="contact-email" data-reveal style="--i: 4">support@sonnazgroup.com</p>
       </div>
-      <a class="primary-button" href="mailto:support@sonnazgroup.com">Email Sonnaz Group</a>
     </section>
   </main>
+
+  <script>
+    // Hero slab parallax: a gentle counter-scroll drift on the floating glass
+    // pane. Runs only with JS, a fine pointer, and no reduced-motion request.
+    // The rAF loop is scroll-driven and pauses whenever the hero is off-screen.
+    const setupHeroParallax = (): void => {
+      if (!document.documentElement.classList.contains("js")) {
+        return;
+      }
+
+      const slab = document.querySelector<HTMLElement>(".hero-slab");
+      const hero = document.querySelector<HTMLElement>(".home-hero");
+
+      if (!slab || !hero) {
+        return;
+      }
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const finePointer = window.matchMedia("(pointer: fine)");
+      let heroVisible = true;
+      let frame = 0;
+
+      const applyParallax = (): void => {
+        frame = 0;
+
+        if (reducedMotion.matches || !finePointer.matches) {
+          slab.style.transition = "";
+          slab.style.transform = "";
+          return;
+        }
+
+        // The load choreography transitions transform; once the scroll-driven
+        // parallax takes over, that transition must not smooth every frame.
+        slab.style.transition = "none";
+        const offset = Math.max(-48, Math.min(48, window.scrollY * -0.08));
+        slab.style.transform = `translate3d(0, ${offset}px, 0)`;
+      };
+
+      const requestFrame = (): void => {
+        if (!heroVisible || frame !== 0) {
+          return;
+        }
+
+        frame = window.requestAnimationFrame(applyParallax);
+      };
+
+      window.addEventListener("scroll", requestFrame, { passive: true });
+
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          heroVisible = entry.isIntersecting;
+        }
+
+        if (heroVisible) {
+          requestFrame();
+        }
+      });
+      observer.observe(hero);
+
+      const clearWhenDisabled = (): void => {
+        if (reducedMotion.matches || !finePointer.matches) {
+          slab.style.transition = "";
+          slab.style.transform = "";
+        }
+      };
+
+      reducedMotion.addEventListener("change", clearWhenDisabled);
+      finePointer.addEventListener("change", clearWhenDisabled);
+
+      // If the page loads already scrolled (e.g. anchor or reload), sync once.
+      if (window.scrollY > 0) {
+        requestFrame();
+      }
+    };
+
+    setupHeroParallax();
+  </script>
+
+  <style>
+    /* ------------------------------------------------------------------ */
+    /* Hero                                                                */
+    /* ------------------------------------------------------------------ */
+
+    .home-hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: calc(var(--header-h) + 48px) var(--page-pad) 96px;
+    }
+
+    .hero-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-brand {
+      display: flex;
+      justify-content: center;
+    }
+
+    :global(.hero-title-picture) {
+      display: block;
+    }
+
+    :global(.hero-title-image) {
+      display: block;
+      width: min(560px, 78vw);
+      height: auto;
+      filter: drop-shadow(0 12px 60px rgba(236, 47, 59, 0.22));
+    }
+
+    .hero-tagline {
+      margin: 28px 0 0;
+      font-size: var(--text-lg);
+      letter-spacing: var(--track-body);
+      line-height: 1.55;
+      color: var(--text-2);
+      max-width: 34em;
+    }
+
+    .hero-tagline span {
+      color: var(--text-1);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .home-hero .hero-slab {
+      margin-top: clamp(56px, 8vh, 96px);
+      width: min(980px, 100%);
+      border-radius: var(--r-lg);
+      padding: 10px;
+      overflow: hidden;
+      box-shadow: var(--glass-edge), 0 48px 100px -40px rgba(0, 0, 0, 0.8);
+      will-change: transform;
+    }
+
+    :global(.hero-slab-picture) {
+      display: block;
+    }
+
+    :global(.hero-slab-image) {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: calc(var(--r-lg) - 10px);
+    }
+
+    .home-hero .hero-scroll-cue {
+      position: absolute;
+      bottom: 28px;
+      left: calc(50% - 22px);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--text-1);
+      opacity: 0.6;
+      animation: hero-bob 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes hero-bob {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    /* Load choreography — only when JS is present; otherwise fully visible. */
+    :global(html.js) .hero-brand,
+    :global(html.js) .hero-tagline,
+    :global(html.js) .hero-actions {
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity 900ms var(--ease-out),
+        transform 900ms var(--ease-out);
+    }
+
+    :global(html.js) .hero-tagline {
+      transition-delay: 120ms;
+    }
+
+    :global(html.js) .hero-actions {
+      transition-delay: 220ms;
+    }
+
+    :global(html.js) .hero-slab {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+      transition:
+        opacity 1000ms var(--ease-sheet) 300ms,
+        transform 1000ms var(--ease-sheet) 300ms;
+    }
+
+    :global(html.js body.is-loaded) .hero-brand,
+    :global(html.js body.is-loaded) .hero-tagline,
+    :global(html.js body.is-loaded) .hero-actions,
+    :global(html.js body.is-loaded) .hero-slab {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Shared section scaffolding                                          */
+    /* ------------------------------------------------------------------ */
+
+    .home-section {
+      padding-top: var(--section-gap);
+    }
+
+    .section-heading {
+      margin-bottom: 40px;
+    }
+
+    .section-heading .eyebrow {
+      margin: 0 0 10px;
+    }
+
+    .section-heading .headline {
+      max-width: 24em;
+    }
+
+    .section-lede {
+      margin: 14px 0 0;
+      font-size: var(--text-base);
+      letter-spacing: var(--track-body);
+      color: var(--text-2);
+      max-width: 44em;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Apps                                                                */
+    /* ------------------------------------------------------------------ */
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Pulse bento                                                         */
+    /* ------------------------------------------------------------------ */
+
+    .pulse-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .pulse-panel {
+      border-radius: var(--r-lg);
+      padding: 28px;
+    }
+
+    .pulse-panel .eyebrow {
+      margin: 0;
+    }
+
+    .panel-title {
+      margin: 6px 0 18px;
+      font-size: var(--text-xl);
+      font-weight: 650;
+      letter-spacing: var(--track-title);
+      color: var(--text-1);
+    }
+
+    .status-panel {
+      grid-column: span 5;
+    }
+
+    .roadmap-panel {
+      grid-column: span 7;
+      grid-row: span 2;
+    }
+
+    .releases-panel {
+      grid-column: span 5;
+    }
+
+    .press-panel {
+      grid-column: span 12;
+    }
+
+    /* Status */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 52px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .status-row:last-child {
+      border-bottom: none;
+    }
+
+    .status-dot {
+      position: relative;
+      flex: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .status-dot.online {
+      background: #3ecfa5;
+    }
+
+    .status-dot.beta {
+      background: #ffcc66;
+    }
+
+    .status-dot.planned {
+      background: var(--text-3);
+    }
+
+    .status-dot.online::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #3ecfa5;
+      animation: status-ping 2.4s var(--ease-out) infinite;
+    }
+
+    @keyframes status-ping {
+      from {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      to {
+        transform: scale(2.4);
+        opacity: 0;
+      }
+    }
+
+    .status-name {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .status-label {
+      margin-left: auto;
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      text-align: right;
+    }
+
+    /* Roadmap */
+    .roadmap-list {
+      position: relative;
+      margin-top: 4px;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .roadmap-list::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--hairline);
+    }
+
+    .roadmap-item {
+      position: relative;
+    }
+
+    .roadmap-item::before {
+      content: "";
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      background: var(--bg-raise);
+      box-sizing: border-box;
+    }
+
+    .roadmap-meta {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--track-caps);
+      color: var(--text-3);
+    }
+
+    .roadmap-title {
+      display: block;
+      margin-top: 4px;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .roadmap-body {
+      margin: 6px 0 0;
+      font-size: var(--text-sm);
+      line-height: 1.55;
+      color: var(--text-2);
+    }
+
+    /* Releases — plain rgba rows (no nested glass inside the glass panel). */
+    .release-list {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .release-chip {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+      background: rgba(255, 255, 255, 0.05);
+      transition: background var(--dur-fast) var(--ease-out);
+    }
+
+    .release-chip:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .release-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .release-date {
+      font-size: var(--text-xs);
+      color: var(--text-3);
+      flex: none;
+    }
+
+    /* Press kits */
+    .press-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .press-tile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-radius: var(--r-md);
+      text-decoration: none;
+      color: var(--text-1);
+      transition:
+        transform var(--dur-base) var(--ease-out),
+        background var(--dur-fast) var(--ease-out);
+    }
+
+    .press-tile:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    :global(.press-icon) {
+      display: block;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      flex: none;
+    }
+
+    .press-name {
+      flex: 1;
+      min-width: 0;
+      font-size: var(--text-sm);
+      font-weight: 600;
+    }
+
+    .press-glyph {
+      font-size: var(--text-base);
+      color: var(--text-2);
+      transition: transform 150ms var(--ease-spring);
+    }
+
+    .press-tile:hover .press-glyph {
+      transform: translateY(2px);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* FAQ — native accordion                                              */
+    /* ------------------------------------------------------------------ */
+
+    .faq-stack {
+      max-width: 720px;
+    }
+
+    .faq {
+      border-radius: var(--r-md);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq summary {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      list-style: none;
+      cursor: pointer;
+      transition: background var(--dur-fast) var(--ease-out);
+    }
+
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq[open] summary {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .faq-question {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: var(--track-body);
+      color: var(--text-1);
+    }
+
+    .faq-short {
+      display: block;
+      margin-top: 4px;
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-3);
+    }
+
+    .faq-indicator {
+      position: relative;
+      flex: none;
+      width: 20px;
+      height: 20px;
+      margin-top: 6px;
+      transition: transform 300ms var(--ease-spring);
+    }
+
+    .faq-indicator::before,
+    .faq-indicator::after {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 9px;
+      width: 14px;
+      height: 2px;
+      border-radius: 1px;
+      background: var(--text-2);
+    }
+
+    .faq-indicator::after {
+      transform: rotate(90deg);
+    }
+
+    .faq[open] .faq-indicator {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 24px 22px;
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--text-2);
+      margin-top: 10px;
+    }
+
+    .faq[open] .faq-answer {
+      animation: faq-in 300ms var(--ease-out);
+    }
+
+    @keyframes faq-in {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Privacy and terms                                                   */
+    /* ------------------------------------------------------------------ */
+
+    .trust-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .trust-col .eyebrow {
+      margin: 0 0 14px;
+    }
+
+    .trust-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .trust-card {
+      border-radius: var(--r-md);
+      padding: 22px 24px;
+      transition: background var(--dur-fast) var(--ease-out);
+    }
+
+    .trust-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .trust-title {
+      margin: 0;
+      font-size: var(--text-base);
+      font-weight: 650;
+      letter-spacing: var(--track-body);
+      color: var(--text-1);
+    }
+
+    .trust-short {
+      margin: 6px 0 0;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: var(--text-2);
+    }
+
+    .trust-note {
+      display: block;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--hairline);
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: var(--text-3);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Contact                                                             */
+    /* ------------------------------------------------------------------ */
+
+    .contact-section {
+      position: relative;
+      isolation: isolate;
+      min-height: 60vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-block: var(--section-gap);
+    }
+
+    .contact-bloom {
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      width: min(900px, 100%);
+      height: 500px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(236, 47, 59, 0.1), transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .contact-headline {
+      font-size: clamp(2.4rem, 1.6rem + 3vw, 4.4rem);
+      max-width: 16em;
+      margin-top: 12px;
+    }
+
+    .contact-helper {
+      margin: 18px 0 0;
+      font-size: var(--text-base);
+      letter-spacing: var(--track-body);
+      color: var(--text-2);
+      max-width: 36em;
+    }
+
+    .contact-section .contact-cta {
+      margin-top: 36px;
+      padding: 16px 34px;
+      font-size: var(--text-lg);
+    }
+
+    .contact-email {
+      margin: 18px 0 0;
+      font-size: var(--text-sm);
+      color: var(--text-2);
+      user-select: text;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Responsive                                                          */
+    /* ------------------------------------------------------------------ */
+
+    @media (max-width: 979px) {
+      .pulse-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .status-panel,
+      .roadmap-panel,
+      .releases-panel,
+      .press-panel {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 759px) {
+      .trust-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 719px) {
+      .press-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Reduced motion — everything visible and still                       */
+    /* ------------------------------------------------------------------ */
+
+    @media (prefers-reduced-motion: reduce) {
+      :global(html.js) .hero-brand,
+      :global(html.js) .hero-tagline,
+      :global(html.js) .hero-actions,
+      :global(html.js) .hero-slab {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .home-hero .hero-scroll-cue {
+        animation: none;
+      }
+
+      .status-dot.online::after {
+        animation: none;
+      }
+
+      .faq[open] .faq-answer {
+        animation: none;
+      }
+
+      .faq-indicator,
+      .press-tile,
+      .press-glyph,
+      .release-chip,
+      .trust-card {
+        transition: none;
+      }
+    }
+  </style>
 </BaseLayout>
