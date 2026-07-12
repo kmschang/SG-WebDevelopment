@@ -1,0 +1,22 @@
+# syntax=docker/dockerfile:1
+
+# Runtime-only image used by CI.
+#
+# The site is already built (`npm run build`) once on the GitHub runner and
+# handed to this job as an artifact, so here we only serve the prebuilt dist/
+# with Caddy — no Node, no image optimization, no press-kit zipping. That work
+# is the slow part, and it now happens exactly once per push instead of twice.
+#
+# Build context is a small directory containing just the Caddyfile and dist/
+# (assembled in the workflow), so the repo-root .dockerignore does not apply.
+#
+# The self-contained builder image that compiles from source in one shot still
+# lives in site/Dockerfile and is what `docker compose` uses for local dev.
+FROM caddy:2-alpine
+
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY dist/ /srv/
+
+# Fail the image build on a broken Caddyfile so a bad config can never take the
+# live site down on deploy.
+RUN caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile

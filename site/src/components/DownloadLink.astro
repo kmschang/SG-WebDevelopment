@@ -15,19 +15,85 @@ const altText = download.kind === "app-store" ? "Download on the App Store" : "J
 {
   download.href ? (
     <a class="download-link" href={download.href} target="_blank" rel="noreferrer">
-      <img src={badge} alt={altText} loading="lazy" />
-      <span>
+      <img class="download-badge" src={badge} alt={altText} loading="lazy" />
+      <span class="download-text">
         <strong>{download.label}</strong>
         {download.note && <small>{download.note}</small>}
       </span>
+      <span class="download-chevron" aria-hidden="true">→</span>
     </a>
   ) : (
     <div class="download-link download-link-disabled" aria-disabled="true">
-      <img src={badge} alt="" loading="lazy" />
-      <span>
+      <img class="download-badge" src={badge} alt="" loading="lazy" />
+      <span class="download-text">
         <strong>{download.label}</strong>
         {download.note && <small>{download.note}</small>}
       </span>
     </div>
   )
 }
+
+<style>
+  .download-link {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    min-height: 64px;
+    padding: 14px 18px;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: var(--glass-border);
+    color: var(--text-1);
+    text-decoration: none;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+
+  a.download-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  a.download-link:focus-visible {
+    outline: 2px solid var(--accent-blue-text);
+    outline-offset: 3px;
+  }
+
+  .download-badge {
+    display: block;
+    max-height: 40px;
+    width: auto;
+  }
+
+  .download-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .download-text strong {
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: var(--track-body);
+    color: var(--text-1);
+  }
+
+  .download-text small {
+    font-size: var(--text-sm);
+    color: var(--text-3);
+  }
+
+  .download-chevron {
+    font-size: var(--text-base);
+    color: var(--text-2);
+    transition: transform 150ms var(--ease-spring);
+  }
+
+  a.download-link:hover .download-chevron {
+    transform: translateX(3px);
+  }
+
+  .download-link-disabled {
+    opacity: 0.55;
+  }
+</style>

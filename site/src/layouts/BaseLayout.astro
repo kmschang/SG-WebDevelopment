@@ -10,6 +10,7 @@ type Props = {
   canonicalPath?: string;
   canonicalOverride?: string;
   noindex?: boolean;
+  ambient?: "red" | "green" | "blue";
 };
 
 const {
@@ -17,7 +18,8 @@ const {
   description = "Sonnaz Group builds practical software for everyday tasks.",
   canonicalPath = "/",
   canonicalOverride,
-  noindex = false
+  noindex = false,
+  ambient
 } = Astro.props;
 
 // When set, `canonicalOverride` is emitted verbatim as the canonical + og:url.
@@ -36,6 +38,7 @@ const isStaging = deployEnvironment === "staging";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#05060a" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" href={faviconUrl} />
@@ -44,11 +47,111 @@ const isStaging = deployEnvironment === "staging";
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <title>{title}</title>
+    <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
-  <body class={isStaging ? "is-staging" : undefined}>
+  <body class={isStaging ? "is-staging" : undefined} data-ambient={ambient}>
     {isStaging && <div class="staging-marker" role="note" aria-label="Staging environment">Staging</div>}
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient__base"></div>
+      <div class="ambient__red"></div>
+      <div class="ambient__green"></div>
+      <div class="ambient__blue"></div>
+      <div class="ambient__noise"></div>
+    </div>
     <Header />
     <slot />
     <Footer />
+    <script>
+      // ----------------------------------------------------------------------
+      // Global interaction runtime: load choreography, settle-in reveals,
+      // ambient hue manager. Pages must NOT re-implement these.
+      // ----------------------------------------------------------------------
+
+      // Settle-in reveals -----------------------------------------------------
+      const revealTargets: HTMLElement[] = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-reveal]")
+      );
+
+      const revealAll = (): void => {
+        for (const el of revealTargets) el.classList.add("is-in");
+      };
+
+      // Reduced motion: checked once, tracked on change.
+      const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let reduceMotion = reduceQuery.matches;
+      reduceQuery.addEventListener("change", (event: MediaQueryListEvent) => {
+        reduceMotion = event.matches;
+        if (reduceMotion) revealAll();
+      });
+
+      // Load choreography: pages key entrances off html.js + body.is-loaded.
+      const markLoaded = (): void => {
+        document.body.classList.add("is-loaded");
+      };
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", markLoaded, { once: true });
+      } else {
+        markLoaded();
+      }
+
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        revealAll();
+      } else {
+        const io = new IntersectionObserver(
+          (entries, observer) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-in");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.1 }
+        );
+        for (const el of revealTargets) io.observe(el);
+      }
+
+      // Ambient hue manager ---------------------------------------------------
+      // Hovering/focusing a [data-hue] element crossfades the fixed background
+      // wash to that hue. Inline opacity is used ONLY for hover overrides and
+      // is fully cleared on revert so the CSS body[data-ambient] rule (or the
+      // neutral base) wins again.
+      type Hue = "red" | "green" | "blue";
+      const hueNames: readonly Hue[] = ["red", "green", "blue"];
+      const hueLayers = new Map<Hue, HTMLElement>();
+      for (const hue of hueNames) {
+        const layer = document.querySelector<HTMLElement>(`.ambient__${hue}`);
+        if (layer) hueLayers.set(hue, layer);
+      }
+
+      const isHue = (value: string): value is Hue =>
+        value === "red" || value === "green" || value === "blue";
+
+      const applyHueOverride = (hue: Hue): void => {
+        if (reduceMotion) return;
+        for (const [name, layer] of hueLayers) {
+          layer.style.opacity = name === hue ? "1" : "0";
+        }
+      };
+
+      const clearHueOverride = (): void => {
+        for (const layer of hueLayers.values()) {
+          layer.style.removeProperty("opacity");
+        }
+      };
+
+      const hueElements: HTMLElement[] = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-hue]")
+      );
+      for (const el of hueElements) {
+        const attr = el.getAttribute("data-hue");
+        if (attr === null || !isHue(attr)) continue;
+        const hue: Hue = attr;
+        el.addEventListener("pointerenter", () => applyHueOverride(hue));
+        el.addEventListener("pointerleave", clearHueOverride);
+        el.addEventListener("focusin", () => applyHueOverride(hue));
+        el.addEventListener("focusout", clearHueOverride);
+      }
+    </script>
   </body>
 </html>

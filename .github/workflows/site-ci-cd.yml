@@ -20,11 +20,12 @@ env:
   ASTRO_TELEMETRY_DISABLED: 1
 
 jobs:
+  # Build the site exactly once. The expensive step — Astro optimizing every
+  # screenshot into avif/webp at several widths — used to run here AND again
+  # inside the Docker build. Now it runs only here, is cached across runs, and
+  # the finished dist/ is handed to the image job as an artifact.
   check:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: site
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,10 +38,40 @@ jobs:
           cache-dependency-path: site/package-lock.json
 
       - name: Install
+        working-directory: site
         run: npm ci
 
+      # Reuse already-optimized images so unchanged screenshots are never
+      # re-encoded. Astro keeps this cache in node_modules/.astro, which `npm
+      # ci` wipes, so it must be restored AFTER install. The key changes when
+      # the source images (or deps) do; restore-keys lets a new build reuse
+      # every encoding that did not change.
+      - name: Cache optimized images
+        uses: actions/cache@v4
+        with:
+          path: site/node_modules/.astro
+          key: astro-assets-${{ hashFiles('site/package-lock.json') }}-${{ hashFiles('Assets/**') }}
+          restore-keys: |
+            astro-assets-${{ hashFiles('site/package-lock.json') }}-
+            astro-assets-
+
       - name: Build
+        working-directory: site
+        env:
+          # Baked into the build (drives the staging marker), so the artifact
+          # produced here is exactly what gets deployed.
+          PUBLIC_DEPLOY_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
         run: npm run build
+
+      # Only pushes/manual runs go on to build+deploy an image.
+      - name: Upload build output
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          retention-days: 1
+          if-no-files-found: error
 
   image:
     runs-on: ubuntu-latest
@@ -51,6 +82,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Assemble a tiny build context (Caddyfile + prebuilt dist/) so the
+      # runtime image is just a copy into Caddy — no rebuild, no re-optimize.
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: image-context/dist
+
+      - name: Assemble image context
+        run: |
+          cp site/Caddyfile image-context/Caddyfile
+          cp site/Dockerfile.runtime image-context/Dockerfile
+          test -f image-context/dist/index.html  # fail loudly if dist is empty/mislaid
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -64,22 +109,17 @@ jobs:
         run: |
           IMAGE_REPOSITORY="$(echo "${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
           BRANCH_TAG="$(echo "${GITHUB_REF_NAME}" | tr '/[:upper:]' '-[:lower:]' | tr -cd '[:alnum:]_.-')"
-          IMAGE_REF="${IMAGE_REPOSITORY}:${GITHUB_SHA}"
-          BRANCH_REF="${IMAGE_REPOSITORY}:${BRANCH_TAG}"
-          echo "image_ref=${IMAGE_REF}" >> "${GITHUB_OUTPUT}"
-          echo "branch_ref=${BRANCH_REF}" >> "${GITHUB_OUTPUT}"
+          echo "image_ref=${IMAGE_REPOSITORY}:${GITHUB_SHA}" >> "${GITHUB_OUTPUT}"
+          echo "branch_ref=${IMAGE_REPOSITORY}:${BRANCH_TAG}" >> "${GITHUB_OUTPUT}"
 
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: site/Dockerfile
+          context: image-context
           push: true
           tags: |
             ${{ steps.meta.outputs.image_ref }}
             ${{ steps.meta.outputs.branch_ref }}
-          build-args: |
-            PUBLIC_DEPLOY_ENV=${{ github.ref_name == 'main' && 'production' || 'staging' }}
 
   deploy:
     runs-on: ubuntu-latest

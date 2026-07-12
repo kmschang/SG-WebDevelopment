@@ -8,9 +8,61 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   canonicalPath="/404"
 >
   <main class="not-found">
-    <p class="eyebrow">404</p>
-    <h1>Page not found</h1>
-    <p>The page may have moved as the new Sonnaz Group site comes together.</p>
-    <a class="primary-button" href="/">Back home</a>
+    <div class="container not-found-inner">
+      <p class="not-found-code" aria-hidden="true" data-reveal>404</p>
+      <h1 class="not-found-title" data-reveal style="--i: 1">Page not found</h1>
+      <p class="not-found-copy" data-reveal style="--i: 2">
+        The page may have moved as the new Sonnaz Group site comes together.
+      </p>
+      <a class="pill pill--primary not-found-home" href="/" data-reveal style="--i: 3">Back home</a>
+    </div>
   </main>
+
+  <style>
+    .not-found {
+      min-height: 80svh;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--header-h) + 24px) 0 64px;
+    }
+
+    .not-found-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .not-found-code {
+      font-size: var(--text-display);
+      font-weight: 700;
+      letter-spacing: var(--track-display);
+      line-height: 1;
+      color: var(--text-1);
+      opacity: 0.22;
+      margin: 0;
+    }
+
+    .not-found-title {
+      font-size: var(--text-xl);
+      font-weight: 650;
+      letter-spacing: var(--track-title);
+      line-height: 1.1;
+      color: var(--text-1);
+      margin: 14px 0 0;
+    }
+
+    .not-found-copy {
+      font-size: var(--text-base);
+      letter-spacing: var(--track-body);
+      line-height: 1.6;
+      color: var(--text-2);
+      max-width: 44ch;
+      margin: 12px 0 0;
+    }
+
+    .not-found-home {
+      margin-top: 28px;
+    }
+  </style>
 </BaseLayout>
