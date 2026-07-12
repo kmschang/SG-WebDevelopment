@@ -16,42 +16,39 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
   <main>
     <!-- HERO -->
     <section class="home-hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <div class="hero-brand">
-            <ResponsivePicture
-              src={titleImage}
-              alt=""
-              pictureClass="hero-title-picture"
-              imageClass="hero-title-image"
-              widths={[560, 1120, 1680]}
-              sizes="min(560px, 78vw)"
-              priority
-              fit="contain"
-            />
-          </div>
-          <h1 class="sr-only">Sonnaz Group</h1>
-          <p class="hero-tagline">
-            Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
-            <span>tips</span>, and the small utility jobs that feel better when
-            they are handled cleanly.
-          </p>
-          <div class="hero-actions">
-            <a class="pill pill--primary" href="#apps">View apps</a>
-            <a class="pill pill--glass" href="#pulse">Check pulse</a>
-          </div>
-        </div>
+      <ResponsivePicture
+        src={heroImage}
+        alt=""
+        pictureClass="home-hero-media"
+        imageClass="home-hero-image"
+        widths={[960, 1280, 1600, 1920]}
+        sizes="100vw"
+        priority
+        fit="cover"
+        position="center"
+      />
+      <div class="home-hero-scrim" aria-hidden="true"></div>
 
-        <div class="glass hero-slab">
-          <ResponsivePicture
-            src={heroImage}
-            alt="Day Tracker app banner"
-            pictureClass="hero-slab-picture"
-            imageClass="hero-slab-image"
-            widths={[768, 1152, 1536, 1920]}
-            sizes="min(980px, 92vw)"
-            loading="eager"
-          />
+      <div class="container home-hero-content">
+        <ResponsivePicture
+          src={titleImage}
+          alt=""
+          pictureClass="hero-title-picture"
+          imageClass="hero-title-image"
+          widths={[560, 1120, 1680]}
+          sizes="min(560px, 78vw)"
+          priority
+          fit="contain"
+        />
+        <h1 class="sr-only">Sonnaz Group</h1>
+        <p class="hero-tagline">
+          Focused iOS apps for <span>dates</span>, <span>shopping math</span>,
+          <span>tips</span>, and the small utility jobs that feel better when
+          they are handled cleanly.
+        </p>
+        <div class="hero-actions">
+          <a class="pill pill--primary" href="#apps">View apps</a>
+          <a class="pill pill--glass" href="#pulse">Check pulse</a>
         </div>
       </div>
 
@@ -220,83 +217,6 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
     </section>
   </main>
 
-  <script>
-    // Hero slab parallax: a gentle counter-scroll drift on the floating glass
-    // pane. Runs only with JS, a fine pointer, and no reduced-motion request.
-    // The rAF loop is scroll-driven and pauses whenever the hero is off-screen.
-    const setupHeroParallax = (): void => {
-      if (!document.documentElement.classList.contains("js")) {
-        return;
-      }
-
-      const slab = document.querySelector<HTMLElement>(".hero-slab");
-      const hero = document.querySelector<HTMLElement>(".home-hero");
-
-      if (!slab || !hero) {
-        return;
-      }
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const finePointer = window.matchMedia("(pointer: fine)");
-      let heroVisible = true;
-      let frame = 0;
-
-      const applyParallax = (): void => {
-        frame = 0;
-
-        if (reducedMotion.matches || !finePointer.matches) {
-          slab.style.transition = "";
-          slab.style.transform = "";
-          return;
-        }
-
-        // The load choreography transitions transform; once the scroll-driven
-        // parallax takes over, that transition must not smooth every frame.
-        slab.style.transition = "none";
-        const offset = Math.max(-48, Math.min(48, window.scrollY * -0.08));
-        slab.style.transform = `translate3d(0, ${offset}px, 0)`;
-      };
-
-      const requestFrame = (): void => {
-        if (!heroVisible || frame !== 0) {
-          return;
-        }
-
-        frame = window.requestAnimationFrame(applyParallax);
-      };
-
-      window.addEventListener("scroll", requestFrame, { passive: true });
-
-      const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          heroVisible = entry.isIntersecting;
-        }
-
-        if (heroVisible) {
-          requestFrame();
-        }
-      });
-      observer.observe(hero);
-
-      const clearWhenDisabled = (): void => {
-        if (reducedMotion.matches || !finePointer.matches) {
-          slab.style.transition = "";
-          slab.style.transform = "";
-        }
-      };
-
-      reducedMotion.addEventListener("change", clearWhenDisabled);
-      finePointer.addEventListener("change", clearWhenDisabled);
-
-      // If the page loads already scrolled (e.g. anchor or reload), sync once.
-      if (window.scrollY > 0) {
-        requestFrame();
-      }
-    };
-
-    setupHeroParallax();
-  </script>
-
   <style>
     /* ------------------------------------------------------------------ */
     /* Hero                                                                */
@@ -305,29 +225,51 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
     .home-hero {
       position: relative;
       min-height: 100svh;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: calc(var(--header-h) + 48px) var(--page-pad) 96px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
     }
 
-    .hero-inner {
+    .home-hero :global(.home-hero-media) {
+      position: absolute;
+      inset: 0;
+    }
+
+    .home-hero :global(img.home-hero-image) {
+      display: block;
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .home-hero-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          1100px 620px at 50% 4%,
+          color-mix(in srgb, var(--color-brand) 20%, transparent),
+          transparent 58%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(5, 6, 10, 0.4) 0%,
+          rgba(5, 6, 10, 0.52) 38%,
+          rgba(5, 6, 10, 0.86) 70%,
+          rgba(5, 6, 10, 0.98) 90%,
+          #05060a 100%
+        );
+    }
+
+    .home-hero-content {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .hero-copy {
-      max-width: 860px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero-brand {
-      display: flex;
-      justify-content: center;
+      text-align: center;
+      padding-top: calc(var(--header-h) + 48px);
+      padding-bottom: 112px;
     }
 
     :global(.hero-title-picture) {
@@ -363,27 +305,6 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       margin-top: 32px;
     }
 
-    .home-hero .hero-slab {
-      margin-top: clamp(56px, 8vh, 96px);
-      width: min(980px, 100%);
-      border-radius: var(--r-lg);
-      padding: 10px;
-      overflow: hidden;
-      box-shadow: var(--glass-edge), 0 48px 100px -40px rgba(0, 0, 0, 0.8);
-      will-change: transform;
-    }
-
-    :global(.hero-slab-picture) {
-      display: block;
-    }
-
-    :global(.hero-slab-image) {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: calc(var(--r-lg) - 10px);
-    }
-
     .home-hero .hero-scroll-cue {
       position: absolute;
       bottom: 28px;
@@ -409,37 +330,28 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       }
     }
 
-    /* Load choreography — only when JS is present; otherwise fully visible. */
-    :global(html.js) .hero-brand,
-    :global(html.js) .hero-tagline,
-    :global(html.js) .hero-actions {
+    /* Load choreography — staggered settle-in with JS; fully visible without it. */
+    :global(html.js) .home-hero-content > :global(*) {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(20px);
       transition:
-        opacity 900ms var(--ease-out),
-        transform 900ms var(--ease-out);
+        opacity var(--dur-reveal) var(--ease-out),
+        transform var(--dur-reveal) var(--ease-out);
     }
 
-    :global(html.js) .hero-tagline {
-      transition-delay: 120ms;
+    :global(html.js) .home-hero-content > :global(*:nth-child(2)) {
+      transition-delay: 100ms;
     }
 
-    :global(html.js) .hero-actions {
-      transition-delay: 220ms;
+    :global(html.js) .home-hero-content > :global(*:nth-child(3)) {
+      transition-delay: 180ms;
     }
 
-    :global(html.js) .hero-slab {
-      opacity: 0;
-      transform: translateY(28px) scale(0.985);
-      transition:
-        opacity 1000ms var(--ease-sheet) 300ms,
-        transform 1000ms var(--ease-sheet) 300ms;
+    :global(html.js) .home-hero-content > :global(*:nth-child(4)) {
+      transition-delay: 260ms;
     }
 
-    :global(html.js body.is-loaded) .hero-brand,
-    :global(html.js body.is-loaded) .hero-tagline,
-    :global(html.js body.is-loaded) .hero-actions,
-    :global(html.js body.is-loaded) .hero-slab {
+    :global(html.js body.is-loaded) .home-hero-content > :global(*) {
       opacity: 1;
       transform: none;
     }
@@ -984,10 +896,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
     /* ------------------------------------------------------------------ */
 
     @media (prefers-reduced-motion: reduce) {
-      :global(html.js) .hero-brand,
-      :global(html.js) .hero-tagline,
-      :global(html.js) .hero-actions,
-      :global(html.js) .hero-slab {
+      :global(html.js) .home-hero-content > :global(*) {
         opacity: 1;
         transform: none;
         transition: none;
