@@ -64,7 +64,7 @@ const isStaging = deployEnvironment === "staging";
     <script>
       // ----------------------------------------------------------------------
       // Global interaction runtime: load choreography, settle-in reveals,
-      // cursor sheen, ambient hue manager. Pages must NOT re-implement these.
+      // ambient hue manager. Pages must NOT re-implement these.
       // ----------------------------------------------------------------------
 
       // Settle-in reveals -----------------------------------------------------
@@ -110,37 +110,6 @@ const isStaging = deployEnvironment === "staging";
         );
         for (const el of revealTargets) io.observe(el);
       }
-
-      // Cursor sheen ----------------------------------------------------------
-      // Single delegated, rAF-throttled listener; desktop pointers only.
-      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-      let sheenFrame: number | null = null;
-      let sheenX = 0;
-      let sheenY = 0;
-      let sheenTarget: Element | null = null;
-
-      document.addEventListener(
-        "pointermove",
-        (event: PointerEvent) => {
-          if (reduceMotion || !finePointer.matches) return;
-          sheenX = event.clientX;
-          sheenY = event.clientY;
-          sheenTarget = event.target instanceof Element ? event.target : null;
-          if (sheenFrame !== null) return;
-          sheenFrame = window.requestAnimationFrame(() => {
-            sheenFrame = null;
-            const host = sheenTarget ? sheenTarget.closest<HTMLElement>(".sheen") : null;
-            if (!host) return;
-            const rect = host.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return;
-            const mx = ((sheenX - rect.left) / rect.width) * 100;
-            const my = ((sheenY - rect.top) / rect.height) * 100;
-            host.style.setProperty("--mx", `${mx.toFixed(2)}%`);
-            host.style.setProperty("--my", `${my.toFixed(2)}%`);
-          });
-        },
-        { passive: true }
-      );
 
       // Ambient hue manager ---------------------------------------------------
       // Hovering/focusing a [data-hue] element crossfades the fixed background

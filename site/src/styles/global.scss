@@ -390,26 +390,6 @@ html.js [data-reveal].is-in {
 }
 
 /* ----------------------------------------------------------------------------
-   Cursor sheen (JS in BaseLayout sets --mx/--my; desktop pointers only)
-   -------------------------------------------------------------------------- */
-@media (hover: hover) and (pointer: fine) {
-  .sheen::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.08), transparent 60%);
-    opacity: 0;
-    transition: opacity var(--dur-base) var(--ease-out);
-  }
-
-  .sheen:hover::after {
-    opacity: 1;
-  }
-}
-
-/* ----------------------------------------------------------------------------
    Header — fixed glass nav, condenses on scroll
    -------------------------------------------------------------------------- */
 .site-header {
