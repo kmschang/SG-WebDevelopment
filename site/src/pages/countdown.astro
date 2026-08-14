@@ -21,7 +21,7 @@ const canonicalOverride = "https://sonnazgroup.com{{html .Req.RequestURI}}";
 
 <BaseLayout
   title={`Open shared countdown | ${app.name}`}
-  description={`Someone shared a countdown with you. Get ${app.name} to open it on your iPhone.`}
+  description={`Someone shared a countdown with you. Get ${app.name} to open it on your iPhone or iPad.`}
   canonicalOverride={canonicalOverride}
   noindex={true}
   ambient="red"
@@ -42,7 +42,7 @@ const canonicalOverride = "https://sonnazgroup.com{{html .Req.RequestURI}}";
         <p class="eyebrow">Shared countdown</p>
         <h1>Someone shared a countdown</h1>
         <p class="countdown-copy">
-          This link opens in {app.name} on iPhone. If you already have the app, tap
+          This link opens in {app.name} on iPhone or iPad. If you already have the app, tap
           the link again and it jumps straight to the countdown. If not, download {app.name}
           first, then reopen the link to import it.
         </p>

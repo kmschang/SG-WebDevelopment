@@ -54,7 +54,8 @@ const hue: Hue = hueForAccent[app.accent] ?? "red";
 
 <style>
   .app-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 0;
     border-radius: var(--r-lg);
     overflow: hidden;
@@ -73,6 +74,7 @@ const hue: Hue = hueForAccent[app.accent] ?? "red";
   .app-card-media {
     aspect-ratio: 16 / 10;
     overflow: hidden;
+    flex: none;
   }
 
   .app-card-media :global(picture) {
@@ -89,8 +91,15 @@ const hue: Hue = hueForAccent[app.accent] ?? "red";
     transition: transform var(--dur-slow) var(--ease-out);
   }
 
+  /* Flex column so every card body lays out identically: the summary reserves
+     the same number of lines everywhere and the CTA pins to the bottom, keeping
+     all cards in a row visually equal. */
   .app-card-body {
     padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .app-card-status {
@@ -127,18 +136,19 @@ const hue: Hue = hueForAccent[app.accent] ?? "red";
     margin: 10px 0 0;
     font-size: var(--text-base);
     letter-spacing: var(--track-body);
+    line-height: 1.55;
     color: var(--text-2);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* Reserve three lines instead of clamping to two: no summary ever gets
+       cut off, and short ones still occupy the same space as long ones. */
+    min-height: calc(1.55em * 3);
   }
 
   .app-card-cta {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 18px;
+    margin-top: auto;
+    padding-top: 18px;
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--text-1);
