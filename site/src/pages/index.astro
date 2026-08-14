@@ -7,6 +7,17 @@ import { faqItems, privacyCards, termsCards } from "../data/siteContent";
 import { latestReleaseItems, pressKits, roadmapItems, statusItems } from "../data/pulse";
 import heroImage from "../../../Assets/DayTracker/DayTracker_Banner.png";
 import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
+
+// FAQ answers are plain strings in siteContent.ts; turn any email address in
+// them into a mailto: link. Escape first so set:html stays injection-safe.
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+const linkifyEmails = (text: string) =>
+  escapeHtml(text).replace(
+    /([\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g,
+    '<a href="mailto:$1">$1</a>'
+  );
 ---
 
 <BaseLayout
@@ -94,7 +105,9 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
           <p class="eyebrow">Roadmap</p>
           <h3 class="panel-title">What is moving</h3>
           <div class="roadmap-list">
-            {roadmapItems.slice(0, 5).map((item) => (
+            {/* One upcoming entry per app (see data/pulse.ts), so this panel
+                stays a fixed size no matter how long the roadmaps get. */}
+            {roadmapItems.map((item) => (
               <div class="roadmap-item">
                 <small class="roadmap-meta">{item.phase} / {item.app}</small>
                 <strong class="roadmap-title">{item.title}</strong>
@@ -141,7 +154,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
 
     <!-- FAQ -->
     <section id="faq" class="container home-section">
-      <header class="section-heading">
+      <header class="section-heading section-heading--center">
         <p class="eyebrow" data-reveal>FAQ</p>
         <h2 class="headline" data-reveal style="--i: 1">Quick questions, straight answers.</h2>
       </header>
@@ -155,7 +168,7 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
               </span>
               <span class="faq-indicator" aria-hidden="true"></span>
             </summary>
-            <div class="faq-answer">{item.answer}</div>
+            <div class="faq-answer" set:html={linkifyEmails(item.answer)} />
           </details>
         ))}
       </div>
@@ -384,6 +397,17 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       max-width: 44em;
     }
 
+    /* Centered variant for narrow-column sections (FAQ), so a left-anchored
+       heading doesn't leave the right side of the page looking empty. */
+    .section-heading--center {
+      text-align: center;
+    }
+
+    .section-heading--center .headline,
+    .section-heading--center .section-lede {
+      margin-inline: auto;
+    }
+
     /* ------------------------------------------------------------------ */
     /* Apps                                                                */
     /* ------------------------------------------------------------------ */
@@ -428,6 +452,10 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
     .roadmap-panel {
       grid-column: span 7;
       grid-row: span 2;
+      /* Flex column so the short three-item list can center itself in the
+         height this panel gets from the two stacked panels beside it. */
+      display: flex;
+      flex-direction: column;
     }
 
     .releases-panel {
@@ -507,7 +535,11 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
     /* Roadmap */
     .roadmap-list {
       position: relative;
-      margin-top: 4px;
+      /* Auto block margins center the list in the leftover panel height while
+         keeping its natural size, so the timeline hairline (::before) still
+         hugs the items instead of stretching the full panel. */
+      margin-block: auto;
+      padding-block: 4px;
       padding-left: 24px;
       display: flex;
       flex-direction: column;
@@ -657,6 +689,9 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
 
     .faq-stack {
       max-width: 720px;
+      /* Center the column under the centered heading so the section reads as
+         a deliberate narrow stack instead of a half-empty row. */
+      margin-inline: auto;
     }
 
     .faq {
@@ -674,6 +709,10 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       list-style: none;
       cursor: pointer;
       transition: background var(--dur-fast) var(--ease-out);
+      /* Toggling open/closed is a double-click away from selecting the text,
+         which reads as a glitch — so the accordion is not selectable. */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .faq summary::-webkit-details-marker {
@@ -734,6 +773,19 @@ import titleImage from "../../../Assets/SonnazGroup/SonnazGroup_Title.png";
       line-height: 1.6;
       color: var(--text-2);
       margin-top: 10px;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Links inside answers come from linkifyEmails() via set:html, so they
+       need :global() and should stay selectable/clickable. */
+    .faq-answer :global(a) {
+      color: var(--text-1);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .faq[open] .faq-answer {

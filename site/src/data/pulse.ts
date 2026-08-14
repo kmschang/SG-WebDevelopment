@@ -61,12 +61,9 @@ const PULSE_STATUS: Record<AppStatus, { label: string; state: PulseState }> = {
   planned: { label: "Planned", state: "planned" }
 };
 
-// Roadmap entries are grouped by phase across all apps in this order.
-const PHASE_ORDER: Record<RoadmapPhase, number> = {
-  "In progress": 0,
-  Considering: 1,
-  Launched: 2
-};
+// Which phase counts as "most upcoming" when picking an app's single
+// roadmap highlight for the home page.
+const UPCOMING_PHASES: RoadmapPhase[] = ["In progress", "Considering"];
 
 export const statusItems: StatusItem[] = [
   siteStatus,
@@ -77,9 +74,31 @@ export const statusItems: StatusItem[] = [
   }))
 ];
 
-export const roadmapItems: RoadmapItem[] = apps
-  .flatMap((app) => app.roadmap.map((entry) => ({ app: app.name, ...entry })))
-  .sort((first, second) => PHASE_ORDER[first.phase] - PHASE_ORDER[second.phase]);
+// The home page roadmap panel always shows exactly this many rows, so it never
+// grows (and stretches the panels beside it) as roadmaps get longer.
+const ROADMAP_PANEL_SIZE = 5;
+
+// One upcoming entry per app — the first "In progress" entry, falling back to
+// the first "Considering" — then recently launched work (apps in order, so
+// Day Tracker's launches lead) fills the remaining rows up to the panel size.
+export const roadmapItems: RoadmapItem[] = (() => {
+  const upcoming = apps
+    .map((app) => {
+      const entry = UPCOMING_PHASES
+        .map((phase) => app.roadmap.find((candidate) => candidate.phase === phase))
+        .find((candidate) => candidate !== undefined);
+      return entry ? { app: app.name, ...entry } : undefined;
+    })
+    .filter((item): item is RoadmapItem => item !== undefined);
+
+  const launched = apps.flatMap((app) =>
+    app.roadmap
+      .filter((entry) => entry.phase === "Launched")
+      .map((entry) => ({ app: app.name, ...entry }))
+  );
+
+  return [...upcoming, ...launched].slice(0, ROADMAP_PANEL_SIZE);
+})();
 
 export const latestReleaseItems: ReleaseItem[] = apps
   .flatMap((app) => app.releases.map((release) => ({ app: app.name, ...release })))

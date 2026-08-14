@@ -13,6 +13,21 @@ import dayTrackerThemes from "../../../Assets/DayTracker/DayTracker_Themes.png";
 import dayTrackerBadges from "../../../Assets/DayTracker/DayTracker_Badges.png";
 import dayTrackerSettings from "../../../Assets/DayTracker/DayTracker_Settings.png";
 
+// TEMP (2.1.0): the five new feature screenshots have not been exported yet.
+// Until they land in Assets/DayTracker/, point the new features at the closest
+// existing assets so the site builds. To swap in the real images, delete these
+// five consts and restore the imports:
+//   import dayTrackerSharing from "../../../Assets/DayTracker/DayTracker_Sharing.png";
+//   import dayTrackerLockScreen from "../../../Assets/DayTracker/DayTracker_LockScreen.png";
+//   import dayTrackerIPad from "../../../Assets/DayTracker/DayTracker_iPad.png";
+//   import dayTrackerSiri from "../../../Assets/DayTracker/DayTracker_Siri.png";
+//   import dayTrackerSync from "../../../Assets/DayTracker/DayTracker_Sync.png";
+const dayTrackerSharing = dayTrackerCountdowns;
+const dayTrackerLockScreen = dayTrackerWidgets;
+const dayTrackerIPad = dayTrackerToday;
+const dayTrackerSiri = dayTrackerSettings;
+const dayTrackerSync = dayTrackerSettings;
+
 import discountLogo from "../../../Assets/DiscountCalculator/DiscountCalculator_Logo.png";
 import discountPreview from "../../../Assets/DiscountCalculator/DiscountCalculator_AppPreview.png";
 import discountHero from "../../../Assets/DiscountCalculator/DiscountCalculator_Hero1.png";
@@ -108,9 +123,9 @@ export const apps: AppInfo[] = [
     statusLabel: "Available",
     accent: "#ec2f3b",
     summary:
-      "A focused iOS date utility for checking today, looking up any date, measuring date spans, and tracking countdowns.",
+      "A focused date utility for today's calendar stats, date lookup, spans between dates, and countdowns you can share.",
     description:
-      "Day Tracker turns calendar information into quick, readable answers. It is built for people who want day-of-year values, week numbers, date lookup, date differences, reminders, widgets, and countdowns without digging through a heavy calendar app.",
+      "Day Tracker turns calendar information into quick, readable answers. It is built for people who want day-of-year values, week numbers, date lookup, date differences, reminders, widgets, and countdowns without digging through a heavy calendar app. Countdowns can be shared with anyone or kept in sync with the people they involve, and everything follows you across your devices through iCloud.",
     logo: dayTrackerLogo,
     preview: dayTrackerPreview,
     hero: dayTrackerHero,
@@ -120,49 +135,79 @@ export const apps: AppInfo[] = [
       {
         title: "Today tab",
         body:
-          "The Today tab gives you a live snapshot of the current date in useful formats, including day of year, week of year, month, year, weekday, and full date context.",
+          "A live snapshot of the current date in useful formats, including day of year, week of year, month, year, weekday, and a running clock. Star the metric you care about most and reorder the tiles to match how you read them.",
         image: dayTrackerToday
       },
       {
         title: "Lookup tab",
         body:
-          "Select any date in the past, present, or future and instantly view the calendar details for that day.",
+          "Select any date in the past, present, or future and instantly view the calendar details for that day. Jump straight to one of your countdown dates instead of hunting for it on the calendar.",
         image: dayTrackerLookup
       },
       {
         title: "Between tab",
         body:
-          "Measure the distance between two dates across seconds, minutes, hours, days, weeks, months, and years.",
+          "Measure the distance between two dates across seconds, minutes, hours, days, weeks, months, and years, with an inclusive-day count and a plain-language summary of the span.",
         image: dayTrackerBetween
       },
       {
-        title: "Custom countdowns",
+        title: "Countdowns tab",
         body:
-          "Create countdowns for birthdays, holidays, appointments, travel, anniversaries, and repeating events.",
+          "Countdowns get their own tab: birthdays, holidays, appointments, travel, anniversaries, and repeating events, organized by category, filtered by favorites, and sorted the way you want to read them.",
         image: dayTrackerCountdowns
+      },
+      {
+        title: "Share and collaborate",
+        body:
+          "Send a countdown to anyone with a short link that opens straight into the app, or invite people to collaborate on one through iCloud so everybody sees the same date and edits as they happen.",
+        image: dayTrackerSharing
       },
       {
         title: "Notifications and reminders",
         body:
-          "Set reminder schedules and customize reminder content so important dates stay visible before they sneak up on you.",
+          "Build daily, weekly, and monthly reminder schedules, choose how far ahead to be nudged, and pick the message style — a simple reminder, the full details, or your own wording with a live preview.",
         image: dayTrackerNotifications
       },
       {
-        title: "Widgets",
+        title: "Home Screen widgets",
         body:
-          "Add date and countdown widgets to your Home Screen or Lock Screen for quick, glanceable time information.",
+          "A rebuilt widget suite covering single metrics, a metric grid, countdowns, upcoming countdowns, a combined Today and Next Up view, and year progress — in every size, with four color treatments.",
         image: dayTrackerWidgets
+      },
+      {
+        title: "Lock Screen widgets",
+        body:
+          "Put day of year, week of year, a countdown, or your progress through the year on the Lock Screen in inline, circular, and rectangular forms.",
+        image: dayTrackerLockScreen
+      },
+      {
+        title: "Built for iPad",
+        body:
+          "On iPad in landscape, Day Tracker opens into a sidebar with live values beside a wide detail pane, and countdowns spread across a multi-column grid instead of a single list.",
+        image: dayTrackerIPad
+      },
+      {
+        title: "Siri and Shortcuts",
+        body:
+          "Ask for a date metric, your next countdown, or how long until a specific event, and add or open a countdown by voice. Every action is available as a building block in the Shortcuts app.",
+        image: dayTrackerSiri
+      },
+      {
+        title: "iCloud sync and backup",
+        body:
+          "Keep countdowns and settings in step across your devices with iCloud, and export everything to a backup file or CSV whenever you want a copy you control.",
+        image: dayTrackerSync
       },
       {
         title: "App icons",
         body:
-          "Choose from alternate app icons and color variants to match the look of your Home Screen.",
+          "Choose from eight icon colors, each with matching light and dark versions that iOS swaps automatically with your Home Screen.",
         image: dayTrackerAppIcons
       },
       {
         title: "Themes and appearance",
         body:
-          "Use accent colors and appearance modes to keep the app readable while giving it a personality that fits your setup.",
+          "Pick an accent color and an appearance mode, and see the change previewed live before you commit to it.",
         image: dayTrackerThemes
       },
       {
@@ -192,11 +237,20 @@ export const apps: AppInfo[] = [
       }
     ],
     appInfo: {
-      size: "70 MB",
+      size: "38 MB",
       languages: "English",
       developer: "Sonnaz Group, LLC"
     },
     releases: [
+      {
+        version: "2.1.0.108",
+        date: "August 14, 2026",
+        bullets: [
+          "Share a countdown by link or collaborate on one through iCloud",
+          "Rebuilt widget suite with nine Home Screen and Lock Screen widgets, including Year Progress",
+          "iPad layout, Siri and Shortcuts support, iCloud sync, and countdown import/export"
+        ]
+      },
       {
         version: "2.0.2.88",
         date: "March 31, 2026",
@@ -227,16 +281,28 @@ export const apps: AppInfo[] = [
     ],
     roadmap: [
       {
-        title: "More widgets",
+        title: "Calendar integration",
         phase: "In progress",
         body:
-          "Refresh existing widgets and add more options so the most useful date information can live on the Home Screen."
+          "Create countdowns from calendar events, and push countdowns back out to the calendar, so the two stay in step."
       },
       {
         title: "Photo capability",
         phase: "Considering",
         body:
           "Explore a daily photo layer for tracking memories alongside calendar milestones."
+      },
+      {
+        title: "More widgets",
+        phase: "Launched",
+        body:
+          "A rebuilt widget suite with nine Home Screen and Lock Screen widgets, including the new Year Progress widget."
+      },
+      {
+        title: "Shared countdowns",
+        phase: "Launched",
+        body:
+          "Send a countdown by link, or collaborate on one through iCloud so everyone involved sees the same date."
       },
       {
         title: "iOS redesign",

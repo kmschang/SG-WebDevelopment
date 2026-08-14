@@ -25,9 +25,9 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "Which platforms are supported?",
-    shortAnswer: "iOS first, web-friendly over time.",
+    shortAnswer: "iPhone and iPad first, web-friendly over time.",
     answer:
-      "The current app focus is iOS. The website is built to make room for future web apps, app-specific pages, and standalone domains or subdomains."
+      "The current app focus is iOS. Day Tracker also has a layout built for iPad. The website is built to make room for future web apps, app-specific pages, and standalone domains or subdomains."
   },
   {
     question: "Are the apps free?",
